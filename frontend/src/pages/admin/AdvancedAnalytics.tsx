@@ -301,7 +301,7 @@ export const AdvancedAnalytics: React.FC = () => {
                             {vendor.assignments_count} assignments
                           </div>
                           <div className="text-sm text-gray-500">
-                            ${parseFloat(vendor.total_amount).toFixed(2)}
+                            ${(parseFloat(vendor.total_amount.toString()) || 0).toFixed(2)}
                           </div>
                         </div>
                       </div>
