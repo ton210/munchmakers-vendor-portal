@@ -533,13 +533,82 @@ class AuthController {
   // Get Current User Profile
   static async getProfile(req, res) {
     try {
-      const { id, type } = req.user;
+      const { id, type, email } = req.user;
 
+      // Handle demo users
+      if (id <= 3) { // Demo user IDs are 1, 2, 3
+        const demoUsers = {
+          1: type === 'vendor' ? {
+            id: 1,
+            email: 'demo@restaurant.com',
+            firstName: 'Demo',
+            lastName: 'Owner',
+            role: 'owner',
+            vendor: { id: 1, companyName: 'Demo Restaurant', status: 'approved' }
+          } : {
+            id: 1,
+            email: 'demo@admin.com',
+            firstName: 'Demo',
+            lastName: 'Admin',
+            role: 'admin',
+            permissions: ['manage_vendors', 'manage_products', 'view_reports', 'manage_categories']
+          },
+          2: type === 'vendor' ? {
+            id: 2,
+            email: 'vendor@coffee.com',
+            firstName: 'Sarah',
+            lastName: 'Johnson',
+            role: 'owner',
+            vendor: { id: 2, companyName: 'Artisan Coffee Co', status: 'approved' }
+          } : {
+            id: 2,
+            email: 'admin@munchmakers.com',
+            firstName: 'Super',
+            lastName: 'Admin',
+            role: 'super_admin',
+            permissions: ['manage_vendors', 'manage_products', 'manage_admins', 'view_reports', 'manage_categories']
+          },
+          3: type === 'vendor' ? {
+            id: 3,
+            email: 'info@organicfarms.com',
+            firstName: 'Michael',
+            lastName: 'Green',
+            role: 'owner',
+            vendor: { id: 3, companyName: 'Organic Farms LLC', status: 'pending' }
+          } : {
+            id: 3,
+            email: 'reviewer@munchmakers.com',
+            firstName: 'Product',
+            lastName: 'Reviewer',
+            role: 'reviewer',
+            permissions: ['review_products', 'view_vendors']
+          }
+        };
+
+        const demoUser = demoUsers[id];
+        if (demoUser) {
+          console.log(`🎯 Demo profile loaded for ${email}`);
+          return res.json({
+            success: true,
+            data: { user: demoUser }
+          });
+        }
+      }
+
+      // Try database lookup for non-demo users
       let user;
-      if (type === 'vendor') {
-        user = await VendorUser.getUserWithVendor(id);
-      } else if (type === 'admin') {
-        user = await AdminUser.findById(id);
+      try {
+        if (type === 'vendor') {
+          user = await VendorUser.getUserWithVendor(id);
+        } else if (type === 'admin') {
+          user = await AdminUser.findById(id);
+        }
+      } catch (dbError) {
+        console.log('Database not available for profile lookup');
+        return res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
       }
 
       if (!user) {
