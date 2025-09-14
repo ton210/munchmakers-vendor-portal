@@ -42,7 +42,7 @@ const helmetConfig = helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       styleSrcElem: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:", "https://cdn11.bigcommerce.com", "https://via.placeholder.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:", "https://cdn11.bigcommerce.com", "https://via.placeholder.com"],
       connectSrc: ["'self'", "https://munchmakers-vendor-portal-a05873c786c1.herokuapp.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],

@@ -105,14 +105,25 @@ const ProductForm: React.FC = () => {
 
   const loadCategories = async () => {
     try {
-      // TODO: Implement category loading from BigCommerce
+      const response = await vendorService.getCategories();
+      if (response.success) {
+        setCategories(response.data || []);
+      } else {
+        // Fallback categories if API fails
+        setCategories([
+          { id: 1, name: 'Food & Beverages' },
+          { id: 2, name: 'Home & Garden' },
+          { id: 3, name: 'Electronics' }
+        ]);
+      }
+    } catch (error) {
+      console.error('Failed to load categories:', error);
+      // Fallback categories
       setCategories([
         { id: 1, name: 'Food & Beverages' },
         { id: 2, name: 'Home & Garden' },
         { id: 3, name: 'Electronics' }
       ]);
-    } catch (error) {
-      console.error('Failed to load categories:', error);
     }
   };
 
