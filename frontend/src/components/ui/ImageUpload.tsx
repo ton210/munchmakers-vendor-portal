@@ -84,8 +84,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             border-2 border-dashed rounded-lg p-6 text-center cursor-pointer
             transition-colors duration-200
             ${dragOver
-              ? 'border-indigo-500 bg-indigo-50'
-              : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+              ? 'border-primary-500 bg-primary-50'
+              : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
             }
           `}
           onDrop={handleDrop}
@@ -130,7 +130,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 <XMarkIcon className="h-4 w-4" />
               </button>
               {index === 0 && (
-                <div className="absolute bottom-1 left-1 bg-indigo-500 text-white text-xs px-2 py-1 rounded">
+                <div className="absolute bottom-1 left-1 bg-primary-500 text-white text-xs px-2 py-1 rounded">
                   Primary
                 </div>
               )}

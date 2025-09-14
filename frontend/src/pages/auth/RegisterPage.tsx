@@ -229,7 +229,7 @@ const RegisterPage: React.FC = () => {
                 step < currentStep
                   ? 'bg-green-500 text-white'
                   : step === currentStep
-                  ? 'bg-indigo-500 text-white'
+                  ? 'bg-primary-500 text-white'
                   : 'bg-gray-200 text-gray-600'
               }`}
             >
@@ -261,13 +261,13 @@ const RegisterPage: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-blue-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <BuildingStorefrontIcon className="h-8 w-8 text-indigo-600" />
+              <BuildingStorefrontIcon className="h-8 w-8 text-primary-600" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Join MunchMakers Marketplace</h1>
                 <p className="text-sm text-gray-600">Partner with us to reach thousands of customers</p>
@@ -275,7 +275,7 @@ const RegisterPage: React.FC = () => {
             </div>
             <button
               onClick={() => navigate('/login')}
-              className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
             >
               Already have an account? Sign in
             </button>
@@ -291,7 +291,7 @@ const RegisterPage: React.FC = () => {
           {currentStep === 1 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <BuildingStorefrontIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <BuildingStorefrontIcon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-900">Tell Us About Your Business</h2>
                 <p className="text-gray-600 mt-2">We need some basic information to get started</p>
               </div>
@@ -312,7 +312,7 @@ const RegisterPage: React.FC = () => {
                   <select
                     value={formData.businessType}
                     onChange={(e) => handleInputChange('businessType', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     required
                   >
                     <option value="">Select your business type</option>
@@ -370,7 +370,7 @@ const RegisterPage: React.FC = () => {
                   <select
                     value={formData.employeeCount}
                     onChange={(e) => handleInputChange('employeeCount', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="">Select employee count</option>
                     {employeeCounts.map(count => (
@@ -388,7 +388,7 @@ const RegisterPage: React.FC = () => {
                   value={formData.businessDescription}
                   onChange={(e) => handleInputChange('businessDescription', e.target.value)}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Tell us about your business, what you do, and what products you'd like to sell on MunchMakers..."
                 />
               </div>
@@ -399,7 +399,7 @@ const RegisterPage: React.FC = () => {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <MapPinIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <MapPinIcon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-900">Business Location</h2>
                 <p className="text-gray-600 mt-2">Where is your business located?</p>
               </div>
@@ -467,7 +467,7 @@ const RegisterPage: React.FC = () => {
           {currentStep === 3 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <DocumentTextIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <DocumentTextIcon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-900">Legal Information</h2>
                 <p className="text-gray-600 mt-2">Required for compliance and tax reporting</p>
               </div>
@@ -506,7 +506,7 @@ const RegisterPage: React.FC = () => {
                   <select
                     value={formData.businessStructure}
                     onChange={(e) => handleInputChange('businessStructure', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="">Select business structure</option>
                     {businessStructures.map(structure => (
@@ -542,7 +542,7 @@ const RegisterPage: React.FC = () => {
           {currentStep === 4 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <BanknotesIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <BanknotesIcon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-900">Banking Information</h2>
                 <p className="text-gray-600 mt-2">Optional: For faster payment processing setup</p>
               </div>
@@ -598,7 +598,7 @@ const RegisterPage: React.FC = () => {
                   <select
                     value={formData.accountType}
                     onChange={(e) => handleInputChange('accountType', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="">Select account type</option>
                     <option value="Checking">Business Checking</option>
@@ -633,7 +633,7 @@ const RegisterPage: React.FC = () => {
           {currentStep === 5 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <ShieldCheckIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <ShieldCheckIcon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-900">Terms & Agreement</h2>
                 <p className="text-gray-600 mt-2">Final step: Review and accept our terms</p>
               </div>
@@ -675,7 +675,7 @@ const RegisterPage: React.FC = () => {
                     type="checkbox"
                     checked={formData.backgroundCheckConsent}
                     onChange={(e) => handleInputChange('backgroundCheckConsent', e.target.checked)}
-                    className="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     required
                   />
                   <div className="text-sm">
@@ -692,14 +692,14 @@ const RegisterPage: React.FC = () => {
                     type="checkbox"
                     checked={formData.termsAccepted}
                     onChange={(e) => handleInputChange('termsAccepted', e.target.checked)}
-                    className="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     required
                   />
                   <div className="text-sm">
                     <span className="font-medium text-gray-900">Terms of Service *</span>
                     <p className="text-gray-600 mt-1">
                       I have read and agree to the{' '}
-                      <a href="#" className="text-indigo-600 hover:text-indigo-700">Terms of Service</a>
+                      <a href="#" className="text-primary-600 hover:text-primary-700">Terms of Service</a>
                     </p>
                   </div>
                 </label>
@@ -709,14 +709,14 @@ const RegisterPage: React.FC = () => {
                     type="checkbox"
                     checked={formData.privacyPolicyAccepted}
                     onChange={(e) => handleInputChange('privacyPolicyAccepted', e.target.checked)}
-                    className="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     required
                   />
                   <div className="text-sm">
                     <span className="font-medium text-gray-900">Privacy Policy *</span>
                     <p className="text-gray-600 mt-1">
                       I acknowledge the{' '}
-                      <a href="#" className="text-indigo-600 hover:text-indigo-700">Privacy Policy</a>
+                      <a href="#" className="text-primary-600 hover:text-primary-700">Privacy Policy</a>
                     </p>
                   </div>
                 </label>
@@ -726,7 +726,7 @@ const RegisterPage: React.FC = () => {
                     type="checkbox"
                     checked={formData.marketplaceAgreementAccepted}
                     onChange={(e) => handleInputChange('marketplaceAgreementAccepted', e.target.checked)}
-                    className="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     required
                   />
                   <div className="text-sm">
@@ -734,15 +734,15 @@ const RegisterPage: React.FC = () => {
                     <p className="text-gray-600 mt-1">
                       I agree to the marketplace commission structure, payment terms, and 
                       quality standards outlined in the{' '}
-                      <a href="#" className="text-indigo-600 hover:text-indigo-700">Vendor Agreement</a>
+                      <a href="#" className="text-primary-600 hover:text-primary-700">Vendor Agreement</a>
                     </p>
                   </div>
                 </label>
               </div>
 
-              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-indigo-900 mb-2">What happens next?</h4>
-                <ul className="text-sm text-indigo-800 space-y-1">
+              <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-primary-900 mb-2">What happens next?</h4>
+                <ul className="text-sm text-primary-800 space-y-1">
                   <li>• Application review within 2-3 business days</li>
                   <li>• Background and business verification check</li>
                   <li>• Email notification with approval status</li>
@@ -803,7 +803,7 @@ const RegisterPage: React.FC = () => {
       {/* Footer */}
       <div className="text-center py-8 text-sm text-gray-600">
         <p>Questions about the application process?</p>
-        <p>Contact our vendor support team: <a href="mailto:vendors@munchmakers.com" className="text-indigo-600 hover:text-indigo-700">vendors@munchmakers.com</a></p>
+        <p>Contact our vendor support team: <a href="mailto:vendors@munchmakers.com" className="text-primary-600 hover:text-primary-700">vendors@munchmakers.com</a></p>
       </div>
     </div>
   );

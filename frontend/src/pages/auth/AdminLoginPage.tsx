@@ -42,7 +42,7 @@ const AdminLoginPage: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-indigo-600">
+          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary-600">
             <ShieldCheckIcon className="h-8 w-8 text-white" aria-hidden="true" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
@@ -69,7 +69,7 @@ const AdminLoginPage: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full appearance-none rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full appearance-none rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-white placeholder-gray-400 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
                   placeholder="admin@munchmakers.com"
                 />
               </div>
@@ -88,7 +88,7 @@ const AdminLoginPage: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full appearance-none rounded-md border border-gray-600 bg-gray-800 px-3 py-2 pr-10 text-white placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full appearance-none rounded-md border border-gray-600 bg-gray-800 px-3 py-2 pr-10 text-white placeholder-gray-400 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
                   placeholder="Enter admin password"
                 />
                 <button
@@ -110,10 +110,10 @@ const AdminLoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <ShieldCheckIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                <ShieldCheckIcon className="h-5 w-5 text-primary-500 group-hover:text-primary-400" aria-hidden="true" />
               </span>
               {loading ? 'Authenticating...' : 'Access Admin Portal'}
             </button>

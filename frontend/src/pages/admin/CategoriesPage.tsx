@@ -269,7 +269,7 @@ export const CategoriesPage: React.FC = () => {
                 )}
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-indigo-600">{syncedCount}</div>
+                <div className="text-2xl font-bold text-primary-600">{syncedCount}</div>
                 <div className="text-sm text-gray-500">Synced categories</div>
               </div>
             </div>

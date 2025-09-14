@@ -140,7 +140,7 @@ export const QuickPricingSetup: React.FC<QuickPricingSetupProps> = ({
                   min="0"
                   value={tier.price}
                   onChange={(e) => updateQuickTier(index, 'price', parseFloat(e.target.value) || 0)}
-                  className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-24 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-primary-500 focus:border-primary-500"
                 />
                 <span className="text-sm text-gray-600">each</span>
               </div>
@@ -155,7 +155,7 @@ export const QuickPricingSetup: React.FC<QuickPricingSetupProps> = ({
                 min="1"
                 value={tier.minQuantity}
                 onChange={(e) => updateQuickTier(index, 'minQuantity', parseInt(e.target.value) || 1)}
-                className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-primary-500 focus:border-primary-500"
                 disabled={index === 0}
               />
             </div>

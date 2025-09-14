@@ -210,7 +210,7 @@ export const ProductAssignments: React.FC = () => {
               setSelectedProducts(prev => prev.filter(id => id !== item.id));
             }
           }}
-          className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
         />
       )
     },
@@ -289,7 +289,7 @@ export const ProductAssignments: React.FC = () => {
           {[
             { label: 'Total Products', value: stats.total_products, color: 'bg-blue-500' },
             { label: 'Active', value: stats.active_products, color: 'bg-green-500' },
-            { label: 'Assigned', value: stats.assigned_products, color: 'bg-indigo-500' },
+            { label: 'Assigned', value: stats.assigned_products, color: 'bg-primary-500' },
             { label: 'Unassigned', value: stats.unassigned_products, color: 'bg-red-500' },
             { label: 'Total Inventory', value: stats.total_inventory, color: 'bg-purple-500' },
             { label: 'Avg Price', value: `$${stats.average_price.toFixed(2)}`, color: 'bg-yellow-500' }
@@ -368,7 +368,7 @@ export const ProductAssignments: React.FC = () => {
                   type="text"
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Product name, SKU..."
                 />
               </div>
@@ -378,7 +378,7 @@ export const ProductAssignments: React.FC = () => {
                 <select
                   value={filters.store_id}
                   onChange={(e) => setFilters(prev => ({ ...prev, store_id: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All Stores</option>
                   {stores.map(store => (
@@ -394,7 +394,7 @@ export const ProductAssignments: React.FC = () => {
                 <select
                   value={filters.has_vendor}
                   onChange={(e) => setFilters(prev => ({ ...prev, has_vendor: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All Products</option>
                   <option value="true">Assigned</option>
@@ -407,7 +407,7 @@ export const ProductAssignments: React.FC = () => {
                 <select
                   value={filters.is_active}
                   onChange={(e) => setFilters(prev => ({ ...prev, is_active: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All</option>
                   <option value="true">Active</option>
@@ -448,7 +448,7 @@ export const ProductAssignments: React.FC = () => {
                   <select
                     value={selectedVendor || ''}
                     onChange={(e) => setSelectedVendor(parseInt(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="">Choose a vendor...</option>
                     {vendors.map(vendor => (
@@ -465,7 +465,7 @@ export const ProductAssignments: React.FC = () => {
                       type="checkbox"
                       checked={isDefaultAssignment}
                       onChange={(e) => setIsDefaultAssignment(e.target.checked)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="ml-2 text-sm text-gray-700">Set as default vendor</span>
                   </label>
@@ -482,7 +482,7 @@ export const ProductAssignments: React.FC = () => {
                     max="100"
                     value={customCommission || ''}
                     onChange={(e) => setCustomCommission(parseFloat(e.target.value) || null)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Leave empty to use vendor default"
                   />
                 </div>

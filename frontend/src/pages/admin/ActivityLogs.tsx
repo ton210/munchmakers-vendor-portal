@@ -258,7 +258,7 @@ const AdminActivityLogs: React.FC = () => {
               // TODO: Open detailed activity log modal
               toast('Activity details modal coming soon');
             }}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-primary-600 hover:text-primary-900"
             title="View details"
           >
             <EyeIcon className="h-4 w-4" />
@@ -361,7 +361,7 @@ const AdminActivityLogs: React.FC = () => {
                 <select
                   value={filters.type}
                   onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 >
                   <option value="">All Activities</option>
                   <option value="vendor_registered">Vendor Registrations</option>
@@ -382,7 +382,7 @@ const AdminActivityLogs: React.FC = () => {
                     ...prev,
                     dateRange: { ...prev.dateRange, startDate: e.target.value }
                   }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 />
               </div>
               
@@ -397,7 +397,7 @@ const AdminActivityLogs: React.FC = () => {
                     ...prev,
                     dateRange: { ...prev.dateRange, endDate: e.target.value }
                   }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 />
               </div>
               
@@ -436,7 +436,7 @@ const AdminActivityLogs: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-indigo-600 mb-2">
+                  <div className="text-2xl font-bold text-primary-600 mb-2">
                     {logs.length}
                   </div>
                   <p className="text-sm text-gray-600">Activities in the last 24 hours</p>

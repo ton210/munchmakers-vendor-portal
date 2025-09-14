@@ -15,7 +15,7 @@ const PrivacyPage: React.FC = () => {
                 alt="MunchMakers"
               />
             </Link>
-            <Link to="/" className="text-gray-900 hover:text-indigo-600">
+            <Link to="/" className="text-gray-900 hover:text-primary-600">
               ← Back to Home
             </Link>
           </div>

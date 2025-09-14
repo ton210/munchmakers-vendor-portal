@@ -281,7 +281,7 @@ export const OrderManagement: React.FC = () => {
               setSelectedOrder(item);
               setShowAssignVendor(true);
             }}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-primary-600 hover:text-primary-900"
             title="Assign vendor"
             disabled={item.vendor_assignments?.length > 0}
           >
@@ -391,7 +391,7 @@ export const OrderManagement: React.FC = () => {
                   type="text"
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   placeholder="Order #, customer..."
                 />
               </div>
@@ -401,7 +401,7 @@ export const OrderManagement: React.FC = () => {
                 <select
                   value={filters.status}
                   onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 >
                   <option value="">All Statuses</option>
                   <option value="pending">Pending</option>
@@ -416,7 +416,7 @@ export const OrderManagement: React.FC = () => {
                 <select
                   value={filters.store_id}
                   onChange={(e) => setFilters(prev => ({ ...prev, store_id: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 >
                   <option value="">All Stores</option>
                   {stores.map(store => (
@@ -432,7 +432,7 @@ export const OrderManagement: React.FC = () => {
                 <select
                   value={filters.vendor_id}
                   onChange={(e) => setFilters(prev => ({ ...prev, vendor_id: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 >
                   <option value="">All Vendors</option>
                   <option value="unassigned">Unassigned</option>
@@ -450,7 +450,7 @@ export const OrderManagement: React.FC = () => {
                   type="date"
                   value={filters.date_from}
                   onChange={(e) => setFilters(prev => ({ ...prev, date_from: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 />
               </div>
 
@@ -460,7 +460,7 @@ export const OrderManagement: React.FC = () => {
                   type="date"
                   value={filters.date_to}
                   onChange={(e) => setFilters(prev => ({ ...prev, date_to: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -496,7 +496,7 @@ export const OrderManagement: React.FC = () => {
                 <select
                   value={selectedVendor || ''}
                   onChange={(e) => setSelectedVendor(parseInt(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">Choose a vendor...</option>
                   {vendors.map(vendor => (

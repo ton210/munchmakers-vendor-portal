@@ -158,7 +158,7 @@ export const VendorsPage: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => {/* TODO: Open vendor details modal */}}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-primary-600 hover:text-primary-900"
             title="View details"
           >
             <EyeIcon className="h-4 w-4" />
@@ -261,7 +261,7 @@ export const VendorsPage: React.FC = () => {
                 <select
                   value={filters.status}
                   onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                 >
                   <option value="">All Statuses</option>
                   <option value="pending">Pending</option>

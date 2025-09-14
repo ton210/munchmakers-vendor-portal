@@ -162,7 +162,7 @@ const StoreConfigPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading ? (
             <div className="col-span-full flex justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
             </div>
           ) : stores.length === 0 ? (
             <div className="col-span-full text-center py-8">
@@ -271,7 +271,7 @@ const StoreConfigPage: React.FC = () => {
                       type="text"
                       value={newStore.name}
                       onChange={(e) => setNewStore(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       placeholder="My Store"
                     />
                   </div>
@@ -281,7 +281,7 @@ const StoreConfigPage: React.FC = () => {
                     <select
                       value={newStore.type}
                       onChange={(e) => setNewStore(prev => ({ ...prev, type: e.target.value as any }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     >
                       <option value="shopify">Shopify</option>
                       <option value="bigcommerce">BigCommerce</option>
@@ -295,7 +295,7 @@ const StoreConfigPage: React.FC = () => {
                       type="url"
                       value={newStore.store_url}
                       onChange={(e) => setNewStore(prev => ({ ...prev, store_url: e.target.value }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       placeholder="https://your-store.myshopify.com"
                     />
                   </div>

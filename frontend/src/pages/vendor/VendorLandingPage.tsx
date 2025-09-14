@@ -20,7 +20,7 @@ const VendorLandingPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900">
       {/* Header */}
       <header className="relative bg-black bg-opacity-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

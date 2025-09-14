@@ -90,7 +90,7 @@ export const AdvancedAnalytics: React.FC = () => {
     return (
       <Layout title="Advanced Analytics">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
         </div>
       </Layout>
     );
@@ -127,7 +127,7 @@ export const AdvancedAnalytics: React.FC = () => {
                   type="date"
                   value={dateRange.date_from}
                   onChange={(e) => setDateRange(prev => ({ ...prev, date_from: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               <div>
@@ -136,7 +136,7 @@ export const AdvancedAnalytics: React.FC = () => {
                   type="date"
                   value={dateRange.date_to}
                   onChange={(e) => setDateRange(prev => ({ ...prev, date_to: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               <div className="flex items-end">
@@ -219,7 +219,7 @@ export const AdvancedAnalytics: React.FC = () => {
                 {
                   label: 'Total Proofs',
                   value: analytics.proofStats.total_proofs || 0,
-                  color: 'bg-indigo-500'
+                  color: 'bg-primary-500'
                 },
                 {
                   label: 'Pending',
@@ -445,7 +445,7 @@ export const AdvancedAnalytics: React.FC = () => {
               </div>
 
               <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">
+                <div className="text-3xl font-bold text-primary-600">
                   ${((analytics.orderStats.total_revenue || 0) / Math.max(analytics.orderStats.total_orders || 1, 1)).toFixed(2)}
                 </div>
                 <div className="text-sm text-gray-600">Avg Order Value</div>

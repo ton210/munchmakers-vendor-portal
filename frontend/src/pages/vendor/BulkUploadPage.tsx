@@ -204,7 +204,7 @@ export const BulkUploadPage: React.FC = () => {
                     type="file"
                     accept=".csv"
                     onChange={handleFileSelect}
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
                   />
                   {selectedFile && (
                     <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
@@ -251,7 +251,7 @@ export const BulkUploadPage: React.FC = () => {
             <div className="text-center">
               {!selectedFile ? (
                 <div 
-                  className="border-2 border-dashed border-gray-300 rounded-lg p-12 hover:border-indigo-400 transition-colors cursor-pointer"
+                  className="border-2 border-dashed border-gray-300 rounded-lg p-12 hover:border-primary-400 transition-colors cursor-pointer"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <ArrowUpTrayIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />

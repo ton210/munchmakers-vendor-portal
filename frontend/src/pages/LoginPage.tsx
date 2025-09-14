@@ -20,7 +20,7 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-100 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
@@ -75,7 +75,7 @@ export const LoginPage: React.FC = () => {
         <div className="text-center mt-8 text-sm text-gray-600">
           <p>
             {t('auth.loginPage.needHelp')}{' '}
-            <a href="mailto:vendor@munchmakers.com" className="text-indigo-600 hover:text-indigo-500">
+            <a href="mailto:vendor@munchmakers.com" className="text-primary-600 hover:text-primary-500">
               vendor@munchmakers.com
             </a>
           </p>

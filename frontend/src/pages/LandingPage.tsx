@@ -69,7 +69,7 @@ const LandingPage: React.FC = () => {
           <div className="flex lg:flex-1 lg:justify-end">
             <Link
               to="/vendor/login"
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-600"
+              className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600"
             >
               Vendor Login <span aria-hidden="true">&rarr;</span>
             </Link>

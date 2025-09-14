@@ -153,7 +153,7 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                         type="text"
                         value={variant.name}
                         onChange={(e) => updateVariant(variant.id, { name: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                         placeholder="e.g., Red Medium, Blue Large"
                       />
                     </div>
@@ -165,7 +165,7 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                         type="text"
                         value={variant.sku || ''}
                         onChange={(e) => updateVariant(variant.id, { sku: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Auto-generated if empty"
                       />
                     </div>
@@ -182,7 +182,7 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                         min="0"
                         value={variant.additionalPrice}
                         onChange={(e) => updateVariant(variant.id, { additionalPrice: parseFloat(e.target.value) || 0 })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
                     <div>
@@ -194,7 +194,7 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                         min="1"
                         value={variant.moq}
                         onChange={(e) => updateVariant(variant.id, { moq: parseInt(e.target.value) || 1 })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
                   </div>
@@ -217,14 +217,14 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                                 addAttribute(variant.id, newKey, value);
                               }
                             }}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                             placeholder="Attribute name (e.g., Color, Size)"
                           />
                           <input
                             type="text"
                             value={value}
                             onChange={(e) => addAttribute(variant.id, key, e.target.value)}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                             placeholder="Attribute value (e.g., Red, Large)"
                           />
                           <button
@@ -237,7 +237,7 @@ export const VariantManager: React.FC<VariantManagerProps> = ({
                       ))}
                       <button
                         onClick={() => addAttribute(variant.id, '', '')}
-                        className="text-sm text-indigo-600 hover:text-indigo-800"
+                        className="text-sm text-primary-600 hover:text-primary-800"
                       >
                         + Add Attribute
                       </button>

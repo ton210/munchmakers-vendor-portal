@@ -15,7 +15,7 @@ const VendorAgreementPage: React.FC = () => {
                 alt="MunchMakers"
               />
             </Link>
-            <Link to="/" className="text-gray-900 hover:text-indigo-600">
+            <Link to="/" className="text-gray-900 hover:text-primary-600">
               ← Back to Home
             </Link>
           </div>
@@ -27,9 +27,9 @@ const VendorAgreementPage: React.FC = () => {
           <h1>Vendor Partnership Agreement</h1>
           <p className="text-gray-600">Last updated: September 14, 2025</p>
 
-          <div className="bg-indigo-50 p-6 rounded-lg mb-8">
-            <h3 className="text-lg font-semibold text-indigo-900 mb-2">Beta Program Agreement</h3>
-            <p className="text-indigo-800">
+          <div className="bg-primary-50 p-6 rounded-lg mb-8">
+            <h3 className="text-lg font-semibold text-primary-900 mb-2">Beta Program Agreement</h3>
+            <p className="text-primary-800">
               This agreement governs participation in the exclusive MunchMakers Vendor Beta Program.
               Limited access is by invitation only.
             </p>

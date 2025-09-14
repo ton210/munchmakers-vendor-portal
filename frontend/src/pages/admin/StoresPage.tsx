@@ -24,6 +24,7 @@ interface Store {
 }
 
 const StoresPage: React.FC = () => {
+  console.log('✅ StoresPage component loaded successfully');
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
 

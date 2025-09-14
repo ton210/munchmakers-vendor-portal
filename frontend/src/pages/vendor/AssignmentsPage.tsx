@@ -417,7 +417,7 @@ const AssignmentsPage: React.FC = () => {
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     placeholder="Order #, customer..."
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full text-sm focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -427,7 +427,7 @@ const AssignmentsPage: React.FC = () => {
                 <select
                   value={filters.status}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
-                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All Statuses</option>
                   <option value="assigned">Assigned</option>
@@ -444,7 +444,7 @@ const AssignmentsPage: React.FC = () => {
                   type="date"
                   value={filters.date_from}
                   onChange={(e) => handleFilterChange('date_from', e.target.value)}
-                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
 
@@ -454,7 +454,7 @@ const AssignmentsPage: React.FC = () => {
                   type="date"
                   value={filters.date_to}
                   onChange={(e) => handleFilterChange('date_to', e.target.value)}
-                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
             </div>

@@ -348,7 +348,7 @@ const OrdersPage: React.FC = () => {
           type="checkbox"
           checked={selectedOrders.includes(row.id)}
           onChange={(e) => handleSelectOrder(row.id, e.target.checked)}
-          className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
         />
       )
     },
@@ -572,7 +572,7 @@ const OrdersPage: React.FC = () => {
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     placeholder="Order #, customer..."
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full text-sm focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -582,7 +582,7 @@ const OrdersPage: React.FC = () => {
                 <select
                   value={filters.status}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
-                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                 >
                   <option value="">All Statuses</option>
                   <option value="pending">Pending</option>
@@ -620,7 +620,7 @@ const OrdersPage: React.FC = () => {
                       type="date"
                       value={filters.date_from}
                       onChange={(e) => handleFilterChange('date_from', e.target.value)}
-                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -630,7 +630,7 @@ const OrdersPage: React.FC = () => {
                       type="date"
                       value={filters.date_to}
                       onChange={(e) => handleFilterChange('date_to', e.target.value)}
-                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -642,7 +642,7 @@ const OrdersPage: React.FC = () => {
                       onChange={(e) => handleFilterChange('amount_min', e.target.value)}
                       placeholder="0.00"
                       step="0.01"
-                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -654,7 +654,7 @@ const OrdersPage: React.FC = () => {
                       onChange={(e) => handleFilterChange('amount_max', e.target.value)}
                       placeholder="999999.99"
                       step="0.01"
-                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full py-2 px-3 border border-gray-300 rounded-md text-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
                 </div>
@@ -673,7 +673,7 @@ const OrdersPage: React.FC = () => {
                               : filters.multiple_statuses.filter(s => s !== status);
                             handleFilterChange('multiple_statuses', newStatuses);
                           }}
-                          className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                         />
                         <span className="ml-2 text-sm text-gray-700 capitalize">{status.replace('_', ' ')}</span>
                       </label>
@@ -940,7 +940,7 @@ const OrdersPage: React.FC = () => {
                     type="text"
                     value={trackingData.tracking_number}
                     onChange={(e) => setTrackingData(prev => ({ ...prev, tracking_number: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Enter tracking number"
                   />
                 </div>
@@ -950,7 +950,7 @@ const OrdersPage: React.FC = () => {
                   <select
                     value={trackingData.carrier}
                     onChange={(e) => setTrackingData(prev => ({ ...prev, carrier: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
                     <option value="">Select Carrier</option>
                     <option value="UPS">UPS</option>
@@ -968,7 +968,7 @@ const OrdersPage: React.FC = () => {
                   <textarea
                     value={trackingData.notes}
                     onChange={(e) => setTrackingData(prev => ({ ...prev, notes: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     rows={3}
                     placeholder="Additional tracking notes..."
                   />

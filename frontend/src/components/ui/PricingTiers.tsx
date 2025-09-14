@@ -112,7 +112,7 @@ export const PricingTiers: React.FC<PricingTiersProps> = ({
                     onChange={(e) => updateTier(tier.id, {
                       minQuantity: parseInt(e.target.value) || 1
                     })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -127,7 +127,7 @@ export const PricingTiers: React.FC<PricingTiersProps> = ({
                     onChange={(e) => updateTier(tier.id, {
                       maxQuantity: e.target.value ? parseInt(e.target.value) : undefined
                     })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="No limit"
                   />
                 </div>
@@ -144,7 +144,7 @@ export const PricingTiers: React.FC<PricingTiersProps> = ({
                     onChange={(e) => updateTier(tier.id, {
                       unitPrice: parseFloat(e.target.value) || 0
                     })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>

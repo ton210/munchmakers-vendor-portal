@@ -114,7 +114,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
         </CardHeader>
         <CardContent>
           <div className="text-center py-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600 mx-auto"></div>
             <p className="text-sm text-gray-500 mt-2">{t('common.loading')}</p>
           </div>
         </CardContent>
@@ -214,7 +214,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
                           ? `/orders#${alert.data.order_id}`
                           : `/admin/orders#${alert.data.order_id}`;
                       }}
-                      className="text-indigo-600 hover:text-indigo-800"
+                      className="text-primary-600 hover:text-primary-800"
                       title="View Order"
                     >
                       <EyeIcon className="h-4 w-4" />
@@ -244,7 +244,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
               </span>
               <button
                 onClick={loadAlerts}
-                className="text-indigo-600 hover:text-indigo-800"
+                className="text-primary-600 hover:text-primary-800"
               >
                 {t('common.refresh')}
               </button>

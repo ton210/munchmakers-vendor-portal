@@ -75,7 +75,7 @@ const VendorLoginPage: React.FC = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -94,7 +94,7 @@ const VendorLoginPage: React.FC = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pr-10 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pr-10 placeholder-gray-400 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm"
                     placeholder="Enter your password"
                   />
                   <button
@@ -117,7 +117,7 @@ const VendorLoginPage: React.FC = () => {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                     Remember me
@@ -127,7 +127,7 @@ const VendorLoginPage: React.FC = () => {
                 <div className="text-sm">
                   <Link
                     to="/forgot-password"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                    className="font-medium text-primary-600 hover:text-primary-500"
                   >
                     Forgot your password?
                   </Link>
@@ -138,7 +138,7 @@ const VendorLoginPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Signing in...' : 'Sign in to Vendor Portal'}
                 </button>
@@ -157,7 +157,7 @@ const VendorLoginPage: React.FC = () => {
                 <div className="mt-6">
                   <Link
                     to="/register"
-                    className="flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                   >
                     Apply for Vendor Access
                   </Link>
@@ -179,7 +179,7 @@ const VendorLoginPage: React.FC = () => {
 
       {/* Right side - Marketing content */}
       <div className="hidden lg:block relative flex-1">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-purple-700">
           <div className="absolute inset-0 bg-black opacity-20"></div>
         </div>
         <div className="relative flex flex-col justify-center h-full px-12 text-white">

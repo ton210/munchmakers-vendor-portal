@@ -108,7 +108,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         {...getRootProps()}
         className={clsx(
           'border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors duration-200',
-          isDragActive && !isDragReject && 'border-indigo-400 bg-indigo-50',
+          isDragActive && !isDragReject && 'border-primary-400 bg-primary-50',
           isDragReject && 'border-red-400 bg-red-50',
           !isDragActive && !isDragReject && 'border-gray-300 hover:border-gray-400',
           disabled && 'opacity-50 cursor-not-allowed'

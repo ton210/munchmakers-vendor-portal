@@ -15,7 +15,7 @@ const TermsPage: React.FC = () => {
                 alt="MunchMakers"
               />
             </Link>
-            <Link to="/" className="text-gray-900 hover:text-indigo-600">
+            <Link to="/" className="text-gray-900 hover:text-primary-600">
               ← Back to Home
             </Link>
           </div>
@@ -174,9 +174,9 @@ const TermsPage: React.FC = () => {
             <li>Address: MunchMakers Legal Team, [Address]</li>
           </ul>
 
-          <div className="mt-12 p-6 bg-indigo-50 rounded-lg">
-            <h3 className="text-lg font-semibold text-indigo-900 mb-2">Beta Program Agreement</h3>
-            <p className="text-indigo-800">
+          <div className="mt-12 p-6 bg-primary-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-primary-900 mb-2">Beta Program Agreement</h3>
+            <p className="text-primary-800">
               By participating in our beta program, you acknowledge that the service is in development and
               agree to provide feedback to help us improve. Your participation is subject to additional
               terms that may be provided separately.

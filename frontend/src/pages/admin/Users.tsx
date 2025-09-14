@@ -81,7 +81,7 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClose, onSu
               type="text"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
               required
             />
           </div>
@@ -94,7 +94,7 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClose, onSu
               type="email"
               value={formData.email}
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
               required
             />
           </div>
@@ -106,7 +106,7 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClose, onSu
             <select
               value={formData.role}
               onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as 'admin' | 'super_admin' }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="admin">Admin</option>
               <option value="super_admin">Super Admin</option>
@@ -129,7 +129,7 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ isOpen, onClose, onSu
                         : formData.permissions.filter(p => p !== permission.id);
                       setFormData(prev => ({ ...prev, permissions }));
                     }}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">{permission.label}</span>
                 </label>
@@ -349,7 +349,7 @@ const AdminUsers: React.FC = () => {
               setEditUser(item);
               setShowCreateModal(true);
             }}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-primary-600 hover:text-primary-900"
             title="Edit user"
           >
             <PencilIcon className="h-4 w-4" />

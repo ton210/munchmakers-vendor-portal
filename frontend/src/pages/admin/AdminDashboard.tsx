@@ -103,7 +103,7 @@ const AdminDashboard: React.FC = () => {
       title: 'Active Assignments',
       value: stats?.activeAssignments || 0,
       icon: CurrencyDollarIcon,
-      color: 'bg-indigo-500'
+      color: 'bg-primary-500'
     }
   ];
 
@@ -111,7 +111,7 @@ const AdminDashboard: React.FC = () => {
     return (
       <Layout title="Admin Dashboard">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
       </Layout>
     );
@@ -268,7 +268,7 @@ const AdminDashboard: React.FC = () => {
                 {stats?.recentActivity?.length ? (
                   stats.recentActivity.slice(0, 5).map((activity, index) => (
                     <div key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2"></div>
+                      <div className="w-2 h-2 bg-primary-500 rounded-full mt-2"></div>
                       <div>
                         <p className="text-sm text-gray-900">{activity.description}</p>
                         <p className="text-xs text-gray-500">{new Date(activity.createdAt).toLocaleDateString()}</p>

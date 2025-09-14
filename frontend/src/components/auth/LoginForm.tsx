@@ -141,7 +141,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
               <button
                 type="button"
                 onClick={onForgotPassword}
-                className="text-indigo-600 hover:text-indigo-500"
+                className="text-primary-600 hover:text-primary-500"
               >
                 {t('auth.loginForm.forgotPassword')}
               </button>
@@ -151,7 +151,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
               <button
                 type="button"
                 onClick={onRegister}
-                className="text-indigo-600 hover:text-indigo-500"
+                className="text-primary-600 hover:text-primary-500"
               >
                 {t('auth.loginForm.createAccount')}
               </button>

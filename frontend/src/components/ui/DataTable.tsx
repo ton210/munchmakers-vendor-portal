@@ -92,7 +92,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                     placeholder={searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
                 </div>
               )}
@@ -125,7 +125,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                           className={clsx(
                             'h-3 w-3',
                             sortBy === column.key && sortOrder === 'asc'
-                              ? 'text-indigo-600'
+                              ? 'text-primary-600'
                               : 'text-gray-300'
                           )}
                         />
@@ -133,7 +133,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                           className={clsx(
                             'h-3 w-3 -mt-1',
                             sortBy === column.key && sortOrder === 'desc'
-                              ? 'text-indigo-600'
+                              ? 'text-primary-600'
                               : 'text-gray-300'
                           )}
                         />
@@ -149,7 +149,7 @@ export const DataTable: React.FC<DataTableProps> = ({
               <tr>
                 <td colSpan={columns.length} className="px-6 py-12 text-center">
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
                     <span className="ml-3 text-gray-500">Loading...</span>
                   </div>
                 </td>
@@ -213,7 +213,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                     className={clsx(
                       'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
                       pagination.page === page
-                        ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                        ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
                         : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                     )}
                   >

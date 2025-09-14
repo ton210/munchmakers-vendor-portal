@@ -161,7 +161,7 @@ export const SimpleVariantManager: React.FC<SimpleVariantManagerProps> = ({
                     type="text"
                     value={variant.name}
                     onChange={(e) => updateVariant(variant.id, { name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="e.g., Red, Large, Premium"
                   />
                 </div>
@@ -176,7 +176,7 @@ export const SimpleVariantManager: React.FC<SimpleVariantManagerProps> = ({
                     min="0"
                     value={variant.price}
                     onChange={(e) => updateVariant(variant.id, { price: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -189,7 +189,7 @@ export const SimpleVariantManager: React.FC<SimpleVariantManagerProps> = ({
                     min="1"
                     value={variant.moq}
                     onChange={(e) => updateVariant(variant.id, { moq: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 

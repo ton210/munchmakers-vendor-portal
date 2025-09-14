@@ -335,7 +335,7 @@ const ProductForm: React.FC = () => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => updateFormData({ name: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${
+                  className={`w-full px-3 py-2 border rounded-md focus:ring-primary-500 focus:border-primary-500 ${
                     errors.name ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter product name"
@@ -351,7 +351,7 @@ const ProductForm: React.FC = () => {
                   type="text"
                   value={formData.sku}
                   onChange={(e) => updateFormData({ sku: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Auto-generated if empty"
                 />
               </div>
@@ -368,7 +368,7 @@ const ProductForm: React.FC = () => {
                   min="0"
                   value={formData.price}
                   onChange={(e) => updateFormData({ price: parseFloat(e.target.value) || 0 })}
-                  className={`w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${
+                  className={`w-full px-3 py-2 border rounded-md focus:ring-primary-500 focus:border-primary-500 ${
                     errors.price ? 'border-red-300' : 'border-gray-300'
                   }`}
                 />
@@ -384,7 +384,7 @@ const ProductForm: React.FC = () => {
                   min="1"
                   value={formData.moq}
                   onChange={(e) => updateFormData({ moq: parseInt(e.target.value) || 1 })}
-                  className={`w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${
+                  className={`w-full px-3 py-2 border rounded-md focus:ring-primary-500 focus:border-primary-500 ${
                     errors.moq ? 'border-red-300' : 'border-gray-300'
                   }`}
                 />
@@ -399,7 +399,7 @@ const ProductForm: React.FC = () => {
               <select
                 value={formData.categoryId}
                 onChange={(e) => updateFormData({ categoryId: parseInt(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
               >
                 {(categories || []).map(category => (
                   <option key={category.id} value={category.id}>
@@ -417,7 +417,7 @@ const ProductForm: React.FC = () => {
                 value={formData.description}
                 onChange={(e) => updateFormData({ description: e.target.value })}
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Describe your product..."
               />
             </div>
@@ -430,7 +430,7 @@ const ProductForm: React.FC = () => {
                 value={formData.details}
                 onChange={(e) => updateFormData({ details: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Additional product details..."
               />
             </div>
@@ -446,7 +446,7 @@ const ProductForm: React.FC = () => {
                   min="0"
                   value={formData.weight}
                   onChange={(e) => updateFormData({ weight: parseFloat(e.target.value) || 0 })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
 
@@ -460,7 +460,7 @@ const ProductForm: React.FC = () => {
                   min="0"
                   value={formData.height}
                   onChange={(e) => updateFormData({ height: parseFloat(e.target.value) || 0 })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
 
@@ -473,7 +473,7 @@ const ProductForm: React.FC = () => {
                   min="1"
                   value={formData.productionTime}
                   onChange={(e) => updateFormData({ productionTime: parseInt(e.target.value) || 1 })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
             </div>
@@ -486,7 +486,7 @@ const ProductForm: React.FC = () => {
                 type="text"
                 value={formData.dimensions}
                 onChange={(e) => updateFormData({ dimensions: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                 placeholder="e.g., 10cm × 5cm × 3cm"
               />
             </div>
@@ -643,7 +643,7 @@ const ProductForm: React.FC = () => {
                     value={formData.designToolInfo}
                     onChange={(e) => updateFormData({ designToolInfo: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     placeholder="Describe any customization options available for this product..."
                   />
                 </div>
@@ -754,7 +754,7 @@ const ProductForm: React.FC = () => {
     return (
       <Layout title={isEditing ? "Edit Product" : "Add Product"}>
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
         </div>
       </Layout>
     );
@@ -797,7 +797,7 @@ const ProductForm: React.FC = () => {
                 <div
                   className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
                     currentStep >= step.id
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-primary-600 text-white'
                       : 'bg-gray-300 text-gray-600'
                   }`}
                 >
@@ -805,7 +805,7 @@ const ProductForm: React.FC = () => {
                 </div>
                 <div className="ml-3">
                   <p className={`text-sm font-medium ${
-                    currentStep >= step.id ? 'text-indigo-600' : 'text-gray-500'
+                    currentStep >= step.id ? 'text-primary-600' : 'text-gray-500'
                   }`}>
                     {step.title}
                   </p>
@@ -814,7 +814,7 @@ const ProductForm: React.FC = () => {
                 {index !== steps.length - 1 && (
                   <div className="flex-1 mx-4">
                     <div className={`h-0.5 ${
-                      currentStep > step.id ? 'bg-indigo-600' : 'bg-gray-300'
+                      currentStep > step.id ? 'bg-primary-600' : 'bg-gray-300'
                     }`} />
                   </div>
                 )}

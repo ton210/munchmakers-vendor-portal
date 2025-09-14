@@ -128,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
             {/* User menu dropdown */}
             <Menu as="div" className="relative">
               <div>
-                <Menu.Button className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <Menu.Button className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                   <span className="sr-only">Open user menu</span>
                   <div className="flex items-center space-x-3">
                     <UserCircleIcon className="h-8 w-8 text-gray-400" />

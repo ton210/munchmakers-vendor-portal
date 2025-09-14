@@ -72,21 +72,21 @@ const DocsPage: React.FC = () => {
                 />
               </Link>
               <nav className="hidden md:ml-8 md:flex space-x-8">
-                <Link to="/" className="text-gray-900 hover:text-indigo-600">Home</Link>
-                <Link to="/docs" className="text-indigo-600 font-medium">Documentation</Link>
-                <Link to="/faq" className="text-gray-900 hover:text-indigo-600">FAQ</Link>
+                <Link to="/" className="text-gray-900 hover:text-primary-600">Home</Link>
+                <Link to="/docs" className="text-primary-600 font-medium">Documentation</Link>
+                <Link to="/faq" className="text-gray-900 hover:text-primary-600">FAQ</Link>
               </nav>
             </div>
             <div className="flex items-center space-x-4">
               <Link
                 to="/vendor/login"
-                className="text-gray-900 hover:text-indigo-600"
+                className="text-gray-900 hover:text-primary-600"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
                 Apply Now
               </Link>
@@ -96,7 +96,7 @@ const DocsPage: React.FC = () => {
       </header>
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-indigo-50 to-purple-50">
+      <div className="bg-gradient-to-br from-primary-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
@@ -110,7 +110,7 @@ const DocsPage: React.FC = () => {
               <div className="inline-flex rounded-md shadow">
                 <Link
                   to="/register"
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
                 >
                   Apply for Beta Access
                 </Link>
@@ -127,7 +127,7 @@ const DocsPage: React.FC = () => {
             <div key={section.title} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center mb-4">
                 <div className="flex-shrink-0">
-                  <section.icon className="h-8 w-8 text-indigo-600" />
+                  <section.icon className="h-8 w-8 text-primary-600" />
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900">{section.title}</h3>
@@ -139,7 +139,7 @@ const DocsPage: React.FC = () => {
                   <li key={link.name}>
                     <a
                       href={link.href}
-                      className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                      className="text-primary-600 hover:text-primary-800 text-sm font-medium"
                     >
                       {link.name}
                     </a>
@@ -163,8 +163,8 @@ const DocsPage: React.FC = () => {
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div className="text-center">
-              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-indigo-100">
-                <UserGroupIcon className="h-8 w-8 text-indigo-600" />
+              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-primary-100">
+                <UserGroupIcon className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-gray-900">Exclusive Access</h3>
               <p className="mt-2 text-gray-600">
@@ -173,8 +173,8 @@ const DocsPage: React.FC = () => {
             </div>
 
             <div className="text-center">
-              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-indigo-100">
-                <ShieldCheckIcon className="h-8 w-8 text-indigo-600" />
+              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-primary-100">
+                <ShieldCheckIcon className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-gray-900">Full Service</h3>
               <p className="mt-2 text-gray-600">
@@ -183,8 +183,8 @@ const DocsPage: React.FC = () => {
             </div>
 
             <div className="text-center">
-              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-indigo-100">
-                <CurrencyDollarIcon className="h-8 w-8 text-indigo-600" />
+              <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-primary-100">
+                <CurrencyDollarIcon className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-gray-900">Premium Buyers</h3>
               <p className="mt-2 text-gray-600">
@@ -217,14 +217,14 @@ const DocsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-8 bg-indigo-50 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-indigo-900 mb-2">Ready to Get Started?</h3>
-            <p className="text-indigo-800 mb-4">
+          <div className="mt-8 bg-primary-50 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-primary-900 mb-2">Ready to Get Started?</h3>
+            <p className="text-primary-800 mb-4">
               Join our exclusive beta program and start connecting with premium buyers today.
             </p>
             <Link
               to="/register"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
             >
               Apply for Beta Access
             </Link>
