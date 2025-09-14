@@ -32,6 +32,8 @@ const trackingRoutes = require('./routes/tracking');
 const orderSplittingRoutes = require('./routes/orderSplitting');
 const zakekeRoutes = require('./routes/zakeke');
 const uploadRoutes = require('./routes/uploads');
+const communicationRoutes = require('./routes/communications');
+const trackshipSetupRoutes = require('./routes/trackshipSetup');
 
 // Import services
 const SlackService = require('./services/slackService');
@@ -131,6 +133,8 @@ app.use('/api/tracking', trackingRoutes);
 app.use('/api/order-splitting', orderSplittingRoutes);
 app.use('/api/zakeke', zakekeRoutes);
 app.use('/api/uploads', uploadRoutes);
+app.use('/api/communications', communicationRoutes);
+app.use('/api/trackship-setup', trackshipSetupRoutes);
 
 // 404 handler for API routes only
 app.use('/api/*', (req, res) => {
