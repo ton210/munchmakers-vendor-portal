@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Ca
 import { ImageUpload, ImageFile } from '../../components/ui/ImageUpload';
 import { VariantManager, ProductVariant } from '../../components/ui/VariantManager';
 import { PricingTiers, PricingTier } from '../../components/ui/PricingTiers';
+import { SimpleVariantManager, SimpleVariant } from '../../components/ui/SimpleVariantManager';
+import { QuickPricingSetup } from '../../components/ui/QuickPricingSetup';
 import {
   ArrowLeftIcon,
   InformationCircleIcon,
@@ -37,6 +39,8 @@ interface ProductFormData {
   // Variants and pricing
   variants: ProductVariant[];
   pricingTiers: PricingTier[];
+  simpleVariants: SimpleVariant[];
+  useSimpleMode: boolean;
 
   // Shipping
   shippingOptions: {
@@ -68,6 +72,8 @@ const defaultFormData: ProductFormData = {
   productionImages: [],
   variants: [],
   pricingTiers: [],
+  simpleVariants: [],
+  useSimpleMode: true,
   shippingOptions: {
     air: { available: true, basePrice: 0, pricePerKg: 0 },
     fastBoat: { available: true, basePrice: 0, pricePerKg: 0 }
@@ -96,8 +102,7 @@ const ProductForm: React.FC = () => {
     { id: 1, title: 'Basic Information', description: 'Product name, price, and details' },
     { id: 2, title: 'Images & Media', description: 'Product and production images' },
     { id: 3, title: 'Variants & Pricing', description: 'Product variants and pricing tiers' },
-    { id: 4, title: 'Shipping & Tools', description: 'Shipping options and design tools' },
-    { id: 5, title: 'Review & Submit', description: 'Review all information before submitting' }
+    { id: 4, title: 'Review & Submit', description: 'Review all information before submitting' }
   ];
 
   useEffect(() => {
@@ -210,14 +215,23 @@ const ProductForm: React.FC = () => {
         designToolInfo: formData.designToolInfo,
         designToolTemplate: formData.designToolTemplate,
         productionImages: formData.productionImages.map(img => ({ url: img.url })),
-        variants: formData.variants.map(v => ({
-          name: v.name,
-          sku: v.sku,
-          additionalPrice: v.additionalPrice,
-          moq: v.moq,
-          attributes: v.attributes,
-          images: v.images.map(img => ({ url: img.url }))
-        })),
+        variants: formData.useSimpleMode
+          ? formData.simpleVariants.map(v => ({
+              name: v.name,
+              sku: '',
+              additionalPrice: v.price - formData.price,
+              moq: v.moq,
+              attributes: {},
+              images: []
+            }))
+          : formData.variants.map(v => ({
+              name: v.name,
+              sku: v.sku,
+              additionalPrice: v.additionalPrice,
+              moq: v.moq,
+              attributes: v.attributes,
+              images: v.images.map(img => ({ url: img.url }))
+            })),
         pricingTiers: formData.pricingTiers,
         productImages: formData.productImages.map(img => ({ url: img.url })),
         status: 'draft'
@@ -269,14 +283,23 @@ const ProductForm: React.FC = () => {
         designToolInfo: formData.designToolInfo,
         designToolTemplate: formData.designToolTemplate,
         productionImages: formData.productionImages.map(img => ({ url: img.url })),
-        variants: formData.variants.map(v => ({
-          name: v.name,
-          sku: v.sku,
-          additionalPrice: v.additionalPrice,
-          moq: v.moq,
-          attributes: v.attributes,
-          images: v.images.map(img => ({ url: img.url }))
-        })),
+        variants: formData.useSimpleMode
+          ? formData.simpleVariants.map(v => ({
+              name: v.name,
+              sku: '',
+              additionalPrice: v.price - formData.price,
+              moq: v.moq,
+              attributes: {},
+              images: []
+            }))
+          : formData.variants.map(v => ({
+              name: v.name,
+              sku: v.sku,
+              additionalPrice: v.additionalPrice,
+              moq: v.moq,
+              attributes: v.attributes,
+              images: v.images.map(img => ({ url: img.url }))
+            })),
         pricingTiers: formData.pricingTiers,
         productImages: formData.productImages.map(img => ({ url: img.url })),
         status: 'pending'
@@ -508,203 +531,144 @@ const ProductForm: React.FC = () => {
       case 3:
         return (
           <div className="space-y-8">
-            <VariantManager
-              variants={formData.variants}
-              onVariantsChange={(variants) => updateFormData({ variants })}
-            />
+            {/* Mode Toggle */}
+            <div className="flex justify-center">
+              <div className="bg-gray-100 p-1 rounded-lg flex">
+                <button
+                  onClick={() => updateFormData({ useSimpleMode: true })}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    formData.useSimpleMode
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Simple Setup
+                </button>
+                <button
+                  onClick={() => updateFormData({ useSimpleMode: false })}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    !formData.useSimpleMode
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Advanced Setup
+                </button>
+              </div>
+            </div>
 
-            <PricingTiers
-              tiers={formData.pricingTiers}
-              onTiersChange={(tiers) => updateFormData({ pricingTiers: tiers })}
-              basePrice={formData.price}
-            />
-          </div>
-        );
+            {formData.useSimpleMode ? (
+              <div className="space-y-6">
+                {/* Simple Variants */}
+                <SimpleVariantManager
+                  variants={formData.simpleVariants}
+                  onVariantsChange={(variants) => updateFormData({ simpleVariants: variants })}
+                  basePrice={formData.price}
+                />
 
-      case 4:
-        return (
-          <div className="space-y-8">
-            {/* Shipping Options */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Shipping Options</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Air Shipping */}
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="checkbox"
-                      id="air-shipping"
-                      checked={formData.shippingOptions.air.available}
-                      onChange={(e) => updateFormData({
-                        shippingOptions: {
-                          ...formData.shippingOptions,
-                          air: { ...formData.shippingOptions.air, available: e.target.checked }
-                        }
-                      })}
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="air-shipping" className="ml-3 text-sm font-medium text-gray-700">
-                      Air Shipping (Faster)
-                    </label>
-                  </div>
+                {/* Quick Pricing */}
+                <QuickPricingSetup
+                  basePrice={formData.price}
+                  onPricingChange={(tiers) => updateFormData({ pricingTiers: tiers })}
+                />
+              </div>
+            ) : (
+              <div className="space-y-8">
+                <VariantManager
+                  variants={formData.variants}
+                  onVariantsChange={(variants) => updateFormData({ variants })}
+                />
 
-                  {formData.shippingOptions.air.available && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Base Price ($)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={formData.shippingOptions.air.basePrice}
-                          onChange={(e) => updateFormData({
-                            shippingOptions: {
-                              ...formData.shippingOptions,
-                              air: {
-                                ...formData.shippingOptions.air,
-                                basePrice: parseFloat(e.target.value) || 0
-                              }
-                            }
-                          })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Price per kg ($)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={formData.shippingOptions.air.pricePerKg}
-                          onChange={(e) => updateFormData({
-                            shippingOptions: {
-                              ...formData.shippingOptions,
-                              air: {
-                                ...formData.shippingOptions.air,
-                                pricePerKg: parseFloat(e.target.value) || 0
-                              }
-                            }
-                          })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <PricingTiers
+                  tiers={formData.pricingTiers}
+                  onTiersChange={(tiers) => updateFormData({ pricingTiers: tiers })}
+                  basePrice={formData.price}
+                />
+              </div>
+            )}
 
-                {/* Fast Boat Shipping */}
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="checkbox"
-                      id="boat-shipping"
-                      checked={formData.shippingOptions.fastBoat.available}
-                      onChange={(e) => updateFormData({
-                        shippingOptions: {
-                          ...formData.shippingOptions,
-                          fastBoat: { ...formData.shippingOptions.fastBoat, available: e.target.checked }
-                        }
-                      })}
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="boat-shipping" className="ml-3 text-sm font-medium text-gray-700">
-                      Fast Boat Shipping (Economical)
-                    </label>
-                  </div>
-
-                  {formData.shippingOptions.fastBoat.available && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Base Price ($)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={formData.shippingOptions.fastBoat.basePrice}
-                          onChange={(e) => updateFormData({
-                            shippingOptions: {
-                              ...formData.shippingOptions,
-                              fastBoat: {
-                                ...formData.shippingOptions.fastBoat,
-                                basePrice: parseFloat(e.target.value) || 0
-                              }
-                            }
-                          })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Price per kg ($)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={formData.shippingOptions.fastBoat.pricePerKg}
-                          onChange={(e) => updateFormData({
-                            shippingOptions: {
-                              ...formData.shippingOptions,
-                              fastBoat: {
-                                ...formData.shippingOptions.fastBoat,
-                                pricePerKg: parseFloat(e.target.value) || 0
-                              }
-                            }
-                          })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Design Tools */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Design Tools</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            {/* Optional: Shipping & Design Tools */}
+            <details className="border border-gray-200 rounded-lg">
+              <summary className="p-4 cursor-pointer hover:bg-gray-50 font-medium text-gray-700">
+                📦 Shipping & Design Tools (Optional)
+              </summary>
+              <div className="p-4 border-t border-gray-200 space-y-6">
+                {/* Quick Shipping Setup */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Design Tool Information
-                  </label>
+                  <h4 className="font-medium text-gray-900 mb-3">Shipping Options</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input
+                        type="checkbox"
+                        checked={formData.shippingOptions.air.available}
+                        onChange={(e) => updateFormData({
+                          shippingOptions: {
+                            ...formData.shippingOptions,
+                            air: { ...formData.shippingOptions.air, available: e.target.checked }
+                          }
+                        })}
+                        className="mr-3"
+                      />
+                      <div>
+                        <div className="font-medium">Air Shipping</div>
+                        <div className="text-sm text-gray-500">Faster delivery</div>
+                      </div>
+                    </label>
+                    <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input
+                        type="checkbox"
+                        checked={formData.shippingOptions.fastBoat.available}
+                        onChange={(e) => updateFormData({
+                          shippingOptions: {
+                            ...formData.shippingOptions,
+                            fastBoat: { ...formData.shippingOptions.fastBoat, available: e.target.checked }
+                          }
+                        })}
+                        className="mr-3"
+                      />
+                      <div>
+                        <div className="font-medium">Fast Boat</div>
+                        <div className="text-sm text-gray-500">Economical shipping</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Design Tools */}
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Design Customization</h4>
                   <textarea
                     value={formData.designToolInfo}
                     onChange={(e) => updateFormData({ designToolInfo: e.target.value })}
                     rows={3}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Information about design tools or customization options..."
+                    placeholder="Describe any customization options available for this product..."
                   />
                 </div>
+              </div>
+            </details>
 
+            {/* Info Box */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex">
+                <InformationCircleIcon className="h-5 w-5 text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Design Tool Template
-                  </label>
-                  <textarea
-                    value={formData.designToolTemplate}
-                    onChange={(e) => updateFormData({ designToolTemplate: e.target.value })}
-                    rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Template or specifications for design customization..."
-                  />
+                  <h4 className="text-sm font-medium text-blue-800">
+                    {formData.useSimpleMode ? 'Simple Mode' : 'Advanced Mode'}
+                  </h4>
+                  <p className="mt-1 text-sm text-blue-700">
+                    {formData.useSimpleMode
+                      ? 'Quick setup for common variants and volume pricing. Perfect for most products.'
+                      : 'Full control over variants with custom attributes, images, and complex pricing tiers.'
+                    }
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         );
 
-      case 5:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -764,7 +728,9 @@ const ProductForm: React.FC = () => {
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Variants</dt>
-                      <dd className="text-sm text-gray-900">{formData.variants.length} variants</dd>
+                      <dd className="text-sm text-gray-900">
+                        {formData.useSimpleMode ? formData.simpleVariants.length : formData.variants.length} variants
+                      </dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Pricing Tiers</dt>
