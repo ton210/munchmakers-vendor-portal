@@ -1,12 +1,9 @@
-const BaseModel = require('./BaseModel');
+const db = require('../config/database');
 
-class VendorFinancial extends BaseModel {
-  static get tableName() {
-    return 'vendor_financials';
-  }
+class VendorFinancial {
 
   static async findByVendor(vendorId, filters = {}) {
-    const query = this.knex().where('vendor_id', vendorId);
+    const query = db('vendor_financials').where('vendor_id', vendorId);
 
     if (filters.transactionType) {
       query.where('transaction_type', filters.transactionType);
@@ -28,17 +25,17 @@ class VendorFinancial extends BaseModel {
   }
 
   static async getVendorSummary(vendorId) {
-    const summary = await this.knex()
+    const summary = await db('vendor_financials')
       .select(
-        this.knex().raw("transaction_type"),
-        this.knex().raw("SUM(amount) as total_amount"),
-        this.knex().raw("COUNT(*) as transaction_count")
+        db.raw("transaction_type"),
+        db.raw("SUM(amount) as total_amount"),
+        db.raw("COUNT(*) as transaction_count")
       )
       .where('vendor_id', vendorId)
       .where('status', 'completed')
       .groupBy('transaction_type');
 
-    const pendingPayouts = await this.knex()
+    const pendingPayouts = await db('vendor_financials')
       .sum('amount as total_pending')
       .where('vendor_id', vendorId)
       .where('transaction_type', 'sale')
@@ -46,7 +43,7 @@ class VendorFinancial extends BaseModel {
       .whereNull('payout_date')
       .first();
 
-    const lastPayout = await this.knex()
+    const lastPayout = await db('vendor_financials')
       .where('vendor_id', vendorId)
       .where('transaction_type', 'payout')
       .where('status', 'completed')
@@ -68,7 +65,7 @@ class VendorFinancial extends BaseModel {
   }
 
   static async createTransaction(data) {
-    return this.create({
+    const [transaction] = await db('vendor_financials').insert({
       vendor_id: data.vendorId,
       transaction_type: data.transactionType,
       reference_id: data.referenceId,
@@ -80,11 +77,12 @@ class VendorFinancial extends BaseModel {
       payout_date: data.payoutDate,
       payout_method: data.payoutMethod,
       metadata: data.metadata
-    });
+    }).returning('*');
+    return transaction;
   }
 
   static async getRecentTransactions(vendorId, limit = 10) {
-    return this.knex()
+    return db('vendor_financials')
       .where('vendor_id', vendorId)
       .orderBy('created_at', 'desc')
       .limit(limit);

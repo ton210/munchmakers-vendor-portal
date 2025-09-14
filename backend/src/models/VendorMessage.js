@@ -1,12 +1,9 @@
-const BaseModel = require('./BaseModel');
+const db = require('../config/database');
 
-class VendorMessage extends BaseModel {
-  static get tableName() {
-    return 'vendor_messages';
-  }
+class VendorMessage {
 
   static async findByVendor(vendorId, filters = {}) {
-    const query = this.knex()
+    const query = db('vendor_messages')
       .select('vendor_messages.*', 'admin_users.first_name as admin_first_name', 'admin_users.last_name as admin_last_name')
       .leftJoin('admin_users', 'vendor_messages.sender_id', 'admin_users.id')
       .where('vendor_messages.vendor_id', vendorId);
@@ -23,7 +20,7 @@ class VendorMessage extends BaseModel {
   }
 
   static async getUnreadCount(vendorId) {
-    return this.knex()
+    return db('vendor_messages')
       .where('vendor_id', vendorId)
       .where('sender_type', 'admin')
       .whereNull('read_at')
@@ -33,13 +30,13 @@ class VendorMessage extends BaseModel {
   }
 
   static async getActiveThreads(vendorId) {
-    return this.knex()
+    return db('vendor_messages')
       .select(
         'thread_id',
-        this.knex().raw('MAX(created_at) as last_message_at'),
-        this.knex().raw('COUNT(*) as message_count'),
-        this.knex().raw('MAX(CASE WHEN sender_type = ? THEN subject END) as subject', ['vendor']),
-        this.knex().raw('MAX(status) as status')
+        db.raw('MAX(created_at) as last_message_at'),
+        db.raw('COUNT(*) as message_count'),
+        db.raw('MAX(CASE WHEN sender_type = ? THEN subject END) as subject', ['vendor']),
+        db.raw('MAX(status) as status')
       )
       .where('vendor_id', vendorId)
       .whereNotNull('thread_id')
@@ -51,7 +48,7 @@ class VendorMessage extends BaseModel {
     // Generate thread ID if this is a new conversation
     let threadId = data.threadId;
     if (!threadId && data.senderType === 'vendor') {
-      const lastThread = await this.knex()
+      const lastThread = await db('vendor_messages')
         .max('thread_id as max_thread')
         .where('vendor_id', data.vendorId)
         .first();
@@ -72,26 +69,29 @@ class VendorMessage extends BaseModel {
       attachments: data.attachments
     };
 
-    return this.create(messageData);
+    const [message] = await db('vendor_messages').insert(messageData).returning('*');
+    return message;
   }
 
   static async markAsRead(messageId, adminId) {
-    return this.update(messageId, {
+    const [message] = await db('vendor_messages').where('id', messageId).update({
       read_at: new Date(),
       read_by: adminId
-    });
+    }).returning('*');
+    return message;
   }
 
   static async updateStatus(messageId, status) {
-    return this.update(messageId, { status });
+    const [message] = await db('vendor_messages').where('id', messageId).update({ status }).returning('*');
+    return message;
   }
 
   static async getAdminMessages(filters = {}) {
-    const query = this.knex()
+    const query = db('vendor_messages')
       .select(
         'vendor_messages.*',
-        'vendors.business_name',
-        'vendors.contact_email',
+        'vendors.company_name',
+        'vendors.email',
         'admin_users.first_name as admin_first_name',
         'admin_users.last_name as admin_last_name'
       )

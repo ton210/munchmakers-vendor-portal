@@ -34,7 +34,7 @@ async function sendSlackNotification(message, vendorInfo) {
           fields: [
             {
               type: "mrkdwn",
-              text: `*Vendor:* ${vendorInfo.business_name}`
+              text: `*Vendor:* ${vendorInfo.company_name}`
             },
             {
               type: "mrkdwn",
