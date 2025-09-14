@@ -32,12 +32,11 @@ exports.seed = async function(knex) {
   const [vendorUser] = await knex('vendor_users').insert({
     vendor_id: vendor.id,
     email: 'demo@restaurant.com',
-    password: hashedPassword,
+    password_hash: hashedPassword,
     first_name: 'Demo',
     last_name: 'Owner',
     role: 'owner',
     is_active: true,
-    email_verified: true,
     created_at: new Date(),
     updated_at: new Date()
   }).returning('*');
