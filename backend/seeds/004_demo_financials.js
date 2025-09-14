@@ -1,6 +1,6 @@
 exports.seed = async function(knex) {
   // Check if demo vendor exists
-  const demoVendor = await knex('vendors').where('business_name', 'Demo Restaurant').first();
+  const demoVendor = await knex('vendors').where('company_name', 'Demo Restaurant').first();
 
   if (!demoVendor) {
     console.log('Demo vendor not found, skipping financial data...');

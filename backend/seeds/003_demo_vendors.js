@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 
 exports.seed = async function(knex) {
   // Check if demo vendor already exists
-  const existingVendor = await knex('vendors').where('business_name', 'Demo Restaurant').first();
+  const existingVendor = await knex('vendors').where('company_name', 'Demo Restaurant').first();
   
   if (existingVendor) {
     console.log('Demo vendor already exists, skipping...');
@@ -13,17 +13,13 @@ exports.seed = async function(knex) {
 
   // Create demo vendor
   const [vendor] = await knex('vendors').insert({
-    business_name: 'Demo Restaurant',
-    contact_email: 'demo@restaurant.com',
+    company_name: 'Demo Restaurant',
+    email: 'demo@restaurant.com',
     contact_name: 'Demo Owner',
     phone: '(555) 123-DEMO',
-    business_address: '123 Demo Street, Demo City, CA 90210',
-    business_type: 'Restaurant',
-    website: 'https://demorestaurant.com',
+    address: '123 Demo Street, Demo City, CA 90210',
     tax_id: '12-DEMO123',
     status: 'approved', // Pre-approved for immediate testing
-    bigcommerce_store_hash: '',
-    bigcommerce_access_token: '',
     created_at: new Date(),
     updated_at: new Date()
   }).returning('*');
