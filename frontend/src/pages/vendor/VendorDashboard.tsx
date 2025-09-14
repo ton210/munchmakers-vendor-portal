@@ -78,20 +78,20 @@ const VendorDashboard: React.FC = () => {
       color: 'bg-blue-500'
     },
     {
-      title: 'Pending Approval',
-      value: stats?.pendingProducts || 0,
+      title: 'Active Assignments',
+      value: stats?.totalAssignments || 0,
       icon: ClockIcon,
-      color: 'bg-yellow-500'
+      color: 'bg-orange-500'
     },
     {
-      title: 'Approved Products',
-      value: stats?.approvedProducts || 0,
+      title: 'Completed Orders',
+      value: stats?.completedAssignments || 0,
       icon: CheckCircleIcon,
       color: 'bg-green-500'
     },
     {
-      title: 'Monthly Revenue',
-      value: `$${(stats?.monthlyRevenue || 0).toLocaleString()}`,
+      title: 'Total Earnings',
+      value: `$${(stats?.totalEarnings || 0).toLocaleString()}`,
       icon: CurrencyDollarIcon,
       color: 'bg-purple-500'
     }
@@ -150,13 +150,22 @@ const VendorDashboard: React.FC = () => {
                 <ShoppingBagIcon className="h-4 w-4 mr-2" />
                 Add New Product
               </Button>
-              <Button 
-                variant="secondary" 
-                fullWidth 
+              <Button
+                variant="secondary"
+                fullWidth
+                className="justify-start"
+                onClick={() => navigate('/assignments')}
+              >
+                <ArrowTrendingUpIcon className="h-4 w-4 mr-2" />
+                View Assignments
+              </Button>
+              <Button
+                variant="secondary"
+                fullWidth
                 className="justify-start"
                 onClick={() => navigate('/products')}
               >
-                <ArrowTrendingUpIcon className="h-4 w-4 mr-2" />
+                <ShoppingBagIcon className="h-4 w-4 mr-2" />
                 View Products
               </Button>
               <Button 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { 
-  BellIcon, 
+import {
+  BellIcon,
   ChevronDownIcon,
   UserCircleIcon,
   ArrowRightOnRectangleIcon as LogoutIcon,
@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 import { clsx } from 'clsx';
+import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 interface NavbarProps {
   title?: string;
@@ -54,8 +55,13 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
             )}
           </div>
 
-          {/* Right side - User menu and notifications */}
+          {/* Right side - Language switcher, notifications, and user menu */}
           <div className="flex items-center space-x-4">
+            {/* Language Switcher */}
+            <div className="hidden md:block">
+              <LanguageSwitcher />
+            </div>
+
             {/* Notifications */}
             <button
               type="button"

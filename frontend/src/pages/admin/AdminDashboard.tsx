@@ -79,6 +79,12 @@ const AdminDashboard: React.FC = () => {
       urgent: (stats?.pendingVendors || 0) > 0
     },
     {
+      title: 'Total Orders',
+      value: stats?.totalOrders || 0,
+      icon: ArrowTrendingUpIcon,
+      color: 'bg-purple-500'
+    },
+    {
       title: 'Total Products',
       value: stats?.totalProducts || 0,
       icon: ShoppingBagIcon,
@@ -90,6 +96,12 @@ const AdminDashboard: React.FC = () => {
       icon: ExclamationTriangleIcon,
       color: 'bg-red-500',
       urgent: (stats?.pendingProducts || 0) > 0
+    },
+    {
+      title: 'Active Assignments',
+      value: stats?.activeAssignments || 0,
+      icon: CurrencyDollarIcon,
+      color: 'bg-indigo-500'
     }
   ];
 
@@ -130,7 +142,7 @@ const AdminDashboard: React.FC = () => {
         )}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {statCards.map((stat, index) => (
             <Card key={index} hover>
               <CardContent className="flex items-center p-6">
@@ -179,9 +191,18 @@ const AdminDashboard: React.FC = () => {
                 <UsersIcon className="h-4 w-4 mr-2" />
                 Manage Vendors
               </Button>
-              <Button 
-                variant="secondary" 
-                fullWidth 
+              <Button
+                variant="secondary"
+                fullWidth
+                className="justify-start"
+                onClick={() => navigate('/admin/orders')}
+              >
+                <ArrowTrendingUpIcon className="h-4 w-4 mr-2" />
+                Manage Orders
+              </Button>
+              <Button
+                variant="secondary"
+                fullWidth
                 className="justify-start"
                 onClick={() => navigate('/admin/products')}
               >

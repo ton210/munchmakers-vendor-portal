@@ -23,6 +23,7 @@ import ProductForm from './pages/vendor/ProductForm';
 import ProductDetails from './pages/vendor/ProductDetails';
 import FinancialDashboard from './pages/vendor/FinancialDashboard';
 import MessagesPage from './pages/vendor/MessagesPage';
+import AssignmentsPage from './pages/vendor/AssignmentsPage';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -35,6 +36,7 @@ import AdminActivityLogs from './pages/admin/ActivityLogs';
 import SettingsPage from './pages/admin/SettingsPage';
 import APITestPage from './pages/admin/APITestPage';
 import VendorDetails from './pages/admin/VendorDetails';
+import AdminOrdersPage from './pages/admin/OrdersPage';
 
 // Public Pages
 import LandingPage from './pages/LandingPage';
@@ -128,10 +130,10 @@ function App() {
               }
             />
             <Route
-              path="/orders"
+              path="/assignments"
               element={
                 <ProtectedRoute requiredUserType="vendor">
-                  <OrdersPage />
+                  <AssignmentsPage />
                 </ProtectedRoute>
               }
             />
@@ -230,6 +232,14 @@ function App() {
               element={
                 <ProtectedRoute requiredUserType="admin">
                   <AdminProductsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <ProtectedRoute requiredUserType="admin">
+                  <AdminOrdersPage />
                 </ProtectedRoute>
               }
             />

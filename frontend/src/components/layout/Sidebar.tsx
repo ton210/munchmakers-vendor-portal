@@ -13,7 +13,9 @@ import {
   ClockIcon,
   WrenchScrewdriverIcon,
   CurrencyDollarIcon,
-  ChatBubbleLeftIcon
+  ChatBubbleLeftIcon,
+  RectangleStackIcon,
+  BriefcaseIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 import { clsx } from 'clsx';
@@ -41,11 +43,11 @@ const navigation: NavItem[] = [
     icon: ShoppingBagIcon, 
     vendorOnly: true 
   },
-  { 
-    name: 'Orders', 
-    to: '/orders', 
-    icon: DocumentTextIcon, 
-    vendorOnly: true 
+  {
+    name: 'Assignments',
+    to: '/assignments',
+    icon: BriefcaseIcon,
+    vendorOnly: true
   },
   {
     name: 'Profile',
@@ -79,11 +81,17 @@ const navigation: NavItem[] = [
     icon: UsersIcon, 
     adminOnly: true 
   },
-  { 
-    name: 'Products', 
-    to: '/admin/products', 
-    icon: Squares2X2Icon, 
-    adminOnly: true 
+  {
+    name: 'Products',
+    to: '/admin/products',
+    icon: Squares2X2Icon,
+    adminOnly: true
+  },
+  {
+    name: 'Orders',
+    to: '/admin/orders',
+    icon: RectangleStackIcon,
+    adminOnly: true
   },
   { 
     name: 'Pending Approval', 
