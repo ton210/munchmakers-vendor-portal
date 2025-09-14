@@ -1,0 +1,135 @@
+{
+  "name": "MunchMakers Vendor Portal",
+  "description": "Enterprise-grade vendor self-service portal for MunchMakers.com",
+  "repository": "https://github.com/ton210/munchmakers-vendor-portal",
+  "logo": "https://cdn11.bigcommerce.com/s-tqjrceegho/images/stencil/500w/munchmakers-logo_1_1752112946__55141.original.png",
+  "keywords": [
+    "node",
+    "express",
+    "postgres",
+    "react",
+    "vendor-portal",
+    "e-commerce"
+  ],
+  "image": "heroku/nodejs",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "as": "DATABASE"
+    }
+  ],
+  "env": {
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production",
+      "required": true
+    },
+    "JWT_SECRET": {
+      "description": "JWT secret key for token signing",
+      "generator": "secret",
+      "required": true
+    },
+    "SESSION_SECRET": {
+      "description": "Session secret key",
+      "generator": "secret",
+      "required": true
+    },
+    "BC_ACCESS_TOKEN": {
+      "description": "BigCommerce API access token",
+      "required": true
+    },
+    "BC_STORE_HASH": {
+      "description": "BigCommerce store hash",
+      "required": true
+    },
+    "R2_ACCESS_KEY": {
+      "description": "Cloudflare R2 access key",
+      "required": true
+    },
+    "R2_ACCESS_KEY_ID": {
+      "description": "Cloudflare R2 access key ID",
+      "required": true
+    },
+    "R2_ACCOUNT_ID": {
+      "description": "Cloudflare R2 account ID",
+      "required": true
+    },
+    "R2_BUCKET": {
+      "description": "Cloudflare R2 bucket name",
+      "required": true
+    },
+    "R2_ENDPOINT": {
+      "description": "Cloudflare R2 endpoint URL",
+      "required": true
+    },
+    "R2_PUBLIC_URL": {
+      "description": "Cloudflare R2 public URL",
+      "required": true
+    },
+    "R2_SECRET_ACCESS_KEY": {
+      "description": "Cloudflare R2 secret access key",
+      "required": true
+    },
+    "R2_SECRET_KEY": {
+      "description": "Cloudflare R2 secret key",
+      "required": true
+    },
+    "R2_TOKEN": {
+      "description": "Cloudflare R2 token",
+      "required": true
+    },
+    "SENDGRID_API_KEY": {
+      "description": "SendGrid API key for email notifications",
+      "required": true
+    },
+    "SENDGRID_FROM_EMAIL": {
+      "description": "SendGrid from email address",
+      "value": "info@munchmakers.com",
+      "required": true
+    },
+    "SLACK_WEBHOOK_URL": {
+      "description": "Slack webhook URL for notifications",
+      "required": false
+    },
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API key for AI features",
+      "required": false
+    },
+    "FRONTEND_URL": {
+      "description": "Frontend application URL",
+      "value": "https://vendor.munchmakers.com",
+      "required": true
+    }
+  },
+  "scripts": {
+    "postdeploy": "cd backend && npm run seed"
+  },
+  "environments": {
+    "test": {
+      "addons": [
+        {
+          "plan": "heroku-postgresql:mini",
+          "as": "DATABASE"
+        }
+      ],
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "scripts": {
+        "test": "cd backend && npm test"
+      }
+    }
+  }
+}

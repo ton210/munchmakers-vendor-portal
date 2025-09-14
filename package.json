@@ -1,0 +1,38 @@
+{
+  "name": "munchmakers-vendor-portal",
+  "version": "1.0.0",
+  "description": "Enterprise-grade vendor self-service portal for MunchMakers.com",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd backend && nodemon src/server.js",
+    "client:dev": "cd frontend && npm start",
+    "start": "node backend/src/server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "migrate": "cd backend && npx knex migrate:latest",
+    "seed": "cd backend && npx knex seed:run",
+    "test": "cd backend && npm test",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/munchmakers/vendor-portal.git"
+  },
+  "keywords": [
+    "vendor",
+    "portal",
+    "e-commerce",
+    "enterprise",
+    "bigcommerce"
+  ],
+  "author": "MunchMakers",
+  "license": "MIT"
+}
