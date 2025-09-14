@@ -13,8 +13,15 @@ const createRegisterSchema = (t: (key: string) => string) => yup.object({
   contactEmail: yup.string().email(t('auth.validation.invalidEmail')).required(t('auth.validation.emailRequired')),
   contactName: yup.string().required(t('auth.validation.contactNameRequired')),
   phone: yup.string().required(t('auth.validation.phoneRequired')),
+  country: yup.string().required(t('auth.validation.countryRequired')),
+  province: yup.string().when('country', {
+    is: (val: string) => ['US', 'CA', 'AU'].includes(val),
+    then: (schema) => schema.required(t('auth.validation.provinceRequired')),
+    otherwise: (schema) => schema.optional()
+  }),
   businessAddress: yup.string().required(t('auth.validation.businessAddressRequired')),
   businessType: yup.string().required(t('auth.validation.businessTypeRequired')),
+  businessIdNumber: yup.string().required(t('auth.validation.businessIdRequired')),
   website: yup.string().url(t('auth.validation.invalidUrl')).optional(),
   taxId: yup.string().required(t('auth.validation.taxIdRequired')),
   password: yup.string().min(8, t('auth.validation.passwordMinLengthRegister'))
@@ -30,8 +37,11 @@ interface RegisterFormData {
   contactEmail: string;
   contactName: string;
   phone: string;
+  country: string;
+  province?: string;
   businessAddress: string;
   businessType: string;
+  businessIdNumber: string;
   website?: string;
   taxId: string;
   password: string;
@@ -125,6 +135,44 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Country *
+              </label>
+              <select
+                {...register('country')}
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              >
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="CN">China</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="GB">United Kingdom</option>
+                <option value="IT">Italy</option>
+                <option value="ES">Spain</option>
+                <option value="NL">Netherlands</option>
+                <option value="AU">Australia</option>
+                <option value="IN">India</option>
+                <option value="MX">Mexico</option>
+                <option value="BR">Brazil</option>
+                <option value="OTHER">Other</option>
+              </select>
+              {errors.country && (
+                <p className="text-sm text-red-600 mt-1">{errors.country.message}</p>
+              )}
+            </div>
+
+            <Input
+              label="Province/State"
+              {...register('province')}
+              error={errors.province?.message}
+              placeholder="e.g., California, Ontario, Guangdong"
+            />
+          </div>
+
           <Input
             label={t('auth.registerForm.businessAddress')}
             {...register('businessAddress')}
@@ -158,6 +206,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
               placeholder={t('auth.registerForm.taxIdPlaceholder')}
             />
           </div>
+
+          <Input
+            label="Business ID Number *"
+            {...register('businessIdNumber')}
+            error={errors.businessIdNumber?.message}
+            placeholder="Business registration number, VAT ID, or company number"
+          />
 
           <Input
             label={t('auth.registerForm.website')}
