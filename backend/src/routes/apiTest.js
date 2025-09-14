@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken, requireRole } = require('../middleware/auth');
+const { adminAuth } = require('../middleware/auth');
 
 // SendGrid test
-router.post('/sendgrid', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/sendgrid', adminAuth, async (req, res) => {
   try {
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -47,7 +47,7 @@ router.post('/sendgrid', authenticateToken, requireRole(['admin']), async (req, 
 });
 
 // Cloudflare R2 test
-router.post('/r2', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/r2', adminAuth, async (req, res) => {
   try {
     const { S3Client, ListObjectsV2Command, PutObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -107,7 +107,7 @@ router.post('/r2', authenticateToken, requireRole(['admin']), async (req, res) =
 });
 
 // OpenAI test
-router.post('/openai', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/openai', adminAuth, async (req, res) => {
   try {
     const { Configuration, OpenAIApi } = require('openai');
 
@@ -162,7 +162,7 @@ router.post('/openai', authenticateToken, requireRole(['admin']), async (req, re
 });
 
 // BigCommerce test
-router.post('/bigcommerce', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/bigcommerce', adminAuth, async (req, res) => {
   try {
     const axios = require('axios');
 
@@ -221,7 +221,7 @@ router.post('/bigcommerce', authenticateToken, requireRole(['admin']), async (re
 });
 
 // Slack test
-router.post('/slack', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/slack', adminAuth, async (req, res) => {
   try {
     const axios = require('axios');
 
@@ -260,7 +260,7 @@ router.post('/slack', authenticateToken, requireRole(['admin']), async (req, res
 });
 
 // Database test
-router.post('/database', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/database', adminAuth, async (req, res) => {
   try {
     const db = require('../config/database');
 
@@ -303,7 +303,7 @@ router.post('/database', authenticateToken, requireRole(['admin']), async (req, 
 });
 
 // Run all tests
-router.post('/all', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.post('/all', adminAuth, async (req, res) => {
   const tests = ['database', 'sendgrid', 'r2', 'openai', 'bigcommerce', 'slack'];
   const results = [];
 
