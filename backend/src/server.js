@@ -23,6 +23,8 @@ const adminRoutes = require('./routes/admin');
 const vendorRoutes = require('./routes/vendors');
 const categoryRoutes = require('./routes/categories');
 const apiTestRoutes = require('./routes/apiTest');
+const financialRoutes = require('./routes/financials');
+const messageRoutes = require('./routes/messages');
 
 // Import services
 const SlackService = require('./services/slackService');
@@ -113,6 +115,8 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/test', apiTestRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/financials', financialRoutes);
+app.use('/api/messages', messageRoutes);
 
 // 404 handler for API routes only
 app.use('/api/*', (req, res) => {

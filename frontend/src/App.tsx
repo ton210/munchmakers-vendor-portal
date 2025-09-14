@@ -21,6 +21,8 @@ import VendorProfile from './pages/vendor/Profile';
 import VendorUsers from './pages/vendor/Users';
 import ProductForm from './pages/vendor/ProductForm';
 import ProductDetails from './pages/vendor/ProductDetails';
+import FinancialDashboard from './pages/vendor/FinancialDashboard';
+import MessagesPage from './pages/vendor/MessagesPage';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -178,6 +180,22 @@ function App() {
               element={
                 <ProtectedRoute requiredUserType="vendor" requiredRole="owner">
                   <VendorUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/financials"
+              element={
+                <ProtectedRoute requiredUserType="vendor">
+                  <FinancialDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute requiredUserType="vendor">
+                  <MessagesPage />
                 </ProtectedRoute>
               }
             />

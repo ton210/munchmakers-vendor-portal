@@ -11,7 +11,9 @@ import {
   TagIcon,
   CheckCircleIcon,
   ClockIcon,
-  WrenchScrewdriverIcon
+  WrenchScrewdriverIcon,
+  CurrencyDollarIcon,
+  ChatBubbleLeftIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 import { clsx } from 'clsx';
@@ -45,11 +47,23 @@ const navigation: NavItem[] = [
     icon: DocumentTextIcon, 
     vendorOnly: true 
   },
-  { 
-    name: 'Profile', 
-    to: '/profile', 
-    icon: TagIcon, 
-    vendorOnly: true 
+  {
+    name: 'Profile',
+    to: '/profile',
+    icon: TagIcon,
+    vendorOnly: true
+  },
+  {
+    name: 'Financials',
+    to: '/financials',
+    icon: CurrencyDollarIcon,
+    vendorOnly: true
+  },
+  {
+    name: 'Messages',
+    to: '/messages',
+    icon: ChatBubbleLeftIcon,
+    vendorOnly: true
   },
   
   // Admin routes
