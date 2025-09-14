@@ -120,6 +120,12 @@ export interface DashboardStats {
   totalProducts: number;
   pendingProducts: number;
   approvedProducts: number;
+  totalOrders?: number;
+  activeAssignments?: number;
+  totalAssignments?: number;
+  completedAssignments?: number;
+  totalEarnings?: number;
+  monthlyRevenue?: number;
   recentActivity: ActivityLog[];
 }
 
