@@ -84,7 +84,9 @@ const ProductForm: React.FC = () => {
 
   const [formData, setFormData] = useState<ProductFormData>(defaultFormData);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([
+    { id: 1, name: 'Loading...' } // Default state to prevent map errors
+  ]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -372,7 +374,7 @@ const ProductForm: React.FC = () => {
                 onChange={(e) => updateFormData({ categoryId: parseInt(e.target.value) })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               >
-                {categories.map(category => (
+                {(categories || []).map(category => (
                   <option key={category.id} value={category.id}>
                     {category.name}
                   </option>
