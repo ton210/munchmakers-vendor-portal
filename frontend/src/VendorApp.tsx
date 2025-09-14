@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
+import { LanguageProvider } from './hooks/useLanguage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { PublicRoute } from './components/auth/PublicRoute';
+import './i18n'; // Initialize i18n
 
 // Auth Pages
 import VendorLoginPage from './pages/auth/VendorLoginPage';
@@ -38,6 +40,7 @@ import VendorDetails from './pages/admin/VendorDetails';
 import { OrderManagement } from './pages/admin/OrderManagement';
 import { AdvancedAnalytics } from './pages/admin/AdvancedAnalytics';
 import { ProofApproval } from './pages/vendor/ProofApproval';
+import { ProductAssignments } from './pages/admin/ProductAssignments';
 
 // Legal Pages
 import PrivacyPage from './pages/legal/PrivacyPage';
@@ -55,6 +58,7 @@ function VendorApp() {
     <div className="VendorApp">
       <Router>
         <AuthProvider>
+          <LanguageProvider>
           <Routes>
             {/* Default route - show vendor landing page */}
             <Route
@@ -330,6 +334,14 @@ function VendorApp() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/product-assignments"
+              element={
+                <ProtectedRoute requiredUserType="admin">
+                  <ProductAssignments />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Utility Routes */}
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
@@ -338,6 +350,7 @@ function VendorApp() {
             {/* Catch all - 404 */}
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
+          </LanguageProvider>
         </AuthProvider>
       </Router>
     </div>

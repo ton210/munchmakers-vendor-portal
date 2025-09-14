@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '../../components/ui/LanguageSwitcher';
 import {
   ShoppingBagIcon,
   ChartBarIcon,
@@ -15,6 +17,8 @@ import {
 } from '@heroicons/react/24/outline';
 
 const VendorLandingPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
       {/* Header */}
@@ -53,13 +57,10 @@ const VendorLandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              Join the
-              <span className="text-orange-500"> MunchMakers</span>
-              <br />Supplier Network
+              {t('homepage.hero.title')}
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto">
-              Connect your smoke accessories business with our exclusive network of demand partners across the US and Europe.
-              We handle marketing, deal closing, and customer relationships while you focus on what you do best - creating quality products.
+              {t('homepage.hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -465,8 +466,15 @@ const VendorLandingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; 2024 MunchMakers. All rights reserved. | Connecting premium suppliers with premium buyers.</p>
+          <div className="mt-8 pt-8 border-t border-gray-800">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-center md:text-left">
+                &copy; 2024 MunchMakers. All rights reserved. | Connecting premium suppliers with premium buyers.
+              </p>
+              <div className="mt-4 md:mt-0">
+                <LanguageSwitcher />
+              </div>
+            </div>
           </div>
         </div>
       </footer>

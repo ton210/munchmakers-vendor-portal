@@ -1,0 +1,147 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "submit": "Submit",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "email": "Email Address",
+    "password": "Password",
+    "loginButton": "Sign in to Vendor Portal",
+    "forgotPassword": "Forgot your password?",
+    "newAccount": "New to MunchMakers?",
+    "applyAccess": "Apply for Vendor Access",
+    "backToHome": "← Back to MunchMakers",
+    "rememberMe": "Remember me",
+    "loginSuccessful": "Login successful!",
+    "loginFailed": "Login failed"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "messages": "Messages",
+    "proofs": "Proof Approvals",
+    "financials": "Financials",
+    "profile": "Profile",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Vendor Dashboard",
+    "subtitle": "Manage your products and orders",
+    "totalProducts": "Total Products",
+    "totalOrders": "Total Orders",
+    "totalRevenue": "Total Revenue",
+    "pendingOrders": "Pending Orders",
+    "recentActivity": "Recent Activity",
+    "orderStats": "Order Statistics",
+    "productPerformance": "Product Performance"
+  },
+  "products": {
+    "title": "Your Products",
+    "subtitle": "Manage your product catalog",
+    "addProduct": "Add Product",
+    "bulkUpload": "Bulk Upload",
+    "productName": "Product Name",
+    "productDescription": "Product Description",
+    "productDetails": "Product Details",
+    "price": "Price",
+    "moq": "Minimum Order Quantity",
+    "category": "Category",
+    "status": "Status",
+    "images": "Images",
+    "variants": "Variants",
+    "pricingTiers": "Pricing Tiers",
+    "shippingOptions": "Shipping Options",
+    "designTools": "Design Tools",
+    "saveAsDraft": "Save as Draft",
+    "submitForReview": "Submit for Review",
+    "basicInformation": "Basic Information",
+    "imagesMedia": "Images & Media",
+    "variantsPricing": "Variants & Pricing",
+    "reviewSubmit": "Review & Submit"
+  },
+  "orders": {
+    "title": "Order Management",
+    "subtitle": "Manage orders from all connected stores",
+    "orderNumber": "Order #",
+    "customer": "Customer",
+    "total": "Total",
+    "status": "Status",
+    "assignment": "Assignment",
+    "date": "Date",
+    "actions": "Actions",
+    "pending": "Pending",
+    "processing": "Processing",
+    "fulfilled": "Fulfilled",
+    "cancelled": "Cancelled",
+    "assigned": "Assigned",
+    "accepted": "Accepted",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "refreshOrders": "Refresh Orders",
+    "viewDetails": "View Details",
+    "updateStatus": "Update Status",
+    "orderInformation": "Order Information",
+    "assignmentStatus": "Assignment Status",
+    "orderItems": "Order Items",
+    "shippingAddress": "Shipping Address"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communication with administration",
+    "newMessage": "New Message",
+    "subject": "Subject",
+    "message": "Message",
+    "priority": "Priority",
+    "normal": "Normal",
+    "high": "High",
+    "urgent": "Urgent",
+    "unread": "Unread",
+    "read": "Read",
+    "replied": "Replied"
+  },
+  "footer": {
+    "language": "Language",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "homepage": {
+    "hero": {
+      "title": "Join the MunchMakers Supplier Network",
+      "subtitle": "Connect your smoke accessories business with our exclusive network of demand partners across the US and Europe. We handle marketing, deal closing, and customer relationships while you focus on what you do best - creating quality products.",
+      "startPartnership": "Start Partnership",
+      "accessPortal": "Access Portal"
+    },
+    "features": {
+      "productManagement": {
+        "title": "Product Management",
+        "description": "Upload products with our 17-field system. Sync existing catalogs from Shopify, BigCommerce, or WooCommerce stores."
+      },
+      "orderFulfillment": {
+        "title": "Order Fulfillment",
+        "description": "Receive orders from multiple channels. Track shipments with integrated TrackShip system and real-time updates."
+      },
+      "revenueAnalytics": {
+        "title": "Revenue Analytics",
+        "description": "Monitor performance with comprehensive analytics. Track commissions, order metrics, and business growth."
+      }
+    }
+  }
+}

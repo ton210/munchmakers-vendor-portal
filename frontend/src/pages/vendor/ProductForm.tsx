@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../../components/layout/Layout';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
@@ -87,6 +88,7 @@ const ProductForm: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditing = Boolean(id);
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState<ProductFormData>(defaultFormData);
   const [loading, setLoading] = useState(false);
