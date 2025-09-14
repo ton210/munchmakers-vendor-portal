@@ -8,6 +8,7 @@ const SlackService = require('../services/slackService');
 const ActivityLogger = require('../services/activityLogger');
 const R2Service = require('../services/r2Service');
 const CSVService = require('../services/csvService');
+const db = require('../config/database');
 
 class ProductController {
   // Get products for vendor
@@ -154,14 +155,39 @@ class ProductController {
   static async createProduct(req, res) {
     try {
       const { vendorId } = req.user;
-      const productData = {
-        ...req.body,
-        vendor_id: vendorId,
-        status: 'draft'
-      };
+      const {
+        // Basic fields
+        name,
+        description,
+        details,
+        sku,
+        price,
+        moq,
+        weight,
+        height,
+        dimensions,
+        productionTime,
+        categoryId,
+
+        // New fields
+        shippingOptions,
+        designToolInfo,
+        designToolTemplate,
+        productionImages,
+
+        // Complex fields
+        variants,
+        pricingTiers,
+        productImages,
+
+        status = 'draft'
+      } = req.body;
+
+      // Generate SKU if not provided
+      const finalSku = sku || `${vendorId}-${Date.now()}`;
 
       // Check if SKU already exists
-      const existingSku = await Product.findBySku(productData.sku);
+      const existingSku = await Product.findBySku(finalSku);
       if (existingSku) {
         return res.status(400).json({
           success: false,
@@ -169,7 +195,87 @@ class ProductController {
         });
       }
 
+      const productData = {
+        vendor_id: vendorId,
+        name,
+        description,
+        details,
+        sku: finalSku,
+        base_price: price,
+        moq: moq || 1,
+        weight,
+        height,
+        dimensions,
+        production_time: productionTime,
+        category_id: categoryId,
+        shipping_options: shippingOptions,
+        design_tool_info: designToolInfo,
+        design_tool_template: designToolTemplate,
+        production_images: productionImages,
+        status
+      };
+
       const product = await Product.create(productData);
+
+      // Handle variants
+      if (variants && variants.length > 0) {
+        for (const variant of variants) {
+          const variantData = {
+            product_id: product.id,
+            variant_name: variant.name,
+            variant_sku: variant.sku || `${finalSku}-${variant.name.toLowerCase().replace(/\s+/g, '-')}`,
+            additional_price: variant.additionalPrice || 0,
+            stock_quantity: 0,
+            attributes: variant.attributes || {},
+            is_active: true
+          };
+
+          const createdVariant = await db('product_variants').insert(variantData).returning('*');
+
+          // Handle variant images
+          if (variant.images && variant.images.length > 0) {
+            for (let i = 0; i < variant.images.length; i++) {
+              const image = variant.images[i];
+              await db('product_images').insert({
+                product_id: product.id,
+                variant_id: createdVariant[0].id,
+                image_url: image.url,
+                alt_text: `${variant.name} image ${i + 1}`,
+                is_primary: i === 0,
+                display_order: i,
+                file_name: image.file ? image.file.name : `variant-${createdVariant[0].id}-${i}`
+              });
+            }
+          }
+        }
+      }
+
+      // Handle pricing tiers
+      if (pricingTiers && pricingTiers.length > 0) {
+        for (const tier of pricingTiers) {
+          await db('product_pricing_tiers').insert({
+            product_id: product.id,
+            min_quantity: tier.minQuantity,
+            max_quantity: tier.maxQuantity,
+            unit_price: tier.unitPrice
+          });
+        }
+      }
+
+      // Handle product images
+      if (productImages && productImages.length > 0) {
+        for (let i = 0; i < productImages.length; i++) {
+          const image = productImages[i];
+          await db('product_images').insert({
+            product_id: product.id,
+            image_url: image.url,
+            alt_text: `${name} image ${i + 1}`,
+            is_primary: i === 0,
+            display_order: i,
+            file_name: image.file ? image.file.name : `product-${product.id}-${i}`
+          });
+        }
+      }
 
       // Log activity
       await ActivityLogger.logVendorAction(
@@ -177,7 +283,13 @@ class ProductController {
         'product_create',
         'product',
         product.id,
-        { product_name: product.name, sku: product.sku },
+        {
+          product_name: product.name,
+          sku: product.sku,
+          variants_count: variants ? variants.length : 0,
+          pricing_tiers_count: pricingTiers ? pricingTiers.length : 0,
+          images_count: productImages ? productImages.length : 0
+        },
         req
       );
 

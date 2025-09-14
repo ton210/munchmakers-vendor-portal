@@ -38,6 +38,23 @@ exports.seed = function(knex) {
           is_active: true,
           created_at: new Date(),
           updated_at: new Date()
+        },
+        {
+          id: 3,
+          email: 'demo@admin.com',
+          password_hash: bcrypt.hashSync('admin123', 10),
+          first_name: 'Demo',
+          last_name: 'Admin',
+          role: 'admin',
+          permissions: JSON.stringify([
+            'manage_vendors',
+            'manage_products',
+            'view_reports',
+            'manage_categories'
+          ]),
+          is_active: true,
+          created_at: new Date(),
+          updated_at: new Date()
         }
       ]);
     });

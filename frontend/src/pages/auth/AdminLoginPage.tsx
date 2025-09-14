@@ -51,6 +51,53 @@ const AdminLoginPage: React.FC = () => {
           <p className="mt-2 text-center text-sm text-gray-400">
             Authorized personnel only
           </p>
+
+          {/* Demo Credentials */}
+          <div className="mt-4 p-4 bg-green-900 border border-green-700 rounded-lg">
+            <h3 className="text-sm font-medium text-green-200 mb-3 text-center">
+              🎯 Demo Admin Accounts
+            </h3>
+            <div className="space-y-2">
+              {[
+                {
+                  name: 'Demo Admin',
+                  email: 'demo@admin.com',
+                  password: 'admin123',
+                  role: 'Full Access'
+                },
+                {
+                  name: 'Product Reviewer',
+                  email: 'reviewer@munchmakers.com',
+                  password: 'Reviewer123!',
+                  role: 'Product Approval Only'
+                }
+              ].map((account, index) => (
+                <div key={index} className="border border-green-700 rounded-md p-3 bg-green-800">
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="text-sm font-medium text-white">{account.name}</div>
+                    <span className="text-xs text-green-200">{account.role}</span>
+                  </div>
+                  <div className="text-xs text-green-300 mb-2">
+                    <div>📧 {account.email}</div>
+                    <div>🔑 {account.password}</div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        email: account.email,
+                        password: account.password,
+                        userType: 'admin'
+                      });
+                    }}
+                    className="text-xs text-green-400 hover:text-green-200 underline"
+                  >
+                    Auto-fill this account
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import VendorApp from './VendorApp';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Toaster } from 'react-hot-toast';
@@ -15,6 +16,16 @@ const queryClient = new QueryClient({
   },
 });
 
+// Detect if this is the vendor subdomain
+const isVendorDomain = () => {
+  const hostname = window.location.hostname;
+  return hostname.startsWith('vendors.') ||
+         hostname === 'localhost' && window.location.pathname.startsWith('/vendor') ||
+         process.env.REACT_APP_VENDOR_ONLY === 'true';
+};
+
+const AppComponent = isVendorDomain() ? VendorApp : App;
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -22,7 +33,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AppComponent />
       <Toaster
         position="top-right"
         toastOptions={{

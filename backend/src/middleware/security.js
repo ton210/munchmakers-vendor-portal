@@ -14,13 +14,15 @@ const generalLimiter = rateLimit({
 });
 
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 auth requests per windowMs
+  windowMs: 5 * 60 * 1000, // 5 minutes (shorter window)
+  max: 100, // limit each IP to 100 auth requests per windowMs (very lenient for demos)
   message: {
     success: false,
     message: 'Too many authentication attempts, please try again later.'
   },
   skipSuccessfulRequests: true,
+  // Skip rate limiting in development
+  skip: (req) => process.env.NODE_ENV === 'development'
 });
 
 const strictLimiter = rateLimit({

@@ -57,6 +57,59 @@ const VendorLoginPage: React.FC = () => {
             <p className="mt-2 text-sm text-gray-600">
               Access your vendor dashboard to manage products and orders
             </p>
+
+            {/* Demo Credentials */}
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h3 className="text-sm font-medium text-blue-800 mb-3">
+                🎯 Demo Vendor Accounts
+              </h3>
+              <div className="space-y-3">
+                {[
+                  {
+                    name: 'Demo Restaurant',
+                    email: 'demo@restaurant.com',
+                    password: 'demo123',
+                    status: 'Approved • Has Products'
+                  },
+                  {
+                    name: 'Artisan Coffee Co',
+                    email: 'vendor@coffee.com',
+                    password: 'coffee123',
+                    status: 'Approved • Clean Account'
+                  },
+                  {
+                    name: 'Organic Farms LLC',
+                    email: 'info@organicfarms.com',
+                    password: 'organic123',
+                    status: 'Pending Approval'
+                  }
+                ].map((account, index) => (
+                  <div key={index} className="border border-blue-200 rounded-md p-3 bg-white">
+                    <div className="flex justify-between items-start mb-1">
+                      <div className="text-sm font-medium text-gray-900">{account.name}</div>
+                      <span className="text-xs text-gray-500">{account.status}</span>
+                    </div>
+                    <div className="text-xs text-gray-600 mb-2">
+                      <div>📧 {account.email}</div>
+                      <div>🔑 {account.password}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData({
+                          email: account.email,
+                          password: account.password,
+                          userType: 'vendor'
+                        });
+                      }}
+                      className="text-xs text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Auto-fill this account
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="mt-8">
