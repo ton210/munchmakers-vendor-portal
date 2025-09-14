@@ -25,24 +25,40 @@ const authMiddleware = (userType = null) => {
         });
       }
 
-      // Verify user still exists and is active
+      // Skip database verification for demo users (ID 1-3)
+      if (decoded.id <= 3) {
+        console.log(`🎯 Demo user auth bypass for ID ${decoded.id} (${decoded.email})`);
+        req.user = decoded;
+        return next();
+      }
+
+      // Verify user still exists and is active (only for non-demo users)
       let user;
-      if (decoded.type === 'vendor') {
-        user = await VendorUser.findById(decoded.id);
-        if (!user || !user.is_active) {
-          return res.status(401).json({
-            success: false,
-            message: 'User account is inactive'
-          });
+      try {
+        if (decoded.type === 'vendor') {
+          user = await VendorUser.findById(decoded.id);
+          if (!user || !user.is_active) {
+            return res.status(401).json({
+              success: false,
+              message: 'User account is inactive'
+            });
+          }
+        } else if (decoded.type === 'admin') {
+          user = await AdminUser.findById(decoded.id);
+          if (!user || !user.is_active) {
+            return res.status(401).json({
+              success: false,
+              message: 'Admin account is inactive'
+            });
+          }
         }
-      } else if (decoded.type === 'admin') {
-        user = await AdminUser.findById(decoded.id);
-        if (!user || !user.is_active) {
-          return res.status(401).json({
-            success: false,
-            message: 'Admin account is inactive'
-          });
-        }
+      } catch (dbError) {
+        console.log('Database not available for user verification');
+        // For non-demo users, this is an error
+        return res.status(401).json({
+          success: false,
+          message: 'User verification failed'
+        });
       }
 
       req.user = decoded;
