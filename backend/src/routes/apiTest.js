@@ -9,19 +9,15 @@ router.post('/sendgrid', adminAuth, async (req, res) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     const testEmail = {
-      to: 'test@example.com', // This won't actually send
+      to: process.env.SENDGRID_FROM_EMAIL, // Send to ourselves for testing
       from: process.env.SENDGRID_FROM_EMAIL,
-      subject: 'API Test - SendGrid Integration',
+      subject: 'SendGrid API Test - ' + new Date().toISOString(),
       text: 'This is a test email to verify SendGrid API integration.',
       html: '<p>This is a test email to verify <strong>SendGrid API</strong> integration.</p>'
     };
 
     // Just validate the API key and configuration
-    await sgMail.send({
-      ...testEmail,
-      to: process.env.SENDGRID_FROM_EMAIL, // Send to ourselves for testing
-      subject: 'SendGrid API Test - ' + new Date().toISOString()
-    });
+    await sgMail.send(testEmail);
 
     res.json({
       success: true,
