@@ -178,7 +178,7 @@ export const ProductAssignments: React.FC = () => {
         product_ids: selectedProducts,
         vendor_id: selectedVendor,
         is_default: isDefaultAssignment,
-        commission_rate: customCommission
+        commission_rate: customCommission || undefined
       });
 
       if (response.success) {
