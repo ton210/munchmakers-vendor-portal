@@ -342,14 +342,7 @@ const OrdersPage: React.FC = () => {
   const columns = [
     {
       key: 'select',
-      label: (
-        <input
-          type="checkbox"
-          checked={selectedOrders.length === orders.length && orders.length > 0}
-          onChange={(e) => handleSelectAll(e.target.checked)}
-          className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-        />
-      ),
+      label: 'Select',
       render: (value: any, row: Order) => (
         <input
           type="checkbox"
