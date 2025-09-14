@@ -269,9 +269,9 @@ router.post('/database', adminAuth, async (req, res) => {
 
     // Test getting table info
     const tables = await db.raw(`
-      SELECT table_name, table_rows
+      SELECT table_name
       FROM information_schema.tables
-      WHERE table_schema = current_database()
+      WHERE table_schema = 'public'
       AND table_type = 'BASE TABLE'
     `);
 
@@ -284,8 +284,7 @@ router.post('/database', adminAuth, async (req, res) => {
         version: result.rows[0].db_version,
         tableCount: tables.rows.length,
         tables: tables.rows.map(t => ({
-          name: t.table_name,
-          rows: t.table_rows || 0
+          name: t.table_name
         }))
       }
     });
