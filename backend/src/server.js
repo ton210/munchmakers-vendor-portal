@@ -36,9 +36,11 @@ const communicationRoutes = require('./routes/communications');
 const trackshipSetupRoutes = require('./routes/trackshipSetup');
 const productSyncRoutes = require('./routes/productSync');
 const translationRoutes = require('./routes/translation');
+const orderMonitoringRoutes = require('./routes/orderMonitoring');
 
 // Import services
 const SlackService = require('./services/slackService');
+const Scheduler = require('./services/scheduler');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -139,6 +141,7 @@ app.use('/api/communications', communicationRoutes);
 app.use('/api/trackship-setup', trackshipSetupRoutes);
 app.use('/api/product-sync', productSyncRoutes);
 app.use('/api/translation', translationRoutes);
+app.use('/api/order-monitoring', orderMonitoringRoutes);
 
 // 404 handler for API routes only
 app.use('/api/*', (req, res) => {
@@ -315,6 +318,12 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
   console.log(`Database URL: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}`);
+
+  // Initialize scheduled tasks in production
+  if (process.env.NODE_ENV === 'production') {
+    console.log('🚀 Initializing scheduled order monitoring...');
+    Scheduler.init();
+  }
 });
 
 module.exports = app;
