@@ -8,6 +8,7 @@ const SlackService = require('../services/slackService');
 const ActivityLogger = require('../services/activityLogger');
 const R2Service = require('../services/r2Service');
 const CSVService = require('../services/csvService');
+const TranslationService = require('../services/translationService');
 const db = require('../config/database');
 
 
@@ -195,10 +196,35 @@ class ProductController {
         });
       }
 
+      // Auto-translate Chinese product data to English for admin/customer view
+      const translationService = new TranslationService();
+
+      let translatedName = name;
+      let translatedDescription = description;
+
+      try {
+        // Detect if content is in Chinese and translate to English
+        const nameLanguage = await translationService.detectLanguage(name);
+        const descLanguage = await translationService.detectLanguage(description || '');
+
+        if (nameLanguage === 'zh') {
+          translatedName = await translationService.translateToEnglish(name, 'product');
+          console.log(`🌐 Auto-translated product name: "${name}" -> "${translatedName}"`);
+        }
+
+        if (description && descLanguage === 'zh') {
+          translatedDescription = await translationService.translateToEnglish(description, 'description');
+          console.log(`🌐 Auto-translated description: "${description.substring(0, 50)}..." -> "${translatedDescription.substring(0, 50)}..."`);
+        }
+      } catch (translationError) {
+        console.error('Auto-translation failed, using original text:', translationError.message);
+        // Continue with original text if translation fails
+      }
+
       const productData = {
         vendor_id: vendorId,
-        name,
-        description,
+        name: translatedName, // Use translated name for English admin interface
+        description: translatedDescription, // Use translated description
         sku: finalSku,
         base_price: price,
         moq: moq || 1,
@@ -206,7 +232,10 @@ class ProductController {
         dimensions,
         production_time: productionTime,
         category_id: categoryId,
-        status
+        status,
+        // Store original Chinese data in separate fields
+        original_name: name !== translatedName ? name : null,
+        original_description: description !== translatedDescription ? description : null
       };
 
       // Add optional fields only if they exist and migration has been applied

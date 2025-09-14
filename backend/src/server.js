@@ -35,6 +35,7 @@ const uploadRoutes = require('./routes/uploads');
 const communicationRoutes = require('./routes/communications');
 const trackshipSetupRoutes = require('./routes/trackshipSetup');
 const productSyncRoutes = require('./routes/productSync');
+const translationRoutes = require('./routes/translation');
 
 // Import services
 const SlackService = require('./services/slackService');
@@ -137,6 +138,7 @@ app.use('/api/uploads', uploadRoutes);
 app.use('/api/communications', communicationRoutes);
 app.use('/api/trackship-setup', trackshipSetupRoutes);
 app.use('/api/product-sync', productSyncRoutes);
+app.use('/api/translation', translationRoutes);
 
 // 404 handler for API routes only
 app.use('/api/*', (req, res) => {
