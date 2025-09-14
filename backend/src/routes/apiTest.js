@@ -105,20 +105,18 @@ router.post('/r2', adminAuth, async (req, res) => {
 // OpenAI test
 router.post('/openai', adminAuth, async (req, res) => {
   try {
-    const { Configuration, OpenAIApi } = require('openai');
+    const OpenAI = require('openai');
 
     if (!process.env.OPENAI_API_KEY) {
       throw new Error('OpenAI API key not configured');
     }
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const openai = new OpenAIApi(configuration);
-
     // Test with a simple completion
-    const response = await openai.createChatCompletion({
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -140,8 +138,8 @@ router.post('/openai', adminAuth, async (req, res) => {
       message: 'OpenAI API is working correctly',
       details: {
         model: 'gpt-3.5-turbo',
-        response: response.data.choices[0].message.content,
-        usage: response.data.usage
+        response: response.choices[0].message.content,
+        usage: response.usage
       }
     });
   } catch (error) {
