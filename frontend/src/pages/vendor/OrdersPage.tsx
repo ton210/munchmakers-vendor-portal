@@ -3,7 +3,7 @@ import { Layout } from '../../components/layout/Layout';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { DataTable, Column } from '../../components/ui/DataTable';
-import { 
+import {
   CurrencyDollarIcon,
   ClockIcon,
   CheckCircleIcon,
@@ -13,424 +13,267 @@ import {
   CalendarIcon,
   UserIcon,
   ShoppingBagIcon,
-  FunnelIcon
+  FunnelIcon,
+  ArrowPathIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
-import { vendorService } from '../../services/vendorService';
+import { orderService } from '../../services/orderService';
 import toast from 'react-hot-toast';
 
 interface OrderItem {
   id: number;
-  productName: string;
+  product_name: string;
   sku: string;
   quantity: number;
-  price: number;
-  totalPrice: number;
+  unit_price: number;
+  total_price: number;
+  variant_title?: string;
+}
+
+interface VendorAssignment {
+  id: number;
+  vendor_id: number;
+  status: 'assigned' | 'accepted' | 'in_progress' | 'completed' | 'cancelled';
+  assignment_type: 'full' | 'partial';
+  commission_amount: number;
+  assigned_at: string;
+  accepted_at?: string;
+  completed_at?: string;
 }
 
 interface Order {
   id: number;
-  orderNumber: string;
-  customerName: string;
-  customerEmail: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  totalAmount: number;
-  orderDate: string;
-  shippedDate?: string;
-  trackingNumber?: string;
+  order_number: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone?: string;
+  order_status: 'pending' | 'processing' | 'fulfilled' | 'cancelled';
+  fulfillment_status?: string;
+  payment_status?: string;
+  total_amount: number;
+  currency: string;
+  order_date: string;
+  store_name: string;
+  store_type: 'shopify' | 'bigcommerce' | 'woocommerce';
   items: OrderItem[];
-  shippingAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
+  vendor_assignments: VendorAssignment[];
+  billing_address?: any;
+  shipping_address?: any;
+  notes?: string;
+  tags?: string;
 }
 
 export const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [showOrderModal, setShowOrderModal] = useState(false);
-  const [updatingOrder, setUpdatingOrder] = useState(false);
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
+
   const [pagination, setPagination] = useState({
     page: 1,
     pages: 1,
-    total: 0
+    total: 0,
+    limit: 50
   });
+
   const [filters, setFilters] = useState({
     search: '',
     status: '',
-    dateRange: {
-      startDate: '',
-      endDate: ''
-    }
+    store_type: '',
+    date_from: '',
+    date_to: ''
+  });
+
+  const [stats, setStats] = useState({
+    total_orders: 0,
+    total_revenue: 0,
+    pending_orders: 0,
+    processing_orders: 0,
+    fulfilled_orders: 0,
+    average_order_value: 0
   });
 
   useEffect(() => {
     loadOrders();
+    loadStats();
   }, [pagination.page, filters]);
 
   const loadOrders = async () => {
     setLoading(true);
     try {
-      console.log('🔄 Loading vendor orders from database...');
-      const response = await vendorService.getOrders({
+      const response = await orderService.getOrders({
         page: pagination.page,
-        limit: 10,
-        status: filters.status || undefined,
-        startDate: filters.dateRange.startDate || undefined,
-        endDate: filters.dateRange.endDate || undefined
+        limit: pagination.limit,
+        ...filters
       });
 
       if (response.success) {
-        console.log(`✅ Loaded ${response.data.items?.length || 0} orders for vendor`);
         setOrders(response.data.items || []);
-        setPagination({
-          page: response.data.pagination?.page || 1,
-          pages: response.data.pagination?.pages || 1,
-          total: response.data.pagination?.total || 0
-        });
+        setPagination(prev => ({
+          ...prev,
+          total: response.data.pagination?.total || 0,
+          pages: response.data.pagination?.pages || 1
+        }));
       } else {
-        console.error('❌ Failed to load orders:', response.message);
-        // Fallback to mock data for demo if real data fails
-        const mockOrders: Order[] = [
-          {
-            id: 1,
-            orderNumber: 'ORD-001',
-            customerName: 'John Smith',
-            customerEmail: 'john@example.com',
-            status: 'pending',
-            totalAmount: 89.99,
-            orderDate: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-            items: [
-              {
-                id: 1,
-                productName: 'Organic Honey',
-                sku: 'HON-001',
-                quantity: 2,
-                price: 24.99,
-                totalPrice: 49.98
-              },
-              {
-                id: 2,
-                productName: 'Artisan Bread',
-                sku: 'BRD-001',
-                quantity: 1,
-                price: 40.01,
-                totalPrice: 40.01
-              }
-            ],
-            shippingAddress: {
-              street: '123 Main St',
-              city: 'Anytown',
-              state: 'CA',
-              zipCode: '12345',
-              country: 'USA'
-            }
-          },
-          {
-            id: 2,
-            orderNumber: 'ORD-002',
-            customerName: 'Jane Doe',
-            customerEmail: 'jane@example.com',
-            status: 'processing',
-            totalAmount: 156.50,
-            orderDate: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-            items: [
-              {
-                id: 3,
-                productName: 'Gourmet Spice Set',
-                sku: 'SPC-001',
-                quantity: 1,
-                price: 156.50,
-                totalPrice: 156.50
-              }
-            ],
-            shippingAddress: {
-              street: '456 Oak Ave',
-              city: 'Another City',
-              state: 'NY',
-              zipCode: '67890',
-              country: 'USA'
-            }
-          },
-          {
-            id: 3,
-            orderNumber: 'ORD-003',
-            customerName: 'Bob Wilson',
-            customerEmail: 'bob@example.com',
-            status: 'shipped',
-            totalAmount: 75.25,
-            orderDate: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-            shippedDate: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
-            trackingNumber: 'TRK123456789',
-            items: [
-              {
-                id: 4,
-                productName: 'Farm Fresh Vegetables',
-                sku: 'VEG-001',
-                quantity: 3,
-                price: 25.08,
-                totalPrice: 75.25
-              }
-            ],
-            shippingAddress: {
-              street: '789 Pine Rd',
-              city: 'Third Town',
-              state: 'TX',
-              zipCode: '54321',
-              country: 'USA'
-            }
-          }
-        ];
-
-        setOrders(mockOrders);
-        setPagination({
-          page: 1,
-          pages: 1,
-          total: mockOrders.length
-        });
+        toast.error(response.message || 'Failed to load orders');
+        setOrders([]);
       }
     } catch (error: any) {
+      console.error('Failed to load orders:', error);
       toast.error('Failed to load orders');
+      setOrders([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleUpdateOrderStatus = async (orderId: number, status: string, trackingNumber?: string) => {
-    setUpdatingOrder(true);
+  const loadStats = async () => {
     try {
-      const response = await vendorService.updateOrderStatus(orderId, status, trackingNumber);
+      const response = await orderService.getOrderStats();
       if (response.success) {
-        toast.success('Order status updated successfully');
-        loadOrders();
-        setShowOrderModal(false);
+        setStats(response.data.stats);
       }
-    } catch (error: any) {
-      toast.error('Failed to update order status');
-    } finally {
-      setUpdatingOrder(false);
+    } catch (error) {
+      console.error('Failed to load order stats:', error);
     }
   };
 
-  const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
-    const statusConfig = {
-      pending: { color: 'bg-yellow-100 text-yellow-800', icon: ClockIcon },
-      processing: { color: 'bg-blue-100 text-blue-800', icon: CurrencyDollarIcon },
-      shipped: { color: 'bg-purple-100 text-purple-800', icon: TruckIcon },
-      delivered: { color: 'bg-green-100 text-green-800', icon: CheckCircleIcon },
-      cancelled: { color: 'bg-red-100 text-red-800', icon: ClockIcon }
+  const handleUpdateOrderStatus = async (orderId: number, newStatus: string, notes?: string) => {
+    try {
+      const response = await orderService.updateOrderStatus(orderId, newStatus, notes);
+      if (response.success) {
+        toast.success('Order status updated successfully');
+        loadOrders();
+      } else {
+        toast.error(response.message || 'Failed to update order status');
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to update order status');
+    }
+  };
+
+  const handleUpdateAssignmentStatus = async (assignmentId: number, newStatus: string) => {
+    try {
+      const response = await orderService.updateAssignmentStatus(assignmentId, newStatus);
+      if (response.success) {
+        toast.success('Assignment status updated successfully');
+        loadOrders();
+        if (selectedOrder) {
+          const updatedOrder = await orderService.getOrder(selectedOrder.id);
+          if (updatedOrder.success) {
+            setSelectedOrder(updatedOrder.data.order);
+          }
+        }
+      } else {
+        toast.error(response.message || 'Failed to update assignment status');
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to update assignment status');
+    }
+  };
+
+  const getStatusColor = (status: string): string => {
+    const statusColors = {
+      'pending': 'bg-yellow-100 text-yellow-800',
+      'processing': 'bg-blue-100 text-blue-800',
+      'fulfilled': 'bg-green-100 text-green-800',
+      'cancelled': 'bg-red-100 text-red-800',
+      'assigned': 'bg-gray-100 text-gray-800',
+      'accepted': 'bg-blue-100 text-blue-800',
+      'in_progress': 'bg-indigo-100 text-indigo-800',
+      'completed': 'bg-green-100 text-green-800'
     };
-
-    const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.pending;
-    const Icon = config.icon;
-
-    return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
-        <Icon className="w-3 h-3 mr-1" />
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
+    return statusColors[status] || 'bg-gray-100 text-gray-800';
   };
 
-  const OrderDetailsModal: React.FC = () => {
-    if (!selectedOrder || !showOrderModal) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900">
-                Order {selectedOrder.orderNumber}
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Placed on {new Date(selectedOrder.orderDate).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <StatusBadge status={selectedOrder.status} />
-              <button
-                onClick={() => setShowOrderModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Customer Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center text-base">
-                  <UserIcon className="h-4 w-4 mr-2" />
-                  Customer Information
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{selectedOrder.customerName}</p>
-                  <p className="text-sm text-gray-500">{selectedOrder.customerEmail}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-gray-700 mb-1">Shipping Address</p>
-                  <div className="text-sm text-gray-600">
-                    <p>{selectedOrder.shippingAddress.street}</p>
-                    <p>{selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state} {selectedOrder.shippingAddress.zipCode}</p>
-                    <p>{selectedOrder.shippingAddress.country}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Order Summary */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center text-base">
-                  <CurrencyDollarIcon className="h-4 w-4 mr-2" />
-                  Order Summary
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Order Total</span>
-                  <span className="text-sm font-medium text-gray-900">
-                    ${selectedOrder.totalAmount.toFixed(2)}
-                  </span>
-                </div>
-                {selectedOrder.trackingNumber && (
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Tracking Number</span>
-                    <span className="text-sm font-medium text-gray-900">
-                      {selectedOrder.trackingNumber}
-                    </span>
-                  </div>
-                )}
-                {selectedOrder.shippedDate && (
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Shipped Date</span>
-                    <span className="text-sm font-medium text-gray-900">
-                      {new Date(selectedOrder.shippedDate).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Order Items */}
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle className="flex items-center text-base">
-                <ShoppingBagIcon className="h-4 w-4 mr-2" />
-                Order Items
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {selectedOrder.items.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{item.productName}</p>
-                      <p className="text-xs text-gray-500">SKU: {item.sku}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900">
-                        {item.quantity} × ${item.price.toFixed(2)} = ${item.totalPrice.toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Order Actions */}
-          {(selectedOrder.status === 'pending' || selectedOrder.status === 'processing') && (
-            <div className="mt-6 flex space-x-3">
-              {selectedOrder.status === 'pending' && (
-                <Button
-                  onClick={() => handleUpdateOrderStatus(selectedOrder.id, 'processing')}
-                  loading={updatingOrder}
-                >
-                  Mark as Processing
-                </Button>
-              )}
-              {selectedOrder.status === 'processing' && (
-                <Button
-                  onClick={() => {
-                    const trackingNumber = window.prompt('Enter tracking number:');
-                    if (trackingNumber) {
-                      handleUpdateOrderStatus(selectedOrder.id, 'shipped', trackingNumber);
-                    }
-                  }}
-                  loading={updatingOrder}
-                >
-                  Mark as Shipped
-                </Button>
-              )}
-              <Button
-                variant="secondary"
-                onClick={() => setShowOrderModal(false)}
-              >
-                Close
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
+  const getStatusIcon = (status: string) => {
+    const statusIcons = {
+      'pending': ClockIcon,
+      'processing': TruckIcon,
+      'fulfilled': CheckCircleIcon,
+      'cancelled': ExclamationTriangleIcon,
+      'assigned': ClockIcon,
+      'accepted': CheckCircleIcon,
+      'in_progress': TruckIcon,
+      'completed': CheckCircleIcon
+    };
+    const IconComponent = statusIcons[status] || ClockIcon;
+    return <IconComponent className="w-4 h-4" />;
   };
+
+  const StatusBadge: React.FC<{ status: string; type?: 'order' | 'assignment' }> = ({ status, type = 'order' }) => (
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(status)}`}>
+      {getStatusIcon(status)}
+      <span className="ml-1">{status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}</span>
+    </span>
+  );
 
   const columns: Column[] = [
     {
-      key: 'orderNumber',
-      label: 'Order',
+      key: 'order_number',
+      label: 'Order #',
       sortable: true,
       render: (value, item) => (
         <div>
-          <div className="text-sm font-medium text-gray-900">{value}</div>
-          <div className="text-xs text-gray-500">
-            {new Date(item.orderDate).toLocaleDateString()}
-          </div>
+          <div className="font-medium text-gray-900">#{value}</div>
+          <div className="text-sm text-gray-500 capitalize">{item.store_type}</div>
         </div>
       )
     },
     {
-      key: 'customerName',
+      key: 'customer_name',
       label: 'Customer',
       render: (value, item) => (
         <div>
-          <div className="text-sm font-medium text-gray-900">{value}</div>
-          <div className="text-xs text-gray-500">{item.customerEmail}</div>
+          <div className="font-medium text-gray-900">{value || 'N/A'}</div>
+          <div className="text-sm text-gray-500">{item.customer_email}</div>
         </div>
       )
     },
     {
-      key: 'status',
-      label: 'Status',
-      render: (value) => <StatusBadge status={value} />
-    },
-    {
-      key: 'totalAmount',
+      key: 'total_amount',
       label: 'Total',
       sortable: true,
-      render: (value) => (
-        <span className="text-sm font-medium text-gray-900">
-          ${value.toFixed(2)}
-        </span>
+      render: (value, item) => (
+        <div className="font-medium text-gray-900">
+          {item.currency} ${parseFloat(value).toFixed(2)}
+        </div>
       )
     },
     {
-      key: 'items',
-      label: 'Items',
-      render: (value: OrderItem[]) => (
-        <span className="text-sm text-gray-600">
-          {value.length} item{value.length !== 1 ? 's' : ''}
-        </span>
+      key: 'order_status',
+      label: 'Status',
+      render: (value) => <StatusBadge status={value} type="order" />
+    },
+    {
+      key: 'vendor_assignments',
+      label: 'Assignment',
+      render: (assignments: VendorAssignment[]) => {
+        if (!assignments || assignments.length === 0) {
+          return <span className="text-gray-400">Unassigned</span>;
+        }
+
+        const assignment = assignments[0]; // Show first assignment
+        return (
+          <div>
+            <StatusBadge status={assignment.status} type="assignment" />
+            {assignments.length > 1 && (
+              <div className="text-xs text-gray-500 mt-1">
+                +{assignments.length - 1} more
+              </div>
+            )}
+          </div>
+        );
+      }
+    },
+    {
+      key: 'order_date',
+      label: 'Date',
+      sortable: true,
+      render: (value) => (
+        <div className="text-sm text-gray-900">
+          {new Date(value).toLocaleDateString()}
+        </div>
       )
     },
     {
@@ -441,60 +284,104 @@ export const OrdersPage: React.FC = () => {
           <button
             onClick={() => {
               setSelectedOrder(item);
-              setShowOrderModal(true);
+              setShowOrderDetails(true);
             }}
             className="text-indigo-600 hover:text-indigo-900"
             title="View details"
           >
             <EyeIcon className="h-4 w-4" />
           </button>
+
+          {item.vendor_assignments?.length > 0 && (
+            <button
+              onClick={() => {
+                const assignment = item.vendor_assignments[0];
+                if (assignment.status === 'assigned') {
+                  handleUpdateAssignmentStatus(assignment.id, 'accepted');
+                } else if (assignment.status === 'accepted') {
+                  handleUpdateAssignmentStatus(assignment.id, 'in_progress');
+                } else if (assignment.status === 'in_progress') {
+                  handleUpdateAssignmentStatus(assignment.id, 'completed');
+                }
+              }}
+              className="text-green-600 hover:text-green-900"
+              title="Update assignment status"
+            >
+              <PencilIcon className="h-4 w-4" />
+            </button>
+          )}
         </div>
       )
     }
   ];
 
-  const orderStats = {
-    total: orders.length,
-    pending: orders.filter(o => o.status === 'pending').length,
-    processing: orders.filter(o => o.status === 'processing').length,
-    shipped: orders.filter(o => o.status === 'shipped').length,
-    delivered: orders.filter(o => o.status === 'delivered').length
-  };
-
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
-
   return (
-    <Layout title="Orders">
+    <Layout title="Order Management">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
-            <p className="text-gray-600 mt-1">Manage and fulfill customer orders</p>
+            <h1 className="text-2xl font-bold text-gray-900">Order Management</h1>
+            <p className="text-gray-600 mt-1">Manage orders from all connected stores</p>
           </div>
+          <Button
+            onClick={loadOrders}
+            variant="secondary"
+            disabled={loading}
+          >
+            <ArrowPathIcon className="h-4 w-4 mr-2" />
+            Refresh Orders
+          </Button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
           {[
-            { label: 'Total Orders', value: orderStats.total, color: 'bg-blue-500' },
-            { label: 'Pending', value: orderStats.pending, color: 'bg-yellow-500' },
-            { label: 'Processing', value: orderStats.processing, color: 'bg-purple-500' },
-            { label: 'Shipped', value: orderStats.shipped, color: 'bg-green-500' },
-            { label: 'Revenue', value: `$${totalRevenue.toFixed(2)}`, color: 'bg-indigo-500' }
+            {
+              label: 'Total Orders',
+              value: stats.total_orders,
+              color: 'bg-blue-500',
+              icon: ShoppingBagIcon
+            },
+            {
+              label: 'Total Revenue',
+              value: `$${stats.total_revenue.toFixed(2)}`,
+              color: 'bg-green-500',
+              icon: CurrencyDollarIcon
+            },
+            {
+              label: 'Pending',
+              value: stats.pending_orders,
+              color: 'bg-yellow-500',
+              icon: ClockIcon
+            },
+            {
+              label: 'Processing',
+              value: stats.processing_orders,
+              color: 'bg-blue-500',
+              icon: TruckIcon
+            },
+            {
+              label: 'Fulfilled',
+              value: stats.fulfilled_orders,
+              color: 'bg-green-500',
+              icon: CheckCircleIcon
+            },
+            {
+              label: 'Avg Order',
+              value: `$${stats.average_order_value.toFixed(2)}`,
+              color: 'bg-purple-500',
+              icon: CurrencyDollarIcon
+            }
           ].map((stat, index) => (
             <Card key={index}>
-              <CardContent className="flex items-center p-6">
-                <div className={`p-3 rounded-full ${stat.color} text-white mr-4`}>
-                  {index === 4 ? (
-                    <CurrencyDollarIcon className="h-6 w-6" />
-                  ) : (
-                    <ShoppingBagIcon className="h-6 w-6" />
-                  )}
+              <CardContent className="flex items-center p-4">
+                <div className={`p-2 rounded-full ${stat.color} text-white mr-3`}>
+                  <stat.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-xs font-medium text-gray-600">{stat.label}</p>
+                  <p className="text-lg font-bold text-gray-900">{stat.value}</p>
                 </div>
               </CardContent>
             </Card>
@@ -504,12 +391,20 @@ export const OrdersPage: React.FC = () => {
         {/* Filters */}
         <Card>
           <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-4">
-              <FunnelIcon className="h-5 w-5 text-gray-400" />
-              <h3 className="text-sm font-medium text-gray-900">Filters</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Search
+                </label>
+                <input
+                  type="text"
+                  value={filters.search}
+                  onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Order #, customer name, email..."
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Status
@@ -522,47 +417,66 @@ export const OrdersPage: React.FC = () => {
                   <option value="">All Statuses</option>
                   <option value="pending">Pending</option>
                   <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
+                  <option value="fulfilled">Fulfilled</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Date
+                  Store Type
+                </label>
+                <select
+                  value={filters.store_type}
+                  onChange={(e) => setFilters(prev => ({ ...prev, store_type: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                  <option value="">All Stores</option>
+                  <option value="shopify">Shopify</option>
+                  <option value="bigcommerce">BigCommerce</option>
+                  <option value="woocommerce">WooCommerce</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  From Date
                 </label>
                 <input
                   type="date"
-                  value={filters.dateRange.startDate}
-                  onChange={(e) => setFilters(prev => ({
-                    ...prev,
-                    dateRange: { ...prev.dateRange, startDate: e.target.value }
-                  }))}
+                  value={filters.date_from}
+                  onChange={(e) => setFilters(prev => ({ ...prev, date_from: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  End Date
+                  To Date
                 </label>
                 <input
                   type="date"
-                  value={filters.dateRange.endDate}
-                  onChange={(e) => setFilters(prev => ({
-                    ...prev,
-                    dateRange: { ...prev.dateRange, endDate: e.target.value }
-                  }))}
+                  value={filters.date_to}
+                  onChange={(e) => setFilters(prev => ({ ...prev, date_to: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
-              
-              <div className="flex items-end">
-                <Button onClick={loadOrders} className="w-full">
-                  Apply Filters
-                </Button>
-              </div>
+            </div>
+
+            <div className="flex justify-end mt-4">
+              <Button
+                onClick={() => setFilters({
+                  search: '',
+                  status: '',
+                  store_type: '',
+                  date_from: '',
+                  date_to: ''
+                })}
+                variant="secondary"
+                size="sm"
+              >
+                Clear Filters
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -572,18 +486,222 @@ export const OrdersPage: React.FC = () => {
           columns={columns}
           data={orders}
           loading={loading}
-          searchable
-          searchPlaceholder="Search orders..."
-          onSearch={(query) => setFilters(prev => ({ ...prev, search: query }))}
           pagination={{
             ...pagination,
             onPageChange: (page) => setPagination(prev => ({ ...prev, page }))
           }}
-          emptyMessage="No orders found."
+          emptyMessage="No orders found. Orders will appear here when they're assigned to you or synced from stores."
         />
 
         {/* Order Details Modal */}
-        <OrderDetailsModal />
+        {showOrderDetails && selectedOrder && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-medium text-gray-900">
+                  Order #{selectedOrder.order_number}
+                </h3>
+                <button
+                  onClick={() => setShowOrderDetails(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Order Info */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Order Information</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <dl className="space-y-2">
+                      <div>
+                        <dt className="text-sm font-medium text-gray-500">Customer</dt>
+                        <dd className="text-sm text-gray-900">{selectedOrder.customer_name || 'N/A'}</dd>
+                        <dd className="text-sm text-gray-500">{selectedOrder.customer_email}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm font-medium text-gray-500">Total Amount</dt>
+                        <dd className="text-sm text-gray-900">
+                          {selectedOrder.currency} ${selectedOrder.total_amount.toFixed(2)}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm font-medium text-gray-500">Order Date</dt>
+                        <dd className="text-sm text-gray-900">
+                          {new Date(selectedOrder.order_date).toLocaleDateString()}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm font-medium text-gray-500">Store</dt>
+                        <dd className="text-sm text-gray-900 capitalize">
+                          {selectedOrder.store_name} ({selectedOrder.store_type})
+                        </dd>
+                      </div>
+                    </dl>
+                  </CardContent>
+                </Card>
+
+                {/* Assignment Info */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Assignment Status</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {selectedOrder.vendor_assignments?.length > 0 ? (
+                      <div className="space-y-4">
+                        {selectedOrder.vendor_assignments.map((assignment) => (
+                          <div key={assignment.id} className="border border-gray-200 rounded-lg p-4">
+                            <div className="flex justify-between items-start mb-2">
+                              <StatusBadge status={assignment.status} type="assignment" />
+                              <span className="text-sm text-gray-500">
+                                Commission: ${assignment.commission_amount?.toFixed(2)}
+                              </span>
+                            </div>
+
+                            <div className="space-y-1 text-sm text-gray-600">
+                              <div>Assigned: {new Date(assignment.assigned_at).toLocaleDateString()}</div>
+                              {assignment.accepted_at && (
+                                <div>Accepted: {new Date(assignment.accepted_at).toLocaleDateString()}</div>
+                              )}
+                              {assignment.completed_at && (
+                                <div>Completed: {new Date(assignment.completed_at).toLocaleDateString()}</div>
+                              )}
+                            </div>
+
+                            {/* Quick Status Update Buttons */}
+                            <div className="flex gap-2 mt-3">
+                              {assignment.status === 'assigned' && (
+                                <Button
+                                  onClick={() => handleUpdateAssignmentStatus(assignment.id, 'accepted')}
+                                  size="sm"
+                                  variant="secondary"
+                                >
+                                  Accept
+                                </Button>
+                              )}
+                              {assignment.status === 'accepted' && (
+                                <Button
+                                  onClick={() => handleUpdateAssignmentStatus(assignment.id, 'in_progress')}
+                                  size="sm"
+                                  variant="secondary"
+                                >
+                                  Start Work
+                                </Button>
+                              )}
+                              {assignment.status === 'in_progress' && (
+                                <Button
+                                  onClick={() => handleUpdateAssignmentStatus(assignment.id, 'completed')}
+                                  size="sm"
+                                >
+                                  Mark Complete
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-4 text-gray-500">
+                        No vendor assigned to this order
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Order Items */}
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle>Order Items</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            SKU
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Quantity
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Unit Price
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Total
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {selectedOrder.items?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {item.product_name}
+                                </div>
+                                {item.variant_title && (
+                                  <div className="text-sm text-gray-500">
+                                    {item.variant_title}
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {item.sku || 'N/A'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {item.quantity}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              ${item.unit_price.toFixed(2)}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              ${item.total_price.toFixed(2)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Shipping Address */}
+              {selectedOrder.shipping_address && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Shipping Address</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm text-gray-900">
+                      {selectedOrder.shipping_address.first_name} {selectedOrder.shipping_address.last_name}<br />
+                      {selectedOrder.shipping_address.address1}<br />
+                      {selectedOrder.shipping_address.address2 && (
+                        <>{selectedOrder.shipping_address.address2}<br /></>
+                      )}
+                      {selectedOrder.shipping_address.city}, {selectedOrder.shipping_address.province} {selectedOrder.shipping_address.zip}<br />
+                      {selectedOrder.shipping_address.country}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              <div className="flex justify-end mt-6">
+                <Button onClick={() => setShowOrderDetails(false)}>
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

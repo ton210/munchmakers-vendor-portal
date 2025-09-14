@@ -35,6 +35,9 @@ import AdminActivityLogs from './pages/admin/ActivityLogs';
 import SettingsPage from './pages/admin/SettingsPage';
 import APITestPage from './pages/admin/APITestPage';
 import VendorDetails from './pages/admin/VendorDetails';
+import { OrderManagement } from './pages/admin/OrderManagement';
+import { AdvancedAnalytics } from './pages/admin/AdvancedAnalytics';
+import { ProofApproval } from './pages/vendor/ProofApproval';
 
 // Legal Pages
 import PrivacyPage from './pages/legal/PrivacyPage';
@@ -212,6 +215,16 @@ function VendorApp() {
               }
             />
 
+            {/* Proof Approval */}
+            <Route
+              path="/proofs"
+              element={
+                <ProtectedRoute requiredUserType="vendor">
+                  <ProofApproval />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Admin Routes */}
             <Route
               path="/admin/dashboard"
@@ -298,6 +311,22 @@ function VendorApp() {
               element={
                 <ProtectedRoute requiredUserType="admin">
                   <VendorsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <ProtectedRoute requiredUserType="admin">
+                  <OrderManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/analytics"
+              element={
+                <ProtectedRoute requiredUserType="admin">
+                  <AdvancedAnalytics />
                 </ProtectedRoute>
               }
             />

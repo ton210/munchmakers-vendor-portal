@@ -130,10 +130,10 @@ export const ProductsPage: React.FC = () => {
       render: (value, item) => item.category?.name || 'Uncategorized'
     },
     {
-      key: 'price',
+      key: 'base_price',
       label: 'Price',
       sortable: true,
-      render: (value) => `$${value.toFixed(2)}`
+      render: (value) => `$${(parseFloat(value) || 0).toFixed(2)}`
     },
     {
       key: 'status',

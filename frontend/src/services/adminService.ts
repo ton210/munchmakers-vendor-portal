@@ -47,6 +47,18 @@ export const adminService = {
     return response.data;
   },
 
+  // Get active vendors for order assignment
+  async getActiveVendors() {
+    const response = await api.get('/admin/vendors/active');
+    return response.data;
+  },
+
+  // Update vendor commission rate
+  async updateVendorCommission(id: number, commissionRate: number) {
+    const response = await api.put(`/admin/vendors/${id}/commission`, { commission_rate: commissionRate });
+    return response.data;
+  },
+
   // Products
   async getAllProducts(params?: {
     page?: number;
