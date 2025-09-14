@@ -67,3 +67,14 @@ export const CardContent: React.FC<CardContentProps> = ({ children, className })
     {children}
   </div>
 );
+
+interface CardDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const CardDescription: React.FC<CardDescriptionProps> = ({ children, className }) => (
+  <p className={clsx('text-sm text-gray-600', className)}>
+    {children}
+  </p>
+);
