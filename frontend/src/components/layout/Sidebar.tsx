@@ -144,7 +144,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       className={({ isActive }) =>
         clsx(
           isActive
-            ? 'bg-brand-100 border-brand-500 text-brand-700'
+            ? 'bg-primary-100 border-primary-500 text-primary-700'
             : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
           'group flex items-center px-3 py-2 text-sm font-medium border-l-4 transition-colors duration-150'
         )
@@ -154,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         <>
           <item.icon
             className={clsx(
-              isActive ? 'text-brand-500' : 'text-gray-400 group-hover:text-gray-500',
+              isActive ? 'text-primary-500' : 'text-gray-400 group-hover:text-gray-500',
               'mr-3 h-5 w-5 transition-colors duration-150'
             )}
           />

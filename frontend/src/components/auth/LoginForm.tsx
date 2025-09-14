@@ -74,7 +74,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
             onClick={() => handleUserTypeChange('vendor')}
             className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
               userType === 'vendor'
-                ? 'bg-brand-100 text-brand-700 border border-brand-300'
+                ? 'bg-primary-100 text-primary-700 border border-primary-300'
                 : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
             }`}
           >
@@ -85,7 +85,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
             onClick={() => handleUserTypeChange('admin')}
             className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
               userType === 'admin'
-                ? 'bg-brand-100 text-brand-700 border border-brand-300'
+                ? 'bg-primary-100 text-primary-700 border border-primary-300'
                 : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
             }`}
           >
@@ -105,7 +105,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
               type="email"
               {...register('email')}
               placeholder={t('auth.loginForm.emailPlaceholder')}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             />
             {errors.email && (
               <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -120,7 +120,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
               type="password"
               {...register('password')}
               placeholder={t('auth.loginForm.passwordPlaceholder')}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             />
             {errors.password && (
               <p className="text-sm text-red-600">{errors.password.message}</p>
