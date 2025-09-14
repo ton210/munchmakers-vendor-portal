@@ -397,9 +397,9 @@ const OrdersPage: React.FC = () => {
               data={orders}
               loading={loading}
               pagination={{
-                currentPage: pagination.page,
-                totalPages: pagination.pages,
-                totalItems: pagination.total,
+                page: pagination.page,
+                pages: pagination.pages,
+                total: pagination.total,
                 onPageChange: (page: number) =>
                   setPagination(prev => ({ ...prev, page }))
               }}
