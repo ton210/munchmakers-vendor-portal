@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { LoginFormData } from '../../types';
 
-const loginSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  userType: yup.string().oneOf(['admin', 'vendor']).required('User type is required')
+const createLoginSchema = (t: (key: string) => string) => yup.object({
+  email: yup.string().email(t('auth.validation.invalidEmail')).required(t('auth.validation.emailRequired')),
+  password: yup.string().min(6, t('auth.validation.passwordMinLength')).required(t('auth.validation.passwordRequired')),
+  userType: yup.string().oneOf(['admin', 'vendor']).required(t('auth.validation.userTypeRequired'))
 });
 
 interface LoginFormProps {
@@ -21,6 +22,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegister }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, isLoading } = useAuth();
   const [userType, setUserType] = useState<'admin' | 'vendor'>('vendor');
@@ -31,7 +33,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
     formState: { errors },
     setValue
   } = useForm<LoginFormData>({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(createLoginSchema(t)),
     defaultValues: {
       userType: 'vendor'
     }
@@ -63,7 +65,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="text-center">
-          Sign in to MunchMakers Vendor Portal
+          {t('auth.loginForm.title')}
         </CardTitle>
         
         <div className="flex space-x-2 mt-4">
@@ -76,7 +78,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
                 : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
             }`}
           >
-            Vendor Login
+            {t('auth.loginForm.vendorLogin')}
           </button>
           <button
             type="button"
@@ -87,7 +89,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
                 : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
             }`}
           >
-            Admin Login
+            {t('auth.loginForm.adminLogin')}
           </button>
         </div>
       </CardHeader>
@@ -97,12 +99,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
           <input type="hidden" {...register('userType')} />
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700">
-              Email
+              {t('auth.loginForm.email')}
             </label>
             <input
               type="email"
               {...register('email')}
-              placeholder="Enter your email"
+              placeholder={t('auth.loginForm.emailPlaceholder')}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
             {errors.email && (
@@ -112,12 +114,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
 
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700">
-              Password
+              {t('auth.loginForm.password')}
             </label>
             <input
               type="password"
               {...register('password')}
-              placeholder="Enter your password"
+              placeholder={t('auth.loginForm.passwordPlaceholder')}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
             {errors.password && (
@@ -131,7 +133,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
             fullWidth
             className="mt-6"
           >
-            Sign in
+            {t('auth.loginForm.signIn')}
           </Button>
 
           <div className="flex items-center justify-between text-sm">
@@ -141,7 +143,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
                 onClick={onForgotPassword}
                 className="text-indigo-600 hover:text-indigo-500"
               >
-                Forgot password?
+                {t('auth.loginForm.forgotPassword')}
               </button>
             )}
             
@@ -151,7 +153,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
                 onClick={onRegister}
                 className="text-indigo-600 hover:text-indigo-500"
               >
-                Create vendor account
+                {t('auth.loginForm.createAccount')}
               </button>
             )}
           </div>
@@ -159,9 +161,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword, onRegist
           {userType === 'admin' && (
             <div className="mt-4 p-3 bg-blue-50 rounded-md">
               <p className="text-sm text-blue-700">
-                <strong>Demo Admin:</strong><br />
-                Email: admin@munchmakers.com<br />
-                Password: Admin123!
+                <strong>{t('auth.loginForm.demoAdmin')}</strong><br />
+                {t('auth.loginForm.demoEmail')}<br />
+                {t('auth.loginForm.demoPassword')}
               </p>
             </div>
           )}

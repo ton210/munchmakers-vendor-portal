@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../../components/layout/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -45,6 +46,7 @@ interface Stats {
 }
 
 const AssignmentsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
@@ -100,7 +102,7 @@ const AssignmentsPage: React.FC = () => {
         }));
       }
     } catch (error: any) {
-      toast.error('Failed to load assignments');
+      toast.error(t('toast.loadAssignmentsFailed'));
       console.error('Failed to load assignments:', error);
     } finally {
       setLoading(false);
@@ -127,14 +129,14 @@ const AssignmentsPage: React.FC = () => {
     try {
       const response = await orderService.updateAssignmentStatus(assignmentId, status);
       if (response.success) {
-        toast.success('Assignment status updated successfully');
+        toast.success(t('toast.assignmentStatusUpdated'));
         loadAssignments();
         loadStats();
       } else {
-        toast.error(response.message || 'Status update failed');
+        toast.error(response.message || t('toast.statusUpdateFailed'));
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Status update failed');
+      toast.error(error.response?.data?.message || t('toast.statusUpdateFailed'));
     }
   };
 

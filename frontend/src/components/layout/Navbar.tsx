@@ -63,13 +63,45 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
             </div>
 
             {/* Notifications */}
-            <button
-              type="button"
-              className="p-2 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-full"
-            >
-              <span className="sr-only">View notifications</span>
-              <BellIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
+            <div className="relative">
+              <button
+                type="button"
+                className="p-2 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-full relative"
+              >
+                <span className="sr-only">View notifications</span>
+                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                {/* Notification badge */}
+                <span className="absolute top-1 right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
+                  3
+                </span>
+              </button>
+
+              {/* Notification dropdown (placeholder for future implementation) */}
+              <div className="hidden absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="p-4">
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">Recent Notifications</h3>
+                  <div className="space-y-2">
+                    <div className="p-2 bg-blue-50 rounded border-l-4 border-blue-400">
+                      <p className="text-sm text-blue-800">New order #1234 received from Shopify</p>
+                      <p className="text-xs text-blue-600">2 minutes ago</p>
+                    </div>
+                    <div className="p-2 bg-green-50 rounded border-l-4 border-green-400">
+                      <p className="text-sm text-green-800">Order #1233 completed by vendor</p>
+                      <p className="text-xs text-green-600">5 minutes ago</p>
+                    </div>
+                    <div className="p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
+                      <p className="text-sm text-yellow-800">Store sync completed - 12 new orders</p>
+                      <p className="text-xs text-yellow-600">10 minutes ago</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-center">
+                    <button className="text-sm text-indigo-600 hover:text-indigo-500">
+                      View All Notifications
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* User menu dropdown */}
             <Menu as="div" className="relative">

@@ -297,17 +297,17 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Database</span>
+                  <span className="text-sm text-gray-600">{t('dashboard.admin.database')}</span>
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    <span className="text-sm font-medium text-green-600">Connected</span>
+                    <span className="text-sm font-medium text-green-600">{t('dashboard.admin.connected')}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">BigCommerce API</span>
+                  <span className="text-sm text-gray-600">{t('dashboard.admin.bigcommerceApi')}</span>
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    <span className="text-sm font-medium text-green-600">Connected</span>
+                    <span className="text-sm font-medium text-green-600">{t('dashboard.admin.connected')}</span>
                   </div>
                 </div>
               </div>

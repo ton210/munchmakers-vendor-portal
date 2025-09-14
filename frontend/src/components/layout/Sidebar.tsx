@@ -15,7 +15,8 @@ import {
   CurrencyDollarIcon,
   ChatBubbleLeftIcon,
   RectangleStackIcon,
-  BriefcaseIcon
+  BriefcaseIcon,
+  BuildingStorefrontIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 import { clsx } from 'clsx';
@@ -91,6 +92,12 @@ const navigation: NavItem[] = [
     name: 'Orders',
     to: '/admin/orders',
     icon: RectangleStackIcon,
+    adminOnly: true
+  },
+  {
+    name: 'Stores',
+    to: '/admin/stores',
+    icon: BuildingStorefrontIcon,
     adminOnly: true
   },
   { 

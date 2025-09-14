@@ -2,26 +2,27 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 
-const registerSchema = yup.object({
-  businessName: yup.string().required('Business name is required'),
-  contactEmail: yup.string().email('Invalid email').required('Email is required'),
-  contactName: yup.string().required('Contact name is required'),
-  phone: yup.string().required('Phone number is required'),
-  businessAddress: yup.string().required('Business address is required'),
-  businessType: yup.string().required('Business type is required'),
-  website: yup.string().url('Invalid URL').optional(),
-  taxId: yup.string().required('Tax ID is required'),
-  password: yup.string().min(8, 'Password must be at least 8 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 'Password must contain uppercase, lowercase, number, and special character')
-    .required('Password is required'),
+const createRegisterSchema = (t: (key: string) => string) => yup.object({
+  businessName: yup.string().required(t('auth.validation.businessNameRequired')),
+  contactEmail: yup.string().email(t('auth.validation.invalidEmail')).required(t('auth.validation.emailRequired')),
+  contactName: yup.string().required(t('auth.validation.contactNameRequired')),
+  phone: yup.string().required(t('auth.validation.phoneRequired')),
+  businessAddress: yup.string().required(t('auth.validation.businessAddressRequired')),
+  businessType: yup.string().required(t('auth.validation.businessTypeRequired')),
+  website: yup.string().url(t('auth.validation.invalidUrl')).optional(),
+  taxId: yup.string().required(t('auth.validation.taxIdRequired')),
+  password: yup.string().min(8, t('auth.validation.passwordMinLengthRegister'))
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, t('auth.validation.passwordComplexity'))
+    .required(t('auth.validation.passwordRequired')),
   confirmPassword: yup.string()
-    .oneOf([yup.ref('password')], 'Passwords must match')
-    .required('Please confirm your password')
+    .oneOf([yup.ref('password')], t('auth.validation.passwordsMatch'))
+    .required(t('auth.validation.confirmPasswordRequired'))
 });
 
 interface RegisterFormData {
@@ -42,6 +43,7 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => {
+  const { t } = useTranslation();
   const { login, isLoading } = useAuth();
 
   const {
@@ -49,7 +51,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
     handleSubmit,
     formState: { errors }
   } = useForm<RegisterFormData>({
-    resolver: yupResolver(registerSchema)
+    resolver: yupResolver(createRegisterSchema(t))
   });
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -69,21 +71,21 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
   };
 
   const businessTypes = [
-    'Manufacturer',
-    'Distributor',
-    'Retailer',
-    'Drop Shipper',
-    'Other'
+    { value: 'manufacturer', label: t('auth.registerForm.businessTypes.manufacturer') },
+    { value: 'distributor', label: t('auth.registerForm.businessTypes.distributor') },
+    { value: 'retailer', label: t('auth.registerForm.businessTypes.retailer') },
+    { value: 'dropShipper', label: t('auth.registerForm.businessTypes.dropShipper') },
+    { value: 'other', label: t('auth.registerForm.businessTypes.other') }
   ];
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle className="text-center">
-          Register as a Vendor
+          {t('auth.registerForm.title')}
         </CardTitle>
         <p className="text-center text-gray-600 mt-2">
-          Join the MunchMakers network and start selling your products
+          {t('auth.registerForm.subtitle')}
         </p>
       </CardHeader>
 
@@ -91,57 +93,57 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Business Name"
+              label={t('auth.registerForm.businessName')}
               {...register('businessName')}
               error={errors.businessName?.message}
-              placeholder="Your Business Name"
+              placeholder={t('auth.registerForm.businessNamePlaceholder')}
             />
 
             <Input
-              label="Contact Name"
+              label={t('auth.registerForm.contactName')}
               {...register('contactName')}
               error={errors.contactName?.message}
-              placeholder="Your Full Name"
+              placeholder={t('auth.registerForm.contactNamePlaceholder')}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Email"
+              label={t('auth.registerForm.email')}
               type="email"
               {...register('contactEmail')}
               error={errors.contactEmail?.message}
-              placeholder="your@email.com"
+              placeholder={t('auth.registerForm.emailPlaceholder')}
             />
 
             <Input
-              label="Phone"
+              label={t('auth.registerForm.phone')}
               type="tel"
               {...register('phone')}
               error={errors.phone?.message}
-              placeholder="+1 (555) 123-4567"
+              placeholder={t('auth.registerForm.phonePlaceholder')}
             />
           </div>
 
           <Input
-            label="Business Address"
+            label={t('auth.registerForm.businessAddress')}
             {...register('businessAddress')}
             error={errors.businessAddress?.message}
-            placeholder="Full business address"
+            placeholder={t('auth.registerForm.addressPlaceholder')}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Business Type
+                {t('auth.registerForm.businessType')}
               </label>
               <select
                 {...register('businessType')}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
-                <option value="">Select business type</option>
+                <option value="">{t('auth.registerForm.selectBusinessType')}</option>
                 {businessTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
+                  <option key={type.value} value={type.value}>{type.label}</option>
                 ))}
               </select>
               {errors.businessType && (
@@ -150,45 +152,45 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             </div>
 
             <Input
-              label="Tax ID / EIN"
+              label={t('auth.registerForm.taxId')}
               {...register('taxId')}
               error={errors.taxId?.message}
-              placeholder="12-3456789"
+              placeholder={t('auth.registerForm.taxIdPlaceholder')}
             />
           </div>
 
           <Input
-            label="Website (Optional)"
+            label={t('auth.registerForm.website')}
             type="url"
             {...register('website')}
             error={errors.website?.message}
-            placeholder="https://yourwebsite.com"
+            placeholder={t('auth.registerForm.websitePlaceholder')}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Password"
+              label={t('auth.registerForm.password')}
               type="password"
               {...register('password')}
               error={errors.password?.message}
-              placeholder="Create a secure password"
+              placeholder={t('auth.registerForm.passwordPlaceholder')}
             />
 
             <Input
-              label="Confirm Password"
+              label={t('auth.registerForm.confirmPassword')}
               type="password"
               {...register('confirmPassword')}
               error={errors.confirmPassword?.message}
-              placeholder="Confirm your password"
+              placeholder={t('auth.registerForm.confirmPasswordPlaceholder')}
             />
           </div>
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-            <h4 className="text-sm font-medium text-yellow-800">Before you submit:</h4>
+            <h4 className="text-sm font-medium text-yellow-800">{t('auth.registerForm.beforeSubmit')}</h4>
             <ul className="mt-2 text-sm text-yellow-700 list-disc list-inside space-y-1">
-              <li>Your application will be reviewed by our team</li>
-              <li>You'll receive an email notification once approved</li>
-              <li>Have your business documents ready for verification</li>
+              <li>{t('auth.registerForm.reviewProcess')}</li>
+              <li>{t('auth.registerForm.emailNotification')}</li>
+              <li>{t('auth.registerForm.documentsReady')}</li>
             </ul>
           </div>
 
@@ -200,7 +202,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
                 onClick={onBackToLogin}
                 className="flex-1"
               >
-                Back to Login
+                {t('auth.registerForm.backToLogin')}
               </Button>
             )}
             
@@ -209,7 +211,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
               loading={isLoading}
               className="flex-1"
             >
-              Submit Application
+              {t('auth.registerForm.submitApplication')}
             </Button>
           </div>
         </form>
