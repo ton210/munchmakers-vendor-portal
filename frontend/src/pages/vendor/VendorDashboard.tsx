@@ -14,19 +14,22 @@ import {
 import { vendorService } from '../../services/vendorService';
 import toast from 'react-hot-toast';
 
-interface DashboardStats {
+interface VendorDashboardStats {
   totalProducts: number;
   pendingProducts: number;
   approvedProducts: number;
   rejectedProducts: number;
   totalOrders: number;
   monthlyRevenue: number;
+  totalAssignments: number;
+  completedAssignments: number;
+  totalEarnings: number;
   recentActivity: any[];
 }
 
 const VendorDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [stats, setStats] = useState<VendorDashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [syncLoading, setSyncLoading] = useState(false);
 
