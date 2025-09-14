@@ -163,17 +163,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const isVendor = (): boolean => {
-    return state.user ? 'vendorId' in state.user : false;
+    if (!state.user) return false;
+    // Check for vendorId (from JWT) or vendor object (from response data)
+    return 'vendorId' in state.user || 'vendor' in state.user;
   };
 
   const isAdmin = (): boolean => {
-    return state.user ? 'permissions' in state.user : false;
+    if (!state.user) return false;
+    return 'permissions' in state.user;
   };
 
   const isApprovedVendor = (): boolean => {
     if (!isVendor() || !state.user) return false;
-    const vendorUser = state.user as VendorUser;
-    return vendorUser.vendor?.status === 'approved';
+
+    // Check vendor status from different possible structures
+    const user = state.user as any;
+
+    // From response data structure
+    if (user.vendor?.status) {
+      return user.vendor.status === 'approved';
+    }
+
+    // From JWT payload structure
+    if (user.vendorStatus) {
+      return user.vendorStatus === 'approved';
+    }
+
+    return false;
   };
 
   const value: AuthContextType = {
