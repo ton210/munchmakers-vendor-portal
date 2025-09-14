@@ -14,10 +14,11 @@ export const proofService = {
 
     // Add form fields
     Object.keys(data).forEach(key => {
+      const value = data[key as keyof typeof data];
       if (key === 'proof_images') {
-        formData.append(key, JSON.stringify(data[key]));
+        formData.append(key, JSON.stringify(value));
       } else {
-        formData.append(key, data[key].toString());
+        formData.append(key, value?.toString() || '');
       }
     });
 
