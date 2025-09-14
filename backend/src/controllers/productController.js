@@ -10,43 +10,6 @@ const R2Service = require('../services/r2Service');
 const CSVService = require('../services/csvService');
 const db = require('../config/database');
 
-// In-memory storage for demo products (persists during server session)
-const demoProducts = {
-  1: [ // Demo Restaurant
-    {
-      id: 101,
-      vendor_id: 1,
-      name: 'Signature Burger',
-      description: 'Our famous house burger with special sauce',
-      sku: 'DEMO-BURGER-001',
-      base_price: 15.99,
-      moq: 5,
-      status: 'approved',
-      category: { name: 'Food & Beverages' },
-      images: [{ imageUrl: 'https://via.placeholder.com/400x400/FF6B6B/FFFFFF?text=Burger' }],
-      createdAt: '2024-09-10T10:00:00Z',
-      variants: [],
-      pricingTiers: []
-    },
-    {
-      id: 102,
-      vendor_id: 1,
-      name: 'Craft Beer Selection',
-      description: 'Locally brewed craft beer varieties',
-      sku: 'DEMO-BEER-001',
-      base_price: 8.50,
-      moq: 12,
-      status: 'pending',
-      category: { name: 'Beverages' },
-      images: [{ imageUrl: 'https://via.placeholder.com/400x400/4ECDC4/FFFFFF?text=Beer' }],
-      createdAt: '2024-09-12T14:30:00Z',
-      variants: [],
-      pricingTiers: []
-    }
-  ],
-  2: [], // Artisan Coffee Co - clean account
-  3: []  // Organic Farms LLC - clean account
-};
 
 class ProductController {
   // Get products for vendor
@@ -63,35 +26,6 @@ class ProductController {
         sortOrder = 'desc'
       } = req.query;
 
-      // Return demo products for demo vendors (ID 1-3)
-      if (vendorId <= 3) {
-        const vendorProducts = demoProducts[vendorId] || [];
-
-        // Apply filters
-        let filteredProducts = vendorProducts;
-        if (status) {
-          filteredProducts = filteredProducts.filter(p => p.status === status);
-        }
-        if (search) {
-          filteredProducts = filteredProducts.filter(p =>
-            p.name.toLowerCase().includes(search.toLowerCase()) ||
-            p.sku.toLowerCase().includes(search.toLowerCase())
-          );
-        }
-
-        return res.json({
-          success: true,
-          data: {
-            items: filteredProducts,
-            pagination: {
-              page: parseInt(page),
-              limit: parseInt(limit),
-              total: filteredProducts.length,
-              pages: Math.ceil(filteredProducts.length / limit)
-            }
-          }
-        });
-      }
 
       const offset = (page - 1) * limit;
 
@@ -145,74 +79,30 @@ class ProductController {
         sortOrder = 'desc'
       } = req.query;
 
-      // Include demo products for admin view
-      let allDemoProducts = [];
-      Object.values(demoProducts).forEach(vendorProducts => {
-        allDemoProducts = allDemoProducts.concat(vendorProducts.map(p => ({
-          ...p,
-          vendor: {
-            businessName: p.vendor_id === 1 ? 'Demo Restaurant' :
-                         p.vendor_id === 2 ? 'Artisan Coffee Co' : 'Organic Farms LLC'
-          }
-        })));
-      });
+      const offset = (page - 1) * limit;
 
-      // Try to get database products, but don't fail if database is unavailable
-      let dbProducts = [];
-      let dbTotalCount = 0;
+      const filters = { status, vendor_id, category_id, search };
+      const pagination = {
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+        sortBy,
+        sortOrder
+      };
 
-      try {
-        const offset = (page - 1) * limit;
-        const filters = { status, vendor_id, category_id, search };
-        const pagination = {
-          limit: parseInt(limit),
-          offset: parseInt(offset),
-          sortBy,
-          sortOrder
-        };
-
-        [dbProducts, dbTotalCount] = await Promise.all([
-          Product.getAll(filters, pagination),
-          Product.getCount(filters)
-        ]);
-      } catch (dbError) {
-        console.log('Database unavailable for admin products, showing demo products only');
-      }
-
-      // Combine demo and database products
-      const allProducts = [...allDemoProducts, ...dbProducts];
-      let filteredProducts = allProducts;
-
-      // Apply filters
-      if (status) {
-        filteredProducts = filteredProducts.filter(p => p.status === status);
-      }
-      if (vendor_id) {
-        filteredProducts = filteredProducts.filter(p => p.vendor_id === parseInt(vendor_id));
-      }
-      if (search) {
-        filteredProducts = filteredProducts.filter(p =>
-          p.name.toLowerCase().includes(search.toLowerCase()) ||
-          p.sku.toLowerCase().includes(search.toLowerCase())
-        );
-      }
-
-      // Sort products
-      filteredProducts.sort((a, b) => {
-        const aDate = new Date(a.createdAt || a.created_at);
-        const bDate = new Date(b.createdAt || b.created_at);
-        return sortOrder === 'desc' ? bDate - aDate : aDate - bDate;
-      });
+      const [products, totalCount] = await Promise.all([
+        Product.getAll(filters, pagination),
+        Product.getCount(filters)
+      ]);
 
       res.json({
         success: true,
         data: {
-          products: filteredProducts,
+          products,
           pagination: {
             page: parseInt(page),
             limit: parseInt(limit),
-            total: filteredProducts.length,
-            totalPages: Math.ceil(filteredProducts.length / limit)
+            total: totalCount,
+            totalPages: Math.ceil(totalCount / limit)
           }
         }
       });
@@ -327,115 +217,70 @@ class ProductController {
         status
       };
 
-      // For demo vendors, add to in-memory storage
-      let product;
-      if (vendorId <= 3) {
-        product = {
-          id: Date.now(), // Use timestamp as ID for demo
-          vendor_id: vendorId,
-          name,
-          description,
-          details,
-          sku: finalSku,
-          base_price: price,
-          moq: moq || 1,
-          weight,
-          height,
-          dimensions,
-          production_time: productionTime,
-          category_id: categoryId,
-          shipping_options: shippingOptions,
-          design_tool_info: designToolInfo,
-          design_tool_template: designToolTemplate,
-          production_images: productionImages,
-          status,
-          category: { name: 'Food & Beverages' },
-          images: productImages || [],
-          variants: variants || [],
-          pricingTiers: pricingTiers || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
+      const product = await Product.create(productData);
 
-        // Add to in-memory storage
-        if (!demoProducts[vendorId]) {
-          demoProducts[vendorId] = [];
-        }
-        demoProducts[vendorId].push(product);
+      // Handle variants
+      if (variants && variants.length > 0) {
+        for (const variant of variants) {
+          const variantData = {
+            product_id: product.id,
+            variant_name: variant.name,
+            variant_sku: variant.sku || `${finalSku}-${variant.name.toLowerCase().replace(/\s+/g, '-')}`,
+            additional_price: variant.additionalPrice || 0,
+            stock_quantity: 0,
+            attributes: variant.attributes || {},
+            is_active: true
+          };
 
-        console.log(`🎯 Demo product created for vendor ${vendorId}: ${product.name} (Status: ${product.status})`);
-        console.log(`📦 Vendor ${vendorId} now has ${demoProducts[vendorId].length} products`);
-      } else {
-        product = await Product.create(productData);
-      }
+          const createdVariant = await db('product_variants').insert(variantData).returning('*');
 
-      // Handle variants, pricing tiers, and images (skip for demo vendors)
-      if (vendorId <= 3) {
-        console.log(`🎯 Demo vendor ${vendorId}: Skipping database operations for variants/images`);
-      } else {
-        // Handle variants
-        if (variants && variants.length > 0) {
-          for (const variant of variants) {
-            const variantData = {
-              product_id: product.id,
-              variant_name: variant.name,
-              variant_sku: variant.sku || `${finalSku}-${variant.name.toLowerCase().replace(/\s+/g, '-')}`,
-              additional_price: variant.additionalPrice || 0,
-              stock_quantity: 0,
-              attributes: variant.attributes || {},
-              is_active: true
-            };
-
-            const createdVariant = await db('product_variants').insert(variantData).returning('*');
-
-            // Handle variant images
-            if (variant.images && variant.images.length > 0) {
-              for (let i = 0; i < variant.images.length; i++) {
-                const image = variant.images[i];
-                await db('product_images').insert({
-                  product_id: product.id,
-                  variant_id: createdVariant[0].id,
-                  image_url: image.url,
-                  alt_text: `${variant.name} image ${i + 1}`,
-                  is_primary: i === 0,
-                  display_order: i,
-                  file_name: image.file ? image.file.name : `variant-${createdVariant[0].id}-${i}`
-                });
-              }
+          // Handle variant images
+          if (variant.images && variant.images.length > 0) {
+            for (let i = 0; i < variant.images.length; i++) {
+              const image = variant.images[i];
+              await db('product_images').insert({
+                product_id: product.id,
+                variant_id: createdVariant[0].id,
+                image_url: image.url,
+                alt_text: `${variant.name} image ${i + 1}`,
+                is_primary: i === 0,
+                display_order: i,
+                file_name: image.file ? image.file.name : `variant-${createdVariant[0].id}-${i}`
+              });
             }
           }
         }
+      }
 
-        // Handle pricing tiers
-        if (pricingTiers && pricingTiers.length > 0) {
-          for (const tier of pricingTiers) {
-            await db('product_pricing_tiers').insert({
-              product_id: product.id,
-              min_quantity: tier.minQuantity,
-              max_quantity: tier.maxQuantity,
-              unit_price: tier.unitPrice
-            });
-          }
-        }
-
-        // Handle product images
-        if (productImages && productImages.length > 0) {
-          for (let i = 0; i < productImages.length; i++) {
-            const image = productImages[i];
-            await db('product_images').insert({
-              product_id: product.id,
-              image_url: image.url,
-              alt_text: `${name} image ${i + 1}`,
-              is_primary: i === 0,
-              display_order: i,
-              file_name: image.file ? image.file.name : `product-${product.id}-${i}`
-            });
-          }
+      // Handle pricing tiers
+      if (pricingTiers && pricingTiers.length > 0) {
+        for (const tier of pricingTiers) {
+          await db('product_pricing_tiers').insert({
+            product_id: product.id,
+            min_quantity: tier.minQuantity,
+            max_quantity: tier.maxQuantity,
+            unit_price: tier.unitPrice
+          });
         }
       }
 
-      // Log activity (skip for demo vendors)
-      if (vendorId > 3) {
+      // Handle product images
+      if (productImages && productImages.length > 0) {
+        for (let i = 0; i < productImages.length; i++) {
+          const image = productImages[i];
+          await db('product_images').insert({
+            product_id: product.id,
+            image_url: image.url,
+            alt_text: `${name} image ${i + 1}`,
+            is_primary: i === 0,
+            display_order: i,
+            file_name: image.file ? image.file.name : `product-${product.id}-${i}`
+          });
+        }
+      }
+
+      // Log activity
+      try {
         await ActivityLogger.logVendorAction(
           req.user.id,
           'product_create',
@@ -450,8 +295,8 @@ class ProductController {
           },
           req
         );
-      } else {
-        console.log(`🎯 Demo vendor ${vendorId}: Skipping activity logging for product creation`);
+      } catch (activityError) {
+        console.log('Activity logging not available, continuing...');
       }
 
       res.status(201).json({
