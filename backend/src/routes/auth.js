@@ -12,8 +12,10 @@ const { anyAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Apply rate limiting to all auth routes
-router.use(authLimiter);
+// Apply rate limiting to all auth routes (disabled in production for demos)
+if (process.env.NODE_ENV !== 'production') {
+  router.use(authLimiter);
+}
 
 // Vendor Registration
 router.post('/vendor/register', [

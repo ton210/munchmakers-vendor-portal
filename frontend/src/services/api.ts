@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://api.munchmakers.com' // Backend API URL
+  ? 'https://vendors.munchmakers.com' // Same domain as frontend in production
   : 'http://localhost:5000';
 
 const api = axios.create({
