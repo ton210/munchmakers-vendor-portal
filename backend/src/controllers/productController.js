@@ -45,12 +45,12 @@ class ProductController {
       res.json({
         success: true,
         data: {
-          products,
+          items: products, // Frontend expects 'items' not 'products'
           pagination: {
             page: parseInt(page),
             limit: parseInt(limit),
             total: totalCount,
-            totalPages: Math.ceil(totalCount / limit)
+            pages: Math.ceil(totalCount / limit) // Frontend expects 'pages' not 'totalPages'
           }
         }
       });
@@ -97,12 +97,12 @@ class ProductController {
       res.json({
         success: true,
         data: {
-          products,
+          items: products, // Frontend expects 'items' not 'products'
           pagination: {
             page: parseInt(page),
             limit: parseInt(limit),
             total: totalCount,
-            totalPages: Math.ceil(totalCount / limit)
+            pages: Math.ceil(totalCount / limit) // Frontend expects 'pages' not 'totalPages'
           }
         }
       });
