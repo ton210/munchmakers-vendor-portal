@@ -224,16 +224,16 @@ const AssignmentsPage: React.FC = () => {
 
   const columns = [
     {
-      header: 'Order #',
-      accessor: 'order_number',
-      cell: (row: Assignment) => (
+      key: 'order_number',
+      label: 'Order #',
+      render: (value: string, row: Assignment) => (
         <div className="font-medium text-gray-900">#{row.order_number}</div>
       )
     },
     {
-      header: 'Customer',
-      accessor: 'customer_name',
-      cell: (row: Assignment) => (
+      key: 'customer_name',
+      label: 'Customer',
+      render: (value: string, row: Assignment) => (
         <div>
           <div className="font-medium text-gray-900">{row.customer_name}</div>
           <div className="text-sm text-gray-500">{row.customer_email}</div>
@@ -241,9 +241,9 @@ const AssignmentsPage: React.FC = () => {
       )
     },
     {
-      header: 'Store',
-      accessor: 'store_name',
-      cell: (row: Assignment) => (
+      key: 'store_name',
+      label: 'Store',
+      render: (value: string, row: Assignment) => (
         <div>
           <div className="font-medium">{row.store_name}</div>
           <div className="text-sm text-gray-500 capitalize">{row.store_type}</div>
@@ -251,18 +251,18 @@ const AssignmentsPage: React.FC = () => {
       )
     },
     {
-      header: 'Amount',
-      accessor: 'total_amount',
-      cell: (row: Assignment) => (
+      key: 'total_amount',
+      label: 'Amount',
+      render: (value: number, row: Assignment) => (
         <div className="font-medium text-gray-900">
           {formatCurrency(row.total_amount, row.currency)}
         </div>
       )
     },
     {
-      header: 'Commission',
-      accessor: 'commission',
-      cell: (row: Assignment) => (
+      key: 'commission',
+      label: 'Commission',
+      render: (value: any, row: Assignment) => (
         <div className="font-medium text-green-600">
           {row.assignment?.commission_amount
             ? formatCurrency(row.assignment.commission_amount)
@@ -272,27 +272,27 @@ const AssignmentsPage: React.FC = () => {
       )
     },
     {
-      header: 'Status',
-      accessor: 'status',
-      cell: (row: Assignment) => (
+      key: 'status',
+      label: 'Status',
+      render: (value: any, row: Assignment) => (
         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeColor(row.assignment?.status)}`}>
           {row.assignment?.status?.replace('_', ' ').toUpperCase() || 'ASSIGNED'}
         </span>
       )
     },
     {
-      header: 'Assigned Date',
-      accessor: 'assigned_date',
-      cell: (row: Assignment) => (
+      key: 'assigned_date',
+      label: 'Assigned Date',
+      render: (value: any, row: Assignment) => (
         <div className="text-sm text-gray-900">
           {formatDate(row.assignment?.assigned_at || row.order_date)}
         </div>
       )
     },
     {
-      header: 'Actions',
-      accessor: 'actions',
-      cell: (row: Assignment) => (
+      key: 'actions',
+      label: 'Actions',
+      render: (value: any, row: Assignment) => (
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"

@@ -177,16 +177,16 @@ const OrdersPage: React.FC = () => {
 
   const columns = [
     {
-      header: 'Order #',
-      accessor: 'order_number',
-      cell: (row: Order) => (
+      key: 'order_number',
+      label: 'Order #',
+      render: (value: string, row: Order) => (
         <div className="font-medium text-gray-900">#{row.order_number}</div>
       )
     },
     {
-      header: 'Customer',
-      accessor: 'customer_name',
-      cell: (row: Order) => (
+      key: 'customer_name',
+      label: 'Customer',
+      render: (value: string, row: Order) => (
         <div>
           <div className="font-medium text-gray-900">{row.customer_name}</div>
           <div className="text-sm text-gray-500">{row.customer_email}</div>
@@ -194,9 +194,9 @@ const OrdersPage: React.FC = () => {
       )
     },
     {
-      header: 'Store',
-      accessor: 'store_name',
-      cell: (row: Order) => (
+      key: 'store_name',
+      label: 'Store',
+      render: (value: string, row: Order) => (
         <div>
           <div className="font-medium">{row.store_name}</div>
           <div className="text-sm text-gray-500 capitalize">{row.store_type}</div>
@@ -204,27 +204,27 @@ const OrdersPage: React.FC = () => {
       )
     },
     {
-      header: 'Amount',
-      accessor: 'total_amount',
-      cell: (row: Order) => (
+      key: 'total_amount',
+      label: 'Amount',
+      render: (value: number, row: Order) => (
         <div className="font-medium text-gray-900">
           {formatCurrency(row.total_amount, row.currency)}
         </div>
       )
     },
     {
-      header: 'Status',
-      accessor: 'order_status',
-      cell: (row: Order) => (
+      key: 'order_status',
+      label: 'Status',
+      render: (value: string, row: Order) => (
         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeColor(row.order_status)}`}>
           {row.order_status.replace('_', ' ').toUpperCase()}
         </span>
       )
     },
     {
-      header: 'Assignment',
-      accessor: 'vendor_assignments',
-      cell: (row: Order) => {
+      key: 'vendor_assignments',
+      label: 'Assignment',
+      render: (value: any[], row: Order) => {
         const assignment = row.vendor_assignments?.[0];
         if (assignment) {
           return (
@@ -237,16 +237,16 @@ const OrdersPage: React.FC = () => {
       }
     },
     {
-      header: 'Date',
-      accessor: 'order_date',
-      cell: (row: Order) => (
+      key: 'order_date',
+      label: 'Date',
+      render: (value: string, row: Order) => (
         <div className="text-sm text-gray-900">{formatDate(row.order_date)}</div>
       )
     },
     {
-      header: 'Actions',
-      accessor: 'actions',
-      cell: (row: Order) => (
+      key: 'actions',
+      label: 'Actions',
+      render: (value: any, row: Order) => (
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
