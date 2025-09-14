@@ -38,7 +38,7 @@ import SettingsPage from './pages/admin/SettingsPage';
 import APITestPage from './pages/admin/APITestPage';
 import VendorDetails from './pages/admin/VendorDetails';
 import AdminOrdersPage from './pages/admin/OrdersPage';
-import StoreConfigPage from './pages/admin/StoreConfigPage';
+import StoresPage from './pages/admin/StoresPage';
 
 // Public Pages
 import LandingPage from './pages/LandingPage';
@@ -250,7 +250,7 @@ function App() {
               path="/admin/stores"
               element={
                 <ProtectedRoute requiredUserType="admin">
-                  <StoreConfigPage />
+                  <StoresPage />
                 </ProtectedRoute>
               }
             />
