@@ -265,11 +265,11 @@ const OrdersPage: React.FC = () => {
       switch (bulkAction) {
         case 'assign_vendor':
           // Bulk vendor assignment would need additional UI for vendor selection
-          toast.info('Bulk vendor assignment - Select vendor in next step');
+          toast.success('Bulk vendor assignment - Select vendor in next step');
           break;
         case 'update_status':
           // Bulk status update would need status selection
-          toast.info('Bulk status update - Select status in next step');
+          toast.success('Bulk status update - Select status in next step');
           break;
         case 'export':
           // Export selected orders
