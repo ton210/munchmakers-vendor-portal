@@ -8,7 +8,7 @@
   }
   
   body {
-    @apply antialiased text-gray-900 bg-gray-50;
+    @apply antialiased text-gray-900 bg-white;
   }
 }
 
@@ -18,11 +18,11 @@
   }
   
   .btn-primary {
-    @apply btn bg-primary-600 border-transparent text-white hover:bg-primary-700 focus:ring-primary-500;
+    @apply btn bg-brand-500 border-transparent text-white hover:bg-brand-600 focus:ring-brand-500 shadow-md hover:shadow-lg;
   }
   
   .btn-secondary {
-    @apply btn bg-white border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500;
+    @apply btn bg-white border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-brand-500 shadow-sm;
   }
   
   .btn-danger {

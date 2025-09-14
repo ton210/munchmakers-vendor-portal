@@ -121,9 +121,9 @@ const AdminDashboard: React.FC = () => {
     <Layout title="Admin Dashboard">
       <div className="space-y-6">
         {/* Welcome Section */}
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-lg p-6 text-white">
-          <h1 className="text-2xl font-bold mb-2">Admin Dashboard</h1>
-          <p className="opacity-90">
+        <div className="bg-gradient-to-r from-brand-500 to-brand-600 rounded-xl p-8 text-white shadow-lg">
+          <h1 className="text-3xl font-bold mb-3">Admin Dashboard</h1>
+          <p className="text-brand-100 text-lg">
             Monitor vendors, approve products, and manage the MunchMakers marketplace.
           </p>
         </div>
