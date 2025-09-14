@@ -4,7 +4,7 @@ const helmet = require('helmet');
 // Rate limiting configurations
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 1000, // limit each IP to 1000 requests per windowMs (much more lenient)
   message: {
     success: false,
     message: 'Too many requests from this IP, please try again later.'
@@ -15,7 +15,7 @@ const generalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes (shorter window)
-  max: 100, // limit each IP to 100 auth requests per windowMs (very lenient for demos)
+  max: 500, // limit each IP to 500 auth requests per windowMs (very lenient)
   message: {
     success: false,
     message: 'Too many authentication attempts, please try again later.'

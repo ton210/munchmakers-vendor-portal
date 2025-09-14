@@ -63,45 +63,67 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
             </div>
 
             {/* Notifications */}
-            <div className="relative">
-              <button
-                type="button"
-                className="p-2 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-full relative"
-              >
+            <Menu as="div" className="relative">
+              <Menu.Button className="p-2 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-full relative">
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
                 {/* Notification badge */}
                 <span className="absolute top-1 right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
                   3
                 </span>
-              </button>
+              </Menu.Button>
 
-              {/* Notification dropdown (placeholder for future implementation) */}
-              <div className="hidden absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="p-4">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Recent Notifications</h3>
-                  <div className="space-y-2">
-                    <div className="p-2 bg-blue-50 rounded border-l-4 border-blue-400">
-                      <p className="text-sm text-blue-800">New order #1234 received from Shopify</p>
-                      <p className="text-xs text-blue-600">2 minutes ago</p>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="p-4">
+                    <h3 className="text-sm font-medium text-gray-900 mb-3">Recent Notifications</h3>
+                    <div className="space-y-2">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <div className={`p-2 bg-blue-50 rounded border-l-4 border-blue-400 ${active ? 'bg-blue-100' : ''} cursor-pointer`}>
+                            <p className="text-sm text-blue-800">New order #1234 received from Shopify</p>
+                            <p className="text-xs text-blue-600">2 minutes ago</p>
+                          </div>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <div className={`p-2 bg-green-50 rounded border-l-4 border-green-400 ${active ? 'bg-green-100' : ''} cursor-pointer`}>
+                            <p className="text-sm text-green-800">Order #1233 completed by vendor</p>
+                            <p className="text-xs text-green-600">5 minutes ago</p>
+                          </div>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <div className={`p-2 bg-yellow-50 rounded border-l-4 border-yellow-400 ${active ? 'bg-yellow-100' : ''} cursor-pointer`}>
+                            <p className="text-sm text-yellow-800">Store sync completed - 12 new orders</p>
+                            <p className="text-xs text-yellow-600">10 minutes ago</p>
+                          </div>
+                        )}
+                      </Menu.Item>
                     </div>
-                    <div className="p-2 bg-green-50 rounded border-l-4 border-green-400">
-                      <p className="text-sm text-green-800">Order #1233 completed by vendor</p>
-                      <p className="text-xs text-green-600">5 minutes ago</p>
-                    </div>
-                    <div className="p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                      <p className="text-sm text-yellow-800">Store sync completed - 12 new orders</p>
-                      <p className="text-xs text-yellow-600">10 minutes ago</p>
+                    <div className="mt-3 text-center">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button className={`text-sm text-primary-600 hover:text-primary-500 ${active ? 'underline' : ''}`}>
+                            View All Notifications
+                          </button>
+                        )}
+                      </Menu.Item>
                     </div>
                   </div>
-                  <div className="mt-3 text-center">
-                    <button className="text-sm text-indigo-600 hover:text-indigo-500">
-                      View All Notifications
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
 
             {/* User menu dropdown */}
             <Menu as="div" className="relative">

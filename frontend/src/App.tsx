@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
+import { LanguageProvider } from './hooks/useLanguage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { PublicRoute } from './components/auth/PublicRoute';
 
@@ -57,7 +58,8 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
-          <Routes>
+          <LanguageProvider>
+            <Routes>
             {/* Landing Page */}
             <Route path="/" element={<LandingPage />} />
 
@@ -318,6 +320,7 @@ function App() {
             {/* Catch all - 404 */}
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
+          </LanguageProvider>
         </AuthProvider>
       </Router>
     </div>
