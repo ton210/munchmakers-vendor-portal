@@ -14,6 +14,27 @@ const financialLimit = rateLimit({
 router.get('/summary/:vendorId', financialLimit, vendorOwnershipOrAdmin, async (req, res) => {
   try {
     const { vendorId } = req.params;
+
+    // Return demo data for demo vendors (ID 1-3)
+    if (parseInt(vendorId) <= 3) {
+      const demoSummary = {
+        vendorId: parseInt(vendorId),
+        totalRevenue: 12450.00,
+        pendingPayouts: 2340.00,
+        completedPayouts: 10110.00,
+        currentBalance: 2340.00,
+        totalOrders: 45,
+        averageOrderValue: 276.67,
+        lastPayoutDate: '2024-09-10',
+        nextPayoutDate: '2024-09-24'
+      };
+
+      return res.json({
+        success: true,
+        data: demoSummary
+      });
+    }
+
     const summary = await VendorFinancial.getVendorSummary(vendorId);
 
     res.json({

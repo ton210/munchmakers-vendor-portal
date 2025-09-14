@@ -86,6 +86,43 @@ router.get('/vendor/:vendorId', messageLimit, vendorOwnershipOrAdmin, async (req
     const { vendorId } = req.params;
     const { status, threadId, page = 1, limit = 20 } = req.query;
 
+    // Return demo data for demo vendors (ID 1-3)
+    if (parseInt(vendorId) <= 3) {
+      const demoMessages = [
+        {
+          id: 1,
+          subject: 'Welcome to MunchMakers!',
+          message: 'Welcome to the MunchMakers vendor portal. We\'re excited to have you join our network.',
+          status: 'read',
+          priority: 'normal',
+          created_at: '2024-09-10T10:00:00Z',
+          admin_sender: 'MunchMakers Team'
+        },
+        {
+          id: 2,
+          subject: 'Product Review Update',
+          message: 'Your recent product submissions are being reviewed. Expect feedback within 2-3 business days.',
+          status: 'unread',
+          priority: 'normal',
+          created_at: '2024-09-12T14:30:00Z',
+          admin_sender: 'Product Review Team'
+        }
+      ];
+
+      return res.json({
+        success: true,
+        data: {
+          messages: demoMessages,
+          pagination: {
+            page: 1,
+            limit: 20,
+            total: 2,
+            pages: 1
+          }
+        }
+      });
+    }
+
     const filters = { status, threadId };
     const messages = await VendorMessage.findByVendor(vendorId, filters);
 

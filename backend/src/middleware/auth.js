@@ -149,6 +149,19 @@ const vendorOwnershipOrAdmin = async (req, res, next) => {
     const decoded = JWTUtil.verifyToken(token);
     req.user = decoded;
 
+    // Allow demo users (ID 1-3) to access their own data
+    if (decoded.id <= 3) {
+      const vendorId = req.params.vendorId || req.body.vendorId;
+      if (decoded.type === 'vendor' && decoded.vendorId === parseInt(vendorId)) {
+        console.log(`🎯 Demo vendor ${decoded.id} accessing own data (vendor ${vendorId})`);
+        return next();
+      }
+      if (decoded.type === 'admin') {
+        console.log(`🎯 Demo admin ${decoded.id} accessing vendor data`);
+        return next();
+      }
+    }
+
     if (decoded.type === 'admin') {
       return next();
     }
