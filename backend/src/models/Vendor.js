@@ -94,7 +94,7 @@ class Vendor {
 
   static async getVendorStats(vendorId) {
     const stats = await db.raw(`
-      SELECT 
+      SELECT
         (SELECT COUNT(*) FROM products WHERE vendor_id = ? AND status = 'approved') as approved_products,
         (SELECT COUNT(*) FROM products WHERE vendor_id = ? AND status = 'pending_review') as pending_products,
         (SELECT COUNT(*) FROM products WHERE vendor_id = ? AND status = 'draft') as draft_products,
@@ -102,6 +102,42 @@ class Vendor {
     `, [vendorId, vendorId, vendorId, vendorId]);
 
     return stats.rows[0];
+  }
+
+  // Order management methods
+  static async findByUserId(userId) {
+    return await db('vendors')
+      .leftJoin('vendor_users', 'vendors.id', 'vendor_users.vendor_id')
+      .where('vendor_users.id', userId)
+      .where('vendor_users.role', 'owner')
+      .select('vendors.*')
+      .first();
+  }
+
+  static async addCommissionRate(id, commissionRate) {
+    return await Vendor.update(id, { commission_rate: commissionRate });
+  }
+
+  static async getOrderStats(vendorId, dateRange = {}) {
+    const VendorAssignment = require('./VendorAssignment');
+    return await VendorAssignment.getVendorStats(vendorId, dateRange);
+  }
+
+  static async getActiveVendorsForOrders() {
+    return await db('vendors')
+      .select(
+        'vendors.id',
+        'vendors.company_name',
+        'vendors.commission_rate',
+        'vendor_users.first_name',
+        'vendor_users.last_name',
+        'vendor_users.email'
+      )
+      .leftJoin('vendor_users', 'vendors.id', 'vendor_users.vendor_id')
+      .where('vendors.status', 'approved')
+      .where('vendor_users.role', 'owner')
+      .where('vendor_users.is_active', true)
+      .orderBy('vendors.company_name');
   }
 }
 

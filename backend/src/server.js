@@ -25,6 +25,8 @@ const categoryRoutes = require('./routes/categories');
 const apiTestRoutes = require('./routes/apiTest');
 const financialRoutes = require('./routes/financials');
 const messageRoutes = require('./routes/messages');
+const orderRoutes = require('./routes/orders');
+const storeRoutes = require('./routes/stores');
 
 // Import services
 const SlackService = require('./services/slackService');
@@ -117,6 +119,8 @@ app.use('/api/vendors', vendorRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/financials', financialRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/stores', storeRoutes);
 
 // 404 handler for API routes only
 app.use('/api/*', (req, res) => {
