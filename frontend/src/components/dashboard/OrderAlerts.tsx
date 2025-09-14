@@ -65,7 +65,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
   };
 
   const getAlertIcon = (alertType: string) => {
-    const icons = {
+    const icons: { [key: string]: any } = {
       'unassigned': ExclamationTriangleIcon,
       'not_accepted': ClockIcon,
       'not_started': ClockIcon,
@@ -79,7 +79,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
   };
 
   const getAlertColor = (alertType: string) => {
-    const colors = {
+    const colors: { [key: string]: string } = {
       'unassigned': 'border-red-200 bg-red-50',
       'not_accepted': 'border-yellow-200 bg-yellow-50',
       'not_started': 'border-yellow-200 bg-yellow-50',
@@ -92,7 +92,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
   };
 
   const getAlertTextColor = (alertType: string) => {
-    const colors = {
+    const colors: { [key: string]: string } = {
       'unassigned': 'text-red-800',
       'not_accepted': 'text-yellow-800',
       'not_started': 'text-yellow-800',
