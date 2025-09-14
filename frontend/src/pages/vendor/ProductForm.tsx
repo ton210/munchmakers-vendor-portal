@@ -85,7 +85,9 @@ const ProductForm: React.FC = () => {
   const [formData, setFormData] = useState<ProductFormData>(defaultFormData);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<any[]>([
-    { id: 1, name: 'Loading...' } // Default state to prevent map errors
+    { id: 1, name: 'Smoking Accessories' },
+    { id: 2, name: 'Custom Merchandise' },
+    { id: 3, name: 'Vaping Products' }
   ]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [currentStep, setCurrentStep] = useState(1);
@@ -108,23 +110,23 @@ const ProductForm: React.FC = () => {
   const loadCategories = async () => {
     try {
       const response = await vendorService.getCategories();
-      if (response.success) {
-        setCategories(response.data || []);
+      if (response.success && response.data && response.data.categories) {
+        setCategories(response.data.categories);
       } else {
         // Fallback categories if API fails
         setCategories([
-          { id: 1, name: 'Food & Beverages' },
-          { id: 2, name: 'Home & Garden' },
-          { id: 3, name: 'Electronics' }
+          { id: 1, name: 'Smoking Accessories' },
+          { id: 2, name: 'Custom Merchandise' },
+          { id: 3, name: 'Vaping Products' }
         ]);
       }
     } catch (error) {
       console.error('Failed to load categories:', error);
       // Fallback categories
       setCategories([
-        { id: 1, name: 'Food & Beverages' },
-        { id: 2, name: 'Home & Garden' },
-        { id: 3, name: 'Electronics' }
+        { id: 1, name: 'Smoking Accessories' },
+        { id: 2, name: 'Custom Merchandise' },
+        { id: 3, name: 'Vaping Products' }
       ]);
     }
   };
