@@ -23,6 +23,7 @@ router.get('/reports/products', AdminController.getProductReport);
 
 // Vendor Management
 router.get('/vendors', validatePagination, AdminController.getAllVendors);
+router.get('/vendors/active', AdminController.getActiveVendors);
 router.get('/vendors/:id', validateId, AdminController.getVendor);
 router.put('/vendors/:id', validateId, AdminController.updateVendor);
 router.post('/vendors/:id/approve', validateId, AdminController.approveVendor);

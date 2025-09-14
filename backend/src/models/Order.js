@@ -1,4 +1,7 @@
 const db = require('../config/database');
+const StoreIntegrationService = require('../services/storeIntegrationService');
+
+const storeService = new StoreIntegrationService();
 
 class Order {
   static async create(orderData) {

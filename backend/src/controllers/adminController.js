@@ -99,6 +99,25 @@ class AdminController {
     }
   }
 
+  static async getActiveVendors(req, res) {
+    try {
+      const vendors = await Vendor.getActiveVendorsForOrders();
+
+      res.json({
+        success: true,
+        data: vendors
+      });
+
+    } catch (error) {
+      console.error('Get active vendors error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to get active vendors',
+        error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      });
+    }
+  }
+
   static async getVendor(req, res) {
     try {
       const { id } = req.params;
