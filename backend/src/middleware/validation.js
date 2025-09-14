@@ -106,10 +106,9 @@ const validateProduct = [
     .withMessage('Product name must be between 2 and 255 characters'),
   
   body('sku')
-    .notEmpty()
-    .withMessage('SKU is required')
+    .optional()
     .isLength({ min: 2, max: 100 })
-    .withMessage('SKU must be between 2 and 100 characters'),
+    .withMessage('SKU must be between 2 and 100 characters if provided'),
   
   body('description')
     .optional()
