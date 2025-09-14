@@ -505,7 +505,7 @@ const OrdersPage: React.FC = () => {
                     <CardTitle>Assignment Status</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    {selectedOrder.vendor_assignments?.length > 0 ? (
+                    {selectedOrder.vendor_assignments && selectedOrder.vendor_assignments.length > 0 ? (
                       selectedOrder.vendor_assignments.map((assignment, index) => (
                         <div key={index} className="border rounded-lg p-3">
                           <p className="font-medium">{assignment.vendor_name}</p>
