@@ -30,6 +30,9 @@ i18n
       lookupLocalStorage: 'i18nextLng',
     },
 
+    // Don't use language detector to avoid conflicts
+    lng: 'en',
+
     interpolation: {
       escapeValue: false, // React already escapes values
     },

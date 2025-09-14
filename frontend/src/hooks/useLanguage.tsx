@@ -18,7 +18,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   // Get saved language preference or detect
   const getSavedLanguage = () => {
-    return localStorage.getItem('language') || null;
+    return localStorage.getItem('i18nextLng') || localStorage.getItem('language') || null;
   };
 
   // Detect user's preferred language
@@ -54,32 +54,35 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = (lang: string) => {
     setLanguageState(lang);
     setIsAutoDetected(false);
+    localStorage.setItem('i18nextLng', lang);
     localStorage.setItem('language', lang);
     i18n.changeLanguage(lang);
   };
 
   useEffect(() => {
-    // Set language based on user role when user data loads
+    // Set language based on user role when user data loads (only once)
     if (user) {
       const saved = getSavedLanguage();
 
       if (saved) {
         // Use saved preference
         i18n.changeLanguage(saved);
+        setLanguageState(saved);
         setIsAutoDetected(false);
-      } else if (isAdmin()) {
-        // Admins always get English
-        i18n.changeLanguage('en');
-        setLanguageState('en');
       } else if (isVendor()) {
         // Vendors get auto-detected language (Chinese if browser is Chinese)
         const detected = detectLanguage();
         i18n.changeLanguage(detected);
         setLanguageState(detected);
         setIsAutoDetected(true);
+      } else {
+        // Default to English for admins and others
+        i18n.changeLanguage('en');
+        setLanguageState('en');
+        setIsAutoDetected(false);
       }
     }
-  }, [user, isVendor, isAdmin, i18n]);
+  }, [user]); // Only depend on user, not isVendor/isAdmin to avoid re-running
 
   const value: LanguageContextType = {
     language,

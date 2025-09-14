@@ -7,10 +7,10 @@ import { GlobeAltIcon } from '@heroicons/react/24/outline';
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useTranslation();
   const { language, setLanguage, isAutoDetected } = useLanguage();
-  const { isAdmin } = useAuth();
+  const { isLoading } = useAuth();
 
-  // Don't show language switcher for admins (English only)
-  if (isAdmin()) {
+  // Don't show language switcher while loading
+  if (isLoading) {
     return null;
   }
 
