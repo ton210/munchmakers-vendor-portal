@@ -161,17 +161,15 @@ class ProductController {
         // Basic fields
         name,
         description,
-        details,
         sku,
         price,
         moq,
         weight,
-        height,
         dimensions,
         productionTime,
         categoryId,
 
-        // New fields
+        // New fields (optional)
         shippingOptions,
         designToolInfo,
         designToolTemplate,
@@ -201,21 +199,25 @@ class ProductController {
         vendor_id: vendorId,
         name,
         description,
-        details,
         sku: finalSku,
         base_price: price,
         moq: moq || 1,
         weight,
-        height,
         dimensions,
         production_time: productionTime,
         category_id: categoryId,
-        shipping_options: shippingOptions,
-        design_tool_info: designToolInfo,
-        design_tool_template: designToolTemplate,
-        production_images: productionImages,
         status
       };
+
+      // Add optional fields only if they exist and migration has been applied
+      try {
+        if (shippingOptions) productData.shipping_options = shippingOptions;
+        if (designToolInfo) productData.design_tool_info = designToolInfo;
+        if (designToolTemplate) productData.design_tool_template = designToolTemplate;
+        if (productionImages) productData.production_images = productionImages;
+      } catch (e) {
+        console.log('Some optional fields not available in database schema yet');
+      }
 
       const product = await Product.create(productData);
 
