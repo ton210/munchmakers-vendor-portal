@@ -24,13 +24,19 @@ interface Order {
   order_number: string;
   customer_name: string;
   customer_email: string;
+  customer_phone?: string;
   store_name: string;
   store_type: string;
   total_amount: number;
   currency: string;
   order_status: string;
   fulfillment_status: string;
+  payment_status?: string;
   order_date: string;
+  notes?: string;
+  billing_address?: any;
+  shipping_address?: any;
+  items?: any[];
   vendor_assignments?: any[];
 }
 
@@ -41,10 +47,10 @@ const OrdersPage: React.FC = () => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [vendors, setVendors] = useState<any[]>([]);
 
-  // Filters
+  // Filters - Default to processing orders only
   const [filters, setFilters] = useState({
     search: '',
-    status: '',
+    status: 'processing',
     store_id: '',
     date_from: '',
     date_to: ''
@@ -141,9 +147,19 @@ const OrdersPage: React.FC = () => {
     }
   };
 
-  const handleViewOrder = (order: Order) => {
-    setSelectedOrder(order);
-    setShowOrderDetails(true);
+  const handleViewOrder = async (order: Order) => {
+    try {
+      // Load full order details including items and assignments
+      const response = await orderService.getOrder(order.id);
+      if (response.success) {
+        setSelectedOrder(response.data);
+        setShowOrderDetails(true);
+      }
+    } catch (error: any) {
+      console.error('Failed to load order details:', error);
+      setSelectedOrder(order);
+      setShowOrderDetails(true);
+    }
   };
 
   const getStatusBadgeColor = (status: string) => {
@@ -408,36 +424,199 @@ const OrdersPage: React.FC = () => {
         </Card>
       </div>
 
-      {/* Order Details Modal (placeholder) */}
+      {/* Enhanced Order Details Modal */}
       {showOrderDetails && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg max-w-6xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-bold">Order #{selectedOrder.order_number}</h2>
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center space-x-4">
+                  <h2 className="text-2xl font-bold">Order #{selectedOrder.order_number}</h2>
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusBadgeColor(selectedOrder.order_status)}`}>
+                    {selectedOrder.order_status.toUpperCase()}
+                  </span>
+                </div>
                 <button
                   onClick={() => setShowOrderDetails(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 p-2"
                 >
-                  <span className="sr-only">Close</span>
                   ×
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold mb-2">Customer Information</h3>
-                  <p><strong>Name:</strong> {selectedOrder.customer_name}</p>
-                  <p><strong>Email:</strong> {selectedOrder.customer_email}</p>
-                </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Customer Information */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Customer Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Name</label>
+                      <p className="font-medium">{selectedOrder.customer_name}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Email</label>
+                      <p className="font-medium">{selectedOrder.customer_email}</p>
+                    </div>
+                    {selectedOrder.customer_phone && (
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Phone</label>
+                        <p className="font-medium">{selectedOrder.customer_phone}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
 
-                <div>
-                  <h3 className="font-semibold mb-2">Order Information</h3>
-                  <p><strong>Store:</strong> {selectedOrder.store_name}</p>
-                  <p><strong>Total:</strong> {formatCurrency(selectedOrder.total_amount, selectedOrder.currency)}</p>
-                  <p><strong>Status:</strong> {selectedOrder.order_status}</p>
-                  <p><strong>Date:</strong> {formatDate(selectedOrder.order_date)}</p>
+                {/* Order Information */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Order Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Store</label>
+                      <p className="font-medium">{selectedOrder.store_name} ({selectedOrder.store_type})</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Total Amount</label>
+                      <p className="font-medium text-lg">{formatCurrency(selectedOrder.total_amount, selectedOrder.currency)}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Order Date</label>
+                      <p className="font-medium">{formatDate(selectedOrder.order_date)}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Payment Status</label>
+                      <p className="font-medium">{selectedOrder.payment_status || 'N/A'}</p>
+                    </div>
+                    {selectedOrder.notes && (
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Notes</label>
+                        <p className="font-medium">{selectedOrder.notes}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Assignment Status */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Assignment Status</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {selectedOrder.vendor_assignments?.length > 0 ? (
+                      selectedOrder.vendor_assignments.map((assignment, index) => (
+                        <div key={index} className="border rounded-lg p-3">
+                          <p className="font-medium">{assignment.vendor_name}</p>
+                          <p className="text-sm text-gray-500">Status: {assignment.status}</p>
+                          <p className="text-sm text-gray-500">Assigned: {formatDate(assignment.assigned_at)}</p>
+                          {assignment.commission_amount && (
+                            <p className="text-sm text-green-600">Commission: {formatCurrency(assignment.commission_amount)}</p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 text-center py-4">No vendor assigned</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Order Items */}
+              {selectedOrder.items && selectedOrder.items.length > 0 && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Order Items</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-4 py-3 text-left font-medium text-gray-900">Product</th>
+                            <th className="px-4 py-3 text-left font-medium text-gray-900">SKU</th>
+                            <th className="px-4 py-3 text-center font-medium text-gray-900">Quantity</th>
+                            <th className="px-4 py-3 text-right font-medium text-gray-900">Unit Price</th>
+                            <th className="px-4 py-3 text-right font-medium text-gray-900">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {selectedOrder.items.map((item, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              <td className="px-4 py-3">
+                                <div>
+                                  <p className="font-medium">{item.product_name}</p>
+                                  {item.variant_title && (
+                                    <p className="text-gray-500 text-xs">{item.variant_title}</p>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-gray-600">{item.sku || 'N/A'}</td>
+                              <td className="px-4 py-3 text-center font-medium">{item.quantity}</td>
+                              <td className="px-4 py-3 text-right font-medium">{formatCurrency(item.unit_price)}</td>
+                              <td className="px-4 py-3 text-right font-medium">{formatCurrency(item.total_price)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot className="bg-gray-50">
+                          <tr>
+                            <td colSpan={4} className="px-4 py-3 text-right font-semibold">Order Total:</td>
+                            <td className="px-4 py-3 text-right font-bold text-lg">{formatCurrency(selectedOrder.total_amount, selectedOrder.currency)}</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Shipping Addresses */}
+              {(selectedOrder.billing_address || selectedOrder.shipping_address) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  {selectedOrder.shipping_address && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Shipping Address</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-sm space-y-1">
+                          <p className="font-medium">{selectedOrder.shipping_address.first_name} {selectedOrder.shipping_address.last_name}</p>
+                          <p>{selectedOrder.shipping_address.address1}</p>
+                          {selectedOrder.shipping_address.address2 && <p>{selectedOrder.shipping_address.address2}</p>}
+                          <p>{selectedOrder.shipping_address.city}, {selectedOrder.shipping_address.province} {selectedOrder.shipping_address.zip}</p>
+                          <p>{selectedOrder.shipping_address.country}</p>
+                          {selectedOrder.shipping_address.phone && <p>Phone: {selectedOrder.shipping_address.phone}</p>}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {selectedOrder.billing_address && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Billing Address</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-sm space-y-1">
+                          <p className="font-medium">{selectedOrder.billing_address.first_name} {selectedOrder.billing_address.last_name}</p>
+                          <p>{selectedOrder.billing_address.address1}</p>
+                          {selectedOrder.billing_address.address2 && <p>{selectedOrder.billing_address.address2}</p>}
+                          <p>{selectedOrder.billing_address.city}, {selectedOrder.billing_address.province} {selectedOrder.billing_address.zip}</p>
+                          <p>{selectedOrder.billing_address.country}</p>
+                          {selectedOrder.billing_address.phone && <p>Phone: {selectedOrder.billing_address.phone}</p>}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                <Button variant="outline" onClick={() => setShowOrderDetails(false)}>
+                  Close
+                </Button>
               </div>
             </div>
           </div>
