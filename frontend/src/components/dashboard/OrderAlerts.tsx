@@ -83,7 +83,7 @@ export const OrderAlerts: React.FC<OrderAlertsProps> = ({ userType, vendorId }) 
       'unassigned': 'border-red-200 bg-red-50',
       'not_accepted': 'border-yellow-200 bg-yellow-50',
       'not_started': 'border-yellow-200 bg-yellow-50',
-      'stale_in_progress': 'border-orange-200 bg-orange-50',
+      'stale_in_progress': 'border-primary-200 bg-primary-50',
       'missing_tracking': 'border-blue-200 bg-blue-50',
       'stale_tracking': 'border-purple-200 bg-purple-50',
       'overdue_proof': 'border-red-200 bg-red-50'

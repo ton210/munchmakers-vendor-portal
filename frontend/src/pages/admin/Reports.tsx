@@ -109,7 +109,7 @@ const AdminReports: React.FC = () => {
       value: analytics?.totalOrders || 0,
       change: analytics?.orderGrowth || 0,
       icon: ChartBarIcon,
-      color: 'bg-orange-500'
+      color: 'bg-primary-500'
     }
   ];
 
@@ -236,7 +236,7 @@ const AdminReports: React.FC = () => {
                   <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                        index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : index === 2 ? 'bg-orange-500' : 'bg-blue-500'
+                        index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : index === 2 ? 'bg-primary-500' : 'bg-blue-500'
                       }`}>
                         {index + 1}
                       </div>

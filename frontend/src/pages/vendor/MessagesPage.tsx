@@ -109,7 +109,7 @@ const MessagesPage: React.FC = () => {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'urgent': return 'text-red-600 bg-red-50 border-red-200';
-      case 'high': return 'text-orange-600 bg-orange-50 border-orange-200';
+      case 'high': return 'text-primary-600 bg-primary-50 border-primary-200';
       case 'normal': return 'text-blue-600 bg-blue-50 border-blue-200';
       case 'low': return 'text-gray-600 bg-gray-50 border-gray-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';

@@ -43,7 +43,7 @@ const VendorLandingPage: React.FC = () => {
               </Link>
               <Link
                 to="/register"
-                className="bg-orange-600 text-white hover:bg-orange-700 px-4 py-2 rounded-md text-sm font-medium"
+                className="bg-primary-600 text-white hover:bg-primary-700 px-4 py-2 rounded-md text-sm font-medium"
               >
                 Join Network
               </Link>
@@ -65,7 +65,7 @@ const VendorLandingPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/register"
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors shadow-lg"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-lg"
               >
                 Start Partnership
                 <ArrowRightIcon className="ml-2 h-6 w-6" />
@@ -83,7 +83,7 @@ const VendorLandingPage: React.FC = () => {
         {/* Background decoration */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full opacity-20">
-            <div className="w-full h-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"></div>
+            <div className="w-full h-full bg-gradient-to-r from-primary-500 via-primary-600 to-pink-500"></div>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ const VendorLandingPage: React.FC = () => {
               }
             ].map((feature, index) => (
               <div key={index} className="text-center group">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-full mb-6 group-hover:scale-110 transition-transform">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full mb-6 group-hover:scale-110 transition-transform">
                   <feature.icon className="h-10 w-10 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-4">{feature.title}</h3>
@@ -211,7 +211,7 @@ const VendorLandingPage: React.FC = () => {
                   }
                 ].map((benefit, index) => (
                   <div key={index} className="flex items-start">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-600 rounded-lg mr-4 flex-shrink-0">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-600 rounded-lg mr-4 flex-shrink-0">
                       <benefit.icon className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -224,7 +224,7 @@ const VendorLandingPage: React.FC = () => {
             </div>
 
             <div className="lg:pl-8">
-              <div className="bg-gradient-to-br from-orange-600 to-red-700 rounded-2xl p-8 text-white">
+              <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-8 text-white">
                 <h3 className="text-2xl font-bold mb-6">Ready to Get Started?</h3>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center">
@@ -359,7 +359,7 @@ const VendorLandingPage: React.FC = () => {
               }
             ].map((feature, index) => (
               <div key={index} className="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-600 rounded-lg mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-600 rounded-lg mb-4">
                   <feature.icon className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
@@ -379,7 +379,7 @@ const VendorLandingPage: React.FC = () => {
       </div>
 
       {/* Call to Action */}
-      <div className="py-20 bg-gradient-to-r from-orange-600 to-red-700">
+      <div className="py-20 bg-gradient-to-r from-primary-600 to-primary-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
             Ready to Scale Your Business?

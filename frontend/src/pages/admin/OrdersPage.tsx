@@ -317,7 +317,7 @@ const OrdersPage: React.FC = () => {
       completed: 'bg-green-100 text-green-800',
       cancelled: 'bg-red-100 text-red-800',
       assigned: 'bg-purple-100 text-purple-800',
-      in_progress: 'bg-orange-100 text-orange-800'
+      in_progress: 'bg-primary-100 text-primary-800'
     };
     return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };

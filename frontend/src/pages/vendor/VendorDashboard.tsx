@@ -86,7 +86,7 @@ const VendorDashboard: React.FC = () => {
       title: t('dashboard.vendor.activeAssignments'),
       value: stats?.totalAssignments || 0,
       icon: ClockIcon,
-      color: 'bg-orange-500'
+      color: 'bg-primary-500'
     },
     {
       title: t('dashboard.vendor.completedOrders'),

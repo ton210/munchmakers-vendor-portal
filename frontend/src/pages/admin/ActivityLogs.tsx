@@ -321,7 +321,7 @@ const AdminActivityLogs: React.FC = () => {
             { 
               label: 'Product Submissions', 
               value: activityTypeCounts.product_submitted, 
-              color: 'bg-orange-500',
+              color: 'bg-primary-500',
               icon: ShoppingBagIcon
             },
             { 
