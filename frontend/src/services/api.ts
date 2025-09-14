@@ -34,7 +34,14 @@ api.interceptors.response.use(
       localStorage.removeItem('auth_token');
       localStorage.removeItem('userRole');
       localStorage.removeItem('userData');
-      window.location.href = '/login';
+
+      // Only redirect to login if we're not already on a public page
+      const currentPath = window.location.pathname;
+      const publicPaths = ['/', '/docs', '/privacy', '/terms', '/vendor-agreement', '/register', '/login', '/vendor/login', '/admin', '/forgot-password', '/reset-password'];
+
+      if (!publicPaths.includes(currentPath)) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
